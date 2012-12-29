@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F04BACFC-B804-40DD-B0B7-B66DD910A751}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GammaWorldCharacter</RootNamespace>
+    <AssemblyName>GammaWorldCharacter</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Debug\GammaWorldCharacter.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DocumentationFile>bin\Release\GammaWorldCharacter.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbilityScores.cs" />
+    <Compile Include="Collections\GraphNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Gear\Armor\Armor.cs" />
+    <Compile Include="Gear\Armor\ArmorWeightType.cs" />
+    <Compile Include="Gear\Armor\HeavyArmor.cs" />
+    <Compile Include="Gear\Armor\LightArmor.cs" />
+    <Compile Include="Gear\Armor\Shield.cs" />
+    <Compile Include="Gear\ExplorersKit.cs" />
+    <Compile Include="Gear\Item.cs" />
+    <Compile Include="Gear\Slot.cs" />
+    <Compile Include="Gear\Weapons\MeleeWeapon.cs" />
+    <Compile Include="Gear\Weapons\RangedType.cs" />
+    <Compile Include="Gear\Weapons\RangedWeapon.cs" />
+    <Compile Include="Gear\Weapons\Weapon.cs" />
+    <Compile Include="Gear\Weapons\WeaponHandedness.cs" />
+    <Compile Include="Gear\Weapons\WeaponHelper.cs" />
+    <Compile Include="Gear\Weapons\WeaponWeight.cs" />
+    <Compile Include="IdentityEqualityComparer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="InternalModifierSource.cs" />
+    <Compile Include="CharacterUpdateStage.cs" />
+    <Compile Include="Dice.cs" />
+    <Compile Include="DiceType.cs" />
+    <Compile Include="Character.cs" />
+    <Compile Include="Hand.cs" />
+    <Compile Include="Levels\Level.cs" />
+    <Compile Include="Levels\Level02.cs" />
+    <Compile Include="Modifier.cs" />
+    <Compile Include="ModifierHelper.cs" />
+    <Compile Include="ModifierSource.cs" />
+    <Compile Include="ModifierSourceGraphNodeHelper.cs" />
+    <Compile Include="ModifierSourceHelper.cs" />
+    <Compile Include="ModifierSourceUpdateEventArgs.cs" />
+    <Compile Include="NullModifierSource.cs" />
+    <Compile Include="Origins\Android.cs" />
+    <Compile Include="Origins\Cockroach.cs" />
+    <Compile Include="Origins\Hawkoid.cs" />
+    <Compile Include="Origins\Felinoid.cs" />
+    <Compile Include="Origins\Doppelganger.cs" />
+    <Compile Include="Origins\Electrokinetic.cs" />
+    <Compile Include="Origins\Empath.cs" />
+    <Compile Include="Origins\Giant.cs" />
+    <Compile Include="Origins\GravityController.cs" />
+    <Compile Include="Origins\Hypercognitive.cs" />
+    <Compile Include="Origins\Origin.cs" />
+    <Compile Include="Powers\Origins\Brickbat.cs" />
+    <Compile Include="Powers\Origins\TerrifyingShriek.cs" />
+    <Compile Include="Powers\Origins\GravitationalPulse.cs" />
+    <Compile Include="Powers\Origins\SlashingClaws.cs" />
+    <Compile Include="Powers\Origins\DoubleTrouble.cs" />
+    <Compile Include="Powers\Origins\EauDeRoach.cs" />
+    <Compile Include="Powers\Origins\ElectricBoogaloo.cs" />
+    <Compile Include="Powers\Origins\MachineGrip.cs" />
+    <Compile Include="Powers\Origins\UncannyStrike.cs" />
+    <Compile Include="Powers\Origins\VitalityTransfer.cs" />
+    <Compile Include="Powers\SecondWind.cs" />
+    <Compile Include="Traits\AdditionalMovementMode.cs" />
+    <Compile Include="Traits\ITraitSource.cs" />
+    <Compile Include="Traits\Trait.cs" />
+    <Compile Include="PowerSource.cs" />
+    <Compile Include="Powers\AbilityBonus.cs" />
+    <Compile Include="Powers\AbilityPlusLevelBonus.cs" />
+    <Compile Include="Powers\ActionType.cs" />
+    <Compile Include="Powers\AttackDetails.cs" />
+    <Compile Include="Powers\AttackPower.cs" />
+    <Compile Include="Powers\AttackType.cs" />
+    <Compile Include="Powers\AttackTypeAndRange.cs" />
+    <Compile Include="Powers\BasicAttack.cs" />
+    <Compile Include="Powers\BasicAttackAttackBonus.cs" />
+    <Compile Include="Powers\BasicAttackDamageBonus.cs" />
+    <Compile Include="Powers\BonusHelper.cs" />
+    <Compile Include="Powers\DamageTypes.cs" />
+    <Compile Include="Powers\EffectTypes.cs" />
+    <Compile Include="Powers\IPowerSource.cs" />
+    <Compile Include="Powers\Power.cs" />
+    <Compile Include="Powers\PowerDamage.cs" />
+    <Compile Include="Powers\PowerFrequency.cs" />
+    <Compile Include="Powers\PowerScore.cs" />
+    <Compile Include="Powers\SustainDetails.cs" />
+    <Compile Include="Powers\UtilityPower.cs" />
+    <Compile Include="Powers\WeaponAttackBonus.cs" />
+    <Compile Include="Powers\WeaponAttackDetails.cs" />
+    <Compile Include="Powers\WeaponAttackPower.cs" />
+    <Compile Include="Powers\WeaponDamage.cs" />
+    <Compile Include="Powers\WeaponDamageBonus.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Score.cs" />
+    <Compile Include="ScoreHelper.cs" />
+    <Compile Include="Scores\AbilityCheck.cs" />
+    <Compile Include="Scores\AbilityScore.cs" />
+    <Compile Include="Scores\ArmorClass.cs" />
+    <Compile Include="Scores\Bloodied.cs" />
+    <Compile Include="Scores\Defense.cs" />
+    <Compile Include="Scores\HitPoints.cs" />
+    <Compile Include="Scores\Initiative.cs" />
+    <Compile Include="Scores\LevelScore.cs" />
+    <Compile Include="Scores\Skill.cs" />
+    <Compile Include="Scores\Speed.cs" />
+    <Compile Include="ScoreType.cs" />
+    <Compile Include="ScoreTypeHelper.cs" />
+    <Compile Include="UnmetPrerequisiteException.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

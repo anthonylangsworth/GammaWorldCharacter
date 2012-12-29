@@ -1,0 +1,94 @@
+﻿<Page x:Class="GammaWorldCharacterViewer.CharacterView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:GammaWorldCharacterViewer.ViewModels"
+      xmlns:swd="clr-namespace:System.Windows.Data;assembly=PresentationFramework"
+      xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase" 
+      xmlns:renderers="clr-namespace:GammaWorldCharacterViewer.Renderers"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="813"
+     Title="CharacterView">
+    <Page.Resources>
+        <LinearGradientBrush x:Key="comboBoxBackground" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="White" Offset="0" />
+            <GradientStop Color="#E5EDF7" Offset="0.6" />
+            <GradientStop Color="#E5EDF7" Offset="1" />
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="comboBoxHighlight" Color="#FFCF68" />
+    </Page.Resources>
+    <Page.DataContext>
+        <vm:ViewModel />
+    </Page.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
+                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <ListView x:Name="renderers" ItemsSource="{Binding Renderers}"
+                   IsSynchronizedWithCurrentItem="True" BorderThickness="0">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:RendererDetails}">
+                        <StackPanel Orientation="Vertical" Background="Transparent" Margin="2">
+                            <Image Source="{Binding Path=Image}" HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding Path=Name}" TextAlignment="Center" HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Rectangle Fill="Black" Width="1" />
+            <Button Click="Button_Click" Margin="5,0" Padding="2">
+                <StackPanel Orientation="Vertical">
+                    <Image HorizontalAlignment="Center">
+                        <Image.Source>
+                            <BitmapImage UriSource="/Images/Print.ico" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock Text="Print" TextAlignment="Center" HorizontalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <ListView Grid.Row="1" Grid.Column="0" Name="characterListBox"
+                   ItemsSource="{Binding Path=Characters}"
+                   IsSynchronizedWithCurrentItem="True" 
+                   IsTextSearchEnabled ="True" Background="{StaticResource comboBoxBackground}">
+            <ListView.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#FFCF68" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightColorKey}" Color="black"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="#FFCF68"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlColorKey}" Color="black"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextColorKey}" Color="black"/>
+            </ListView.Resources>
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type renderers:DisplayCharacter}">
+                    <TextBlock>
+                        Level <TextBlock Text="{Binding Path=Character.Level}" /> <TextBlock Text="{Binding Path=Character.PrimaryOrigin.Name}" /> <TextBlock Text="{Binding Path=Character.SecondaryOrigin.Name}" />
+                    </TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
+        </ListView>
+        <FlowDocumentScrollViewer x:Name="reader" Grid.Row="1" Grid.Column="1"
+                                  Document="{Binding Path=CharacterSheet, Mode=OneWay}" />
+    </Grid>
+</Page>
