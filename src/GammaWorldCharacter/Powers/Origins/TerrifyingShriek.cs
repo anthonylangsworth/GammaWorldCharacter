@@ -23,7 +23,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetAttackTypeAndRange(AttackType.Close, "burst 2");
             AddAttack(new AttackDetails("Each creature in burst",
                 new AbilityPlusLevelBonus("Terrifying Shriek attack bonus", new ScoreType[] { ScoreType.Wisdom }, 1),
-                new PowerDamage("Terrifying Shriek damage", new Dice(1, DiceType.d6)),
+                new PowerDamage("Terrifying Shriek damage", 1.D6()),
                 new AbilityPlusLevelBonus("Terrifying Shriek damage bonus", new ScoreType[] { ScoreType.Wisdom }, 1),
                 ScoreType.Fortitude, new ModifierSource[] { },
                 "psychic damage and you slide the target 1 square.", null));

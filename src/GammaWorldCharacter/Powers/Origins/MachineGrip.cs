@@ -23,7 +23,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetAttackTypeAndRange(AttackType.Melee, "1");
             AddAttack(new AttackDetails("One creature",
                 new AbilityPlusLevelBonus("Machine Grip attack bonus", new ScoreType[] { ScoreType.Intelligence }, 1),
-                new PowerDamage("Machine Grip damage", new Dice(1, DiceType.d10)),
+                new PowerDamage("Machine Grip damage", 1.D10()),
                 new AbilityPlusLevelBonus("Machine Grip damage bonus", new ScoreType[] { ScoreType.Intelligence }, 2),
                 ScoreType.Reflex, new ModifierSource[] { },
                 "physical damage and the target is immobilized until the start of your next turn. If you move to a square that isn't adjacent to the target, the immobilization ends.", null));

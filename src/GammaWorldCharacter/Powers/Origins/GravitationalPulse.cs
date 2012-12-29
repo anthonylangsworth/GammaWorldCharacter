@@ -23,7 +23,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetAttackTypeAndRange(AttackType.Ranged, "10");
             AddAttack(new AttackDetails("One creature",
                 new AbilityPlusLevelBonus("Gravitational Pulse attack bonus", new ScoreType[] { ScoreType.Constitution }, 1),
-                new PowerDamage("Gravitational Pulse damage", new Dice(1, DiceType.d10)),
+                new PowerDamage("Gravitational Pulse damage", 1.D10()),
                 new AbilityPlusLevelBonus("Gravitational Pulse damage bonus", new ScoreType[] { ScoreType.Constitution }, 2),
                 ScoreType.Fortitude, new ModifierSource[] { },
                 "physical damage and the target is slowed until the end of your next turn.", null));

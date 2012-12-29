@@ -23,7 +23,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetAttackTypeAndRange(AttackType.Melee, "1");
             AddAttack(new AttackDetails("One creature",
                 new AbilityPlusLevelBonus("Electric Boogaloo attack bonus", new ScoreType[] { ScoreType.Wisdom }, 1),
-                new PowerDamage("Electric Boogaloo damage", new Dice(1, DiceType.d10)),
+                new PowerDamage("Electric Boogaloo damage", 1.D10()),
                 new AbilityPlusLevelBonus("Electric Boogaloo damage bonus", new ScoreType[] { ScoreType.Wisdom }, 2),
                 ScoreType.Fortitude, new ModifierSource[] { },
                 "electricity damage and the target takes a -2 penalty to all defenses until the end of your next turn.", null));

@@ -23,7 +23,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetAttackTypeAndRange(AttackType.Melee, "1");
             AddAttack(new AttackDetails("One creature",
                 new AbilityPlusLevelBonus("Eau de Roach attack bonus", new ScoreType[] { ScoreType.Constitution }, 1),
-                new PowerDamage("Eau de Roach damage", new Dice(2, DiceType.d8)),
+                new PowerDamage("Eau de Roach damage", 2.D8()),
                 new AbilityPlusLevelBonus("Eau de Roach damage bonus", new ScoreType[] { ScoreType.Constitution }, 2),
                 ScoreType.Fortitude, new ModifierSource[] { },
                 "acid damage and you push the target 1 square.", null));
