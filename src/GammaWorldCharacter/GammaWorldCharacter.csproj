@@ -77,6 +77,7 @@
     <Compile Include="Hand.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\Level02.cs" />
+    <Compile Include="Levels\OriginChoice.cs" />
     <Compile Include="Modifier.cs" />
     <Compile Include="ModifierHelper.cs" />
     <Compile Include="ModifierSource.cs" />

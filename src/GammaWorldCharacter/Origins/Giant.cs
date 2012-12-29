@@ -16,7 +16,8 @@ namespace GammaWorldCharacter.Origins
         /// Create a new <see cref="Giant"/>.
         /// </summary>
         public Giant()
-            : base("Giant", ScoreType.Strength, PowerSource.Bio)
+            : base("Giant", ScoreType.Strength, PowerSource.Bio,
+            "Deal 1d10 extra damage and you push the target 3 squares.")
         {
             AddTrait(new Trait("Encumbered Speed", "You move your speed, even while wearing heavy armor or carrying a heavy load."));
             AddPower(new Brickbat());

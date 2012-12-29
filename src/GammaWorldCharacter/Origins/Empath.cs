@@ -16,7 +16,8 @@ namespace GammaWorldCharacter.Origins
         /// Create an <see cref="Empath"/>.
         /// </summary>
         public Empath()
-            : base("Empath", ScoreType.Charisma, PowerSource.Psi)
+            : base("Empath", ScoreType.Charisma, PowerSource.Psi,
+            "One ally within 5 squares of the target regains hit points qual to twice your level.")
         {
             AddTrait(new Trait("Pacifying Aura", "You and each ally adjacent to you never grant combat advantage."));
             AddTrait(new Trait("Vital Presence", "Allies adjacent to you get a +5 bonus to death saving throws."));

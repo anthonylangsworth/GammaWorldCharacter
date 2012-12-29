@@ -16,7 +16,8 @@ namespace GammaWorldCharacter.Origins
         /// Create a new <see cref="Electrokinetic"/>.
         /// </summary>
         public Electrokinetic()
-            : base("Electrokinetic", ScoreType.Wisdom, PowerSource.Dark)
+            : base("Electrokinetic", ScoreType.Wisdom, PowerSource.Dark,
+            "Deal 1d10 extra damage and one ally within 5 squares of the target gains 10 temporary hit points.")
         {
             AddPower(new ElectricBoogaloo());
         }

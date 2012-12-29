@@ -2,23 +2,26 @@
 <#@ output extension=".generated.cs" #>
 <#@ assembly name="System.Core.dll" #>
 <#@ import namespace="System.Linq" #>
-<#@ assembly name="$(SolutionDir)GammaWorldCharacterGenerator\bin\debug\GammaWorldCharacterGenerator.dll" #>
-<#@ assembly name="$(SolutionDir)GammaWorldCharacterGenerator.Samples\bin\debug\GammaWorldCharacterGenerator.Samples.dll" #>
-<#@ import namespace="GammaWorldCharacterGenerator" #>
-<#@ import namespace="GammaWorldCharacterGenerator.Gear" #>
-<#@ import namespace="GammaWorldCharacterGenerator.Origins" #>
-<#@ import namespace="GammaWorldCharacterGenerator.Powers" #>
-<#@ import namespace="GammaWorldCharacterGenerator.Traits" #>
-<#@ import namespace="GammaWorldCharacterGenerator.Samples" #>
+<#@ assembly name="$(SolutionDir)src\GammaWorldCharacter\bin\debug\GammaWorldCharacter.dll" #>
+<#@ assembly name="$(SolutionDir)src\GammaWorldCharacter.Samples\bin\debug\GammaWorldCharacter.Samples.dll" #>
+<#@ import namespace="GammaWorldCharacter" #>
+<#@ import namespace="GammaWorldCharacter.Gear" #>
+<#@ import namespace="GammaWorldCharacter.Origins" #>
+<#@ import namespace="GammaWorldCharacter.Powers" #>
+<#@ import namespace="GammaWorldCharacter.Traits" #>
+<#@ import namespace="GammaWorldCharacter.Samples" #>
 <#
     // Instructions:
     // 1. Change the character in the assignment operation below, adding 
     //    using statements or assembly references as required.
     // 2. Change the code it the Character property to create this character, 
     //    adding using statements or assembly references as required.
-	// 3. Copy CharacterTest.generated.cs to the test assembly and rename.
+	// 3. Build the project or right click the CharacterTest.tt file (this one)
+	//    and select "Run Custom Tool".
+	// 4. Copy CharacterTest.generated.cs to the test assembly and rename.
 
-    GammaWorldCharacter character = Level01Characters.Virtus;
+	// NOTE: Remember to change the character in the Character property below, too.
+	Character character = Level02Characters.Virtus;
 #>
 using System;
 using System.Collections.Generic;
@@ -41,7 +44,7 @@ namespace GammaWorldCharacter.Test.Integration
     [TestFixture]
     public class TestLevel<#= character.Level.ToString("00") #><#= character.Name #>: CharacterTest
     {
-        private GammaWorldCharacter testCharacter;
+        private Character testCharacter;
 
 <#
     foreach(ScoreType score in Enum.GetValues(typeof(ScoreType)))
@@ -108,14 +111,14 @@ namespace GammaWorldCharacter.Test.Integration
         /// <summary>
         /// Create the test character.
         /// </summary>
-        protected override GammaWorldCharacter Character
+        protected override Character Character
         {
             get
             {
-                if (testCharacter == null)
-                {
-                    testCharacter = Level01Characters.Virtus;
-                }
+				if(testCharacter == null)
+				{
+					testCharacter = Level02Characters.Virtus;
+				}
                 return testCharacter;
             }
         }

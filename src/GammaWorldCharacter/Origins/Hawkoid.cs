@@ -16,7 +16,8 @@ namespace GammaWorldCharacter.Origins
         /// Create a new <see cref="Hawkoid"/>.
         /// </summary>
         public Hawkoid()
-            : base("Hawkoid", ScoreType.Wisdom, PowerSource.Bio)
+            : base("Hawkoid", ScoreType.Wisdom, PowerSource.Bio,
+            "Deal 1d10 extra damage and you can fly your speed as a free action.")
         {
             AddTrait(new AdditionalMovementMode("Flight", 
                 "You have a fly speed equal to your speed. Whilst flying, you take a -2 penalty to attack rolls.", ScoreType.Fly));

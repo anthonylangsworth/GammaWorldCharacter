@@ -16,7 +16,8 @@ namespace GammaWorldCharacter.Origins
         /// Create a new <see cref="Cockroach"/>.
         /// </summary>
         public Cockroach()
-            : base("Cockroach", ScoreType.Constitution, PowerSource.Bio)
+            : base("Cockroach", ScoreType.Constitution, PowerSource.Bio,
+            "Deal 1d10 extra damage and you gain a +4 bonus to AC until the end of your next turn.")
         {
             AddTrait(new AdditionalMovementMode("Bug Legs", 
                 "You can climb your speed. You can even climb upside down across horizontal surfaces. You can't attack while climbing.", ScoreType.Climb));

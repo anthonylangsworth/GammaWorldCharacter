@@ -13,7 +13,8 @@ using GammaWorldCharacter.Samples;
 namespace GammaWorldCharacter.Test.Integration
 {
     /// <summary>
-    /// TODO: Update summary.
+    /// A base class for character tests generated automatically by CharacterTest.tt 
+    /// in the CreateCharacterTest project.
     /// </summary>
     public abstract class CharacterTest
     {

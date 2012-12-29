@@ -51,7 +51,6 @@ namespace GammaWorldCharacter.Samples
         {
             get
             {
-                // Keravnos (Level 1 Doppelganger Electrokinetic)
                 Character character;
 
                 character = new Character(new int[] { 10, 13, 10, 5 }, new Doppelganger(), new Electrokinetic(), ScoreType.Mechanics)
@@ -76,7 +75,6 @@ namespace GammaWorldCharacter.Samples
         {
             get
             {
-                // Kitty (Level 1 Empath Felinoid)
                 Character character;
 
                 character = new Character(new int[] { 8, 9, 8, 11 }, new Empath(), new Felinoid(), ScoreType.Stealth)
@@ -101,7 +99,6 @@ namespace GammaWorldCharacter.Samples
         {
             get
             {
-                // Ephialtes (Level 1 Giant Gravity Controller)
                 Character character;
 
                 character = new Character(new int[] { 12, 10, 9, 8 }, new Giant(), new GravityController(), ScoreType.Insight)

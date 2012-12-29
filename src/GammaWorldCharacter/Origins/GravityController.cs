@@ -16,7 +16,8 @@ namespace GammaWorldCharacter.Origins
         /// Create a new <see cref="Cockroach"/>.
         /// </summary>
         public GravityController()
-            : base("Gravity Controller", ScoreType.Constitution, PowerSource.Dark)
+            : base("Gravity Controller", ScoreType.Constitution, PowerSource.Dark,
+            "Deal 1d10 extra damage and one creature within 2 squares of the target is immobilized until the end of your next turn.")
         {
             AddTrait(new Trait("Gravity by Choice", "You take no damage from falling."));
             AddPower(new GravitationalPulse());

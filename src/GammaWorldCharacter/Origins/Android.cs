@@ -17,7 +17,8 @@ namespace GammaWorldCharacter.Origins
         /// Create a new <see cref="Android"/>.
         /// </summary>
         public Android()
-            : base("Android", ScoreType.Intelligence, PowerSource.Dark)
+            : base("Android", ScoreType.Intelligence, PowerSource.Dark,
+            "Deal 1d10 extra damage and the target grants combat advantage to you until the end of the encounter.")
         {
             AddTrait(new Trait("Machine Powered", "You do not need to eat, drink or breathe"));
             AddPower(new MachineGrip());

@@ -415,10 +415,12 @@ namespace GammaWorldCharacter
         {
             if (item.Slot == Slot.None)
             {
+                // TODO: Throw a more specific exception
                 throw new ArgumentException("Items that lack a slot should be added using the Equipment property", "item");
             }
             if (item.Slot == Slot.Weapon)
             {
+                // TODO: Throw a more specific exception
                 throw new ArgumentException("To equip a weapon, call the MainHandItem or OffHandItem properties", "item");
             }
 

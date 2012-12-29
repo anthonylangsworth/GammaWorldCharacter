@@ -8,6 +8,7 @@ using System.Windows;
 using System.Collections;
 using GammaWorldCharacter;
 using GammaWorldCharacter.Gear;
+using GammaWorldCharacter.Levels;
 using GammaWorldCharacter.Powers;
 using GammaWorldCharacter.Gear.Weapons;
 using GammaWorldCharacter.Gear.Armor;
@@ -862,7 +863,7 @@ namespace GammaWorldCharacterViewer.Renderers
         /// <summary>
         /// Render out an <see cref="AttackPower"/>.
         /// </summary>
-        /// <param name="GammaWorldCharacter">
+        /// <param name="character">
         /// The <see cref="Character"/> to render.
         /// </param>
         /// <param name="attackPower">
@@ -877,17 +878,17 @@ namespace GammaWorldCharacterViewer.Renderers
         /// <exception cref="ArgumentException">
         /// <paramref name="attackPower"/> is not usable.
         /// </exception>
-        private PowerEntry ConstructAttackPowerEntry(Character GammaWorldCharacter, AttackPower attackPower, ResourceDictionary resourceDictionary)
+        private PowerEntry ConstructAttackPowerEntry(Character character, AttackPower attackPower, ResourceDictionary resourceDictionary)
         {
-            if (GammaWorldCharacter == null)
+            if (character == null)
             {
-                throw new ArgumentNullException("GammaWorldCharacter");
+                throw new ArgumentNullException("character");
             }
             if (attackPower == null)
             {
                 throw new ArgumentNullException("attackPower");
             }
-            if (!attackPower.IsUsable(GammaWorldCharacter))
+            if (!attackPower.IsUsable(character))
             {
                 throw new ArgumentException("attackPower is not usable", "attackPower");
             }
@@ -907,8 +908,8 @@ namespace GammaWorldCharacterViewer.Renderers
             {
                 if (attackPower is WeaponAttackPower)
                 {
-                    mainHandWeapon = GammaWorldCharacter.GetHeldItem<Weapon>(Hand.Main);
-                    offHandWeapon = GammaWorldCharacter.GetHeldItem<Weapon>(Hand.Off);
+                    mainHandWeapon = character.GetHeldItem<Weapon>(Hand.Main);
+                    offHandWeapon = character.GetHeldItem<Weapon>(Hand.Off);
 
                     // Sanity checks
                     if (!(attackDetails.AttackBonus is WeaponAttackBonus))
@@ -937,13 +938,6 @@ namespace GammaWorldCharacterViewer.Renderers
                     {
                         throw new InvalidOperationException(string.Format(
                             "Attack power '{0}' uses an off hand weapon when no weapon is equipped in the off hand", attackPower.Name));
-                    }
-                    if ((attackPower.AttackTypeAndRange.AttackType == AttackType.Melee
-                        || attackPower.AttackTypeAndRange.AttackType == AttackType.Ranged)
-                        && !(attackPower is WeaponAttackPower))
-                    {
-                        throw new InvalidOperationException(string.Format(
-                            "Attack power '{0}' has Range 'melee' or 'ranged' but no weapon accessory.", attackPower.Name));
                     }
 
                     // Set the weapon used by the power
@@ -993,7 +987,7 @@ namespace GammaWorldCharacterViewer.Renderers
                     detail.Inlines.Add(new Run(string.Format("({0}) ", attackDetails.Target)));
                     detail.Inlines.Add(new Run(string.Format("; {0} vs {1}", attackDetails.AttackBonus.ToString(
                     CharacterRendererHelper.GetFormatString(ScoreDisplayType.Modifier, ShowModifiers)),
-                        GammaWorldCharacter[attackDetails.AttackedDefense].Abbreviation)));
+                        character[attackDetails.AttackedDefense].Abbreviation)));
                     detail.Inlines.Add(new LineBreak());
                 }
                 if (attackDetails.HasDamage || !string.IsNullOrEmpty(attackDetails.AdditionalText))
@@ -1016,27 +1010,21 @@ namespace GammaWorldCharacterViewer.Renderers
                 }
                 if (attackDetails.HasMissEffect)
                 {
-                    detail.Inlines.Add(new Bold(new Run(" Miss: ")));
+                    detail.Inlines.Add(new LineBreak());
+                    detail.Inlines.Add(new Bold(new Run("Miss: ")));
                     detail.Inlines.Add(new Run(attackDetails.MissEffect));
                 }
-                // TODO: Gamma World Characters get bonus critical damage at level 2 and 6
-                //if (currentAccessory != null && (currentAccessory.IsHighCritical ||  currentAccessory.HasBonusCriticalDamage))
-                //{
-                //    detail.Inlines.Add(new Bold(new Run(" Critical: ")));
-
-                //    if (currentAccessory.IsHighCritical)
-                //    {
-                //        detail.Inlines.Add(new Run("19-20"));
-                //    }
-                //    if (currentAccessory.IsHighCritical && currentAccessory.HasBonusCriticalDamage)
-                //    {
-                //        detail.Inlines.Add(new Run("; "));
-                //    }
-                //    if (currentAccessory.HasBonusCriticalDamage)
-                //    {
-                //        detail.Inlines.Add(new Run(currentAccessory.BonusCriticalDamage));
-                //    }
-                //}
+                // Gamma World Characters get bonus critical damage at level 2 and 6
+                if (character.Level >= 2)
+                {
+                    detail.Inlines.Add(new LineBreak());
+                    OriginChoice criticalHitBenefitOrigin =
+                        ((Level02) character.Levels.Single(x => x is Level02)).CriticalHitBenefitOrigin;
+                    detail.Inlines.Add(new Bold(new Run("Critical: ")));
+                    detail.Inlines.Add(new Run(criticalHitBenefitOrigin == OriginChoice.Primary ? 
+                        character.PrimaryOrigin.CriticalHitBenefit : character.SecondaryOrigin.CriticalHitBenefit ));
+                }
+                // TODO: Level 6
                 detail.Inlines.Add(new LineBreak());
             }
 
@@ -1067,11 +1055,11 @@ namespace GammaWorldCharacterViewer.Renderers
             }
 
             // Special cases.
-            if (attackPower is BasicAttack && GammaWorldCharacter[ScoreType.OpportunityAttackAttackBonus].Total > 0)
+            if (attackPower is BasicAttack && character[ScoreType.OpportunityAttackAttackBonus].Total > 0)
             {
                 detail.Inlines.Add(new Bold(new Run("Special: ")));
                 detail.Inlines.Add(new Run(string.Format("+{0} attack bonus when used for an opportunity attack", 
-                    GammaWorldCharacter[ScoreType.OpportunityAttackAttackBonus].Total)));
+                    character[ScoreType.OpportunityAttackAttackBonus].Total)));
                 detail.Inlines.Add(new LineBreak());
             }
 
@@ -1081,7 +1069,7 @@ namespace GammaWorldCharacterViewer.Renderers
                 detail.Inlines.Remove(detail.Inlines.LastInline);
             }
 
-            return new PowerEntry(ConstructPowerEntryHeading(GammaWorldCharacter, attackPower, resourceDictionary),
+            return new PowerEntry(ConstructPowerEntryHeading(character, attackPower, resourceDictionary),
                 ConstructPowerEntryFlavorText(attackPower, resourceDictionary), detail, attackPower);
         }
 

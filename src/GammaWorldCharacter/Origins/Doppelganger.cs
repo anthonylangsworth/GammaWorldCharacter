@@ -16,7 +16,8 @@ namespace GammaWorldCharacter.Origins
         /// Create a new <see cref="Doppelganger"/>.
         /// </summary>
         public Doppelganger()
-            : base("Doppelganger", ScoreType.Intelligence, PowerSource.Dark)
+            : base("Doppelganger", ScoreType.Intelligence, PowerSource.Dark,
+            "Deal 1d10 extra damage and you can use double trouble as a free action.")
         {
             AddTrait(new Trait("Two Possibilities", 
                 "Whenever you draw an Alpha Mutation card, draw two cards from the same deck and choose which one to keep. Put the other on the bottom of the deck."));

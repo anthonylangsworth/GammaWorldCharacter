@@ -28,10 +28,14 @@ namespace GammaWorldCharacter.Origins
         /// The <see cref="PowerSource"/> for Alpha mutations the character gets a 
         /// +2 bonus with to overcharge.
         /// </param>
+        /// <param name="criticalHitBenefit">
+        /// The description of the benefit gained at level 2 or 6 when a critical hit
+        /// occurs. 
+        /// </param>
         /// <exception cref="ArgumentException">
         /// <paramref name="abilityScore"/> cannot be null.
         /// </exception>
-        public Origin(string name, ScoreType abilityScore, PowerSource powerSource)
+        public Origin(string name, ScoreType abilityScore, PowerSource powerSource, string criticalHitBenefit)
             : base(name, name)
         {
             if (!ScoreTypeHelper.IsAbilityScore(abilityScore))
@@ -43,6 +47,7 @@ namespace GammaWorldCharacter.Origins
             powers = new List<Power>();
             AbilityScore = abilityScore;
             PowerSource = powerSource;
+            CriticalHitBenefit = criticalHitBenefit;
         }
 
         /// <summary>
@@ -83,6 +88,16 @@ namespace GammaWorldCharacter.Origins
             {
                 return traits.AsReadOnly();
             }
+        }
+
+        /// <summary>
+        /// The description of the benefit gained at level 2 or 6 when a critical hit
+        /// occurs. 
+        /// </summary>
+        public string CriticalHitBenefit
+        {
+            get; 
+            private set;
         }
 
         /// <summary>

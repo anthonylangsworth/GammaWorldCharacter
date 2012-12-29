@@ -16,7 +16,8 @@ namespace GammaWorldCharacter.Origins
         /// Create an <see cref="Empath"/>.
         /// </summary>
         public Felinoid()
-            : base("Felinoid", ScoreType.Dexterity, PowerSource.Bio)
+            : base("Felinoid", ScoreType.Dexterity, PowerSource.Bio,
+            "Deal 1d10 extra damage and you can shift 3 squares as a free action.")
         {
             AddTrait(new Trait("Catfall", "You take no damage from falls of 50 feet or less and you always land on your feet when you fall."));
             AddPower(new SlashingClaws());

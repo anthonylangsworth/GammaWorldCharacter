@@ -15,7 +15,7 @@ namespace GammaWorldCharacter.Test.Unit.Origins
         /// Create a <see cref="NullOrigin"/>.
         /// </summary>
         public NullOrigin()
-            : base("Null", ScoreType.Strength, PowerSource.Bio)
+            : this(ScoreType.Strength)
         {
             // Do nothing
         }
@@ -27,7 +27,7 @@ namespace GammaWorldCharacter.Test.Unit.Origins
         /// The primary ability score.
         /// </param>
         public NullOrigin(ScoreType scoreType)
-            : base("Null", scoreType, PowerSource.Bio)
+            : base("Null", scoreType, PowerSource.Bio, "Sample critical benefit.")
         {
             // Do nothing
         }

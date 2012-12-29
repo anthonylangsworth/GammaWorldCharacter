@@ -42,7 +42,7 @@ namespace GammaWorldCharacterViewer.ViewModels
                 {
                     CompositionBatch compositionBatch;
                     using(CompositionContainer container = new CompositionContainer(
-                        new AssemblyCatalog("GammaWorldCharacterGenerator.Samples.dll")))
+                        new AssemblyCatalog("GammaWorldCharacter.Samples.dll")))
                     {
                         compositionBatch = new CompositionBatch();
                         compositionBatch.AddPart(this);

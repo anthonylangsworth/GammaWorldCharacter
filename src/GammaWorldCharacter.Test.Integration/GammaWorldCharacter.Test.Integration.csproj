@@ -53,6 +53,11 @@
     <Compile Include="TestLevel01Keravnos.cs" />
     <Compile Include="TestLevel01Kitty.cs" />
     <Compile Include="TestLevel01Virtus.cs" />
+    <Compile Include="TestLevel02Clip.cs" />
+    <Compile Include="TestLevel02Hermes.cs" />
+    <Compile Include="TestLevel02Keravnos.cs" />
+    <Compile Include="TestLevel02Kitty.cs" />
+    <Compile Include="TestLevel02Virtus.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GammaWorldCharacter.Samples\GammaWorldCharacter.Samples.csproj">

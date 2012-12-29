@@ -15,7 +15,8 @@ namespace GammaWorldCharacter.Origins
         /// Create a new <see cref="Hawkoid"/>.
         /// </summary>
         public Hypercognitive()
-            : base("Hypercognitive", ScoreType.Wisdom, PowerSource.Psi)
+            : base("Hypercognitive", ScoreType.Wisdom, PowerSource.Psi,
+                "Deal 1d10 extra daamge and you or an ally within 5 squares of you gains a +2 bonus to all defenses until the end of your next turn.")
         {
             AddPower(new UncannyStrike());
         }

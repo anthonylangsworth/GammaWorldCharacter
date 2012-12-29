@@ -53,10 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterTest.generated.cs">
-      <DependentUpon>CharacterTest.tt</DependentUpon>
-      <SubType>Code</SubType>
-      <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CharacterTest.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
