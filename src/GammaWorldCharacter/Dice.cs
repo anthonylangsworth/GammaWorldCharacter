@@ -26,7 +26,7 @@ namespace GammaWorldCharacter
         /// The type of dice to roll.
         /// </param>
         /// <exception cref="ArgumentException">
-        /// number must be positive.
+        /// <paramref name="number"/> must be positive.
         /// </exception>
         public Dice(int number, DiceType diceType)
         {

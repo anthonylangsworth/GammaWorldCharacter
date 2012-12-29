@@ -50,6 +50,7 @@
     <Compile Include="Collections\GraphNode.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DiceExtensions.cs" />
     <Compile Include="Gear\Armor\Armor.cs" />
     <Compile Include="Gear\Armor\ArmorWeightType.cs" />
     <Compile Include="Gear\Armor\HeavyArmor.cs" />

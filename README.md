@@ -25,7 +25,7 @@ Structure
   an NUnit test class to test a character (used to turn sample characters in
   GammaWorldCharater.Samples into tests in
   GammaWorldCharacter.Test.Integration).
-- GammaWorldCharacterViewer:r A Windows Presentation Foundation (WPF) based
+- GammaWorldCharacterViewer: A Windows Presentation Foundation (WPF) based
   program that shows and prints the sample characters. It can also toggle
   showing all the modifiers summed to give the scores, e.g. "Initiative +1"
   versus "Initiative +1 (+1 Dex)". 
