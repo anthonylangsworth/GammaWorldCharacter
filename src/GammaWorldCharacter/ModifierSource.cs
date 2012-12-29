@@ -17,10 +17,8 @@ namespace GammaWorldCharacter
     /// </remarks>
     public class ModifierSource : IEquatable<ModifierSource>
     {
-        private string abbreviation;
         private string description;
         private List<ModifierSource> descriptionScores;
-        private string name;
         private List<Modifier> modifiers;
         private List<ModifierSource> modifierSources;
 
@@ -47,8 +45,8 @@ namespace GammaWorldCharacter
                 throw new ArgumentNullException("abbreviation");
             }
 
-            this.abbreviation = abbreviation;
-            this.name = name;
+            this.Abbreviation = abbreviation;
+            this.Name = name;
             this.modifiers = new List<Modifier>();
             this.modifierSources = new List<ModifierSource>();
         }
@@ -56,21 +54,10 @@ namespace GammaWorldCharacter
         /// <summary>
         /// The abbreviated name of the score.
         /// </summary>
-        public string Abbreviation
-        {
-            get
-            {
-                return abbreviation;
-            }
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentNullException();
-                }
-
-                abbreviation = value;
-            }
+        public string Abbreviation 
+        { 
+            get;
+            private set;
         }
 
         /// <summary>
@@ -112,10 +99,8 @@ namespace GammaWorldCharacter
         /// </summary>
         public virtual string Name
         {
-            get
-            {
-                return name;
-            }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -184,7 +169,7 @@ namespace GammaWorldCharacter
                 throw new ArgumentNullException("other");
             }
 
-            // TODO: Should reall check modifiers, too.
+            // TODO: Should really check modifiers, too.
 
             return Name.Equals(other.Name, StringComparison.CurrentCultureIgnoreCase)
                 && Abbreviation.Equals(other.Abbreviation, StringComparison.CurrentCultureIgnoreCase);
@@ -213,7 +198,7 @@ namespace GammaWorldCharacter
         {
             if (character == null)
             {
-                throw new ArgumentNullException("Character");
+                throw new ArgumentNullException("character");
             }
 
             List<KeyValuePair<ModifierSource, ModifierSource>> result;
@@ -234,7 +219,7 @@ namespace GammaWorldCharacter
         /// </returns>
         public override int GetHashCode()
         {
-            return (GetType().FullName + "|" + abbreviation + "|" + name + "|" 
+            return (GetType().FullName + "|" + Abbreviation + "|" + Name + "|" 
                 + modifiers.GetHashCode()).GetHashCode();
         }
 

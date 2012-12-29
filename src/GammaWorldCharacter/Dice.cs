@@ -79,20 +79,19 @@ namespace GammaWorldCharacter
         /// The dice to compare with this one.
         /// </param>
         /// <returns>
-        /// True if they are equal, false otherwise.
+        /// True if they are equal, false otherwise or <paramref name="dice"/> is null.
         /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// dice cannot be null.
-        /// </exception>
         public bool Equals(Dice dice)
         {
             if (dice == null)
             {
-                throw new ArgumentNullException("dice");
+                return false;
             }
-
-            return dice.Number == Number
-                && dice.DiceType == DiceType;
+            else
+            {
+                return dice.Number == Number
+                    && dice.DiceType == DiceType;
+            }
         }
 
         /// <summary>
