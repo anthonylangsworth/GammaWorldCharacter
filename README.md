@@ -15,17 +15,20 @@ folder.
 
 Structure
 ---
-- GammaWorldCharacter: The main library containing the Core rules
-and a few origins and powers.
+- GammaWorldCharacter: The main library containing the Core rules and a few
+  origins and powers.
 - GammaWorldCharacter.Samples: Sample characters.
 - GammaWorldCharacter.Test.Unit: Unit tests.
-- GammaWorldCharacter.Test.Integration: Integration tests,
-specifically testing the sample characters are constructed
-correctly.
-- CreateCharacterTest: A project that uses Visual Studio's T4
-library to create an NUnit test class to test a character (used
-to turn sample characters in GammaWorldCharater.Samples into 
-tests in GammaWorldCharacter.Test.Integration).
+- GammaWorldCharacter.Test.Integration: Integration tests, specifically testing
+  the sample characters are constructed correctly.
+- CreateCharacterTest: A project that uses Visual Studio's T4 library to create
+  an NUnit test class to test a character (used to turn sample characters in
+  GammaWorldCharater.Samples into tests in
+  GammaWorldCharacter.Test.Integration).
+- GammaWorldCharacterViewer:r A Windows Presentation Foundation (WPF) based
+  program that shows and prints the sample characters. It can also toggle
+  showing all the modifiers summed to give the scores, e.g. "Initiative +1"
+  versus "Initiative +1 (+1 Dex)". 
 
 License
 ---
