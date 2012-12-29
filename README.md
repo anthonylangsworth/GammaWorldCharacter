@@ -1,14 +1,17 @@
 Gamma World Character
 ===
 
-A representation of a character in Gamma World, a role playing game from
-Wizards of the Coast (http://www.wizards.com/dnd/gammaworld.aspx).
+A representation of a character in "D&D Gamma World", a role playing game
+from Wizards of the Coast (http://www.wizards.com/dnd/gammaworld.aspx).
 
 Note that much of the material; such as origin names, power names and
-power descriptions; is copyright Wizards of the Coast. Therefore, this
-only contains information for creating low level characters with a 
+power descriptions; is copyright 2010 Wizards of the Coast LLC. Therefore, 
+this only contains information for creating low level characters with a 
 few origins. Note that additional origins, powers, higher level 
 characters and so on can be added easily.
+
+For more information on using and extending the library, see the "doc"
+folder.
 
 Structure
 ---
@@ -26,7 +29,7 @@ tests in GammaWorldCharacter.Test.Integration).
 
 License
 ---
-TODO
+See LICENSE.txt (Apache 2.0).
 
 Dependencies
 ---
