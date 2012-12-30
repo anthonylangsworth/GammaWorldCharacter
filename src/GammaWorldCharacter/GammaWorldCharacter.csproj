@@ -97,6 +97,8 @@
     <Compile Include="Origins\Hypercognitive.cs" />
     <Compile Include="Origins\Origin.cs" />
     <Compile Include="Powers\Fluent\Effect.cs" />
+    <Compile Include="Powers\Fluent\EffectConjunction.cs" />
+    <Compile Include="Powers\Fluent\PushEffect.cs" />
     <Compile Include="Powers\Origins\Brickbat.cs" />
     <Compile Include="Powers\Origins\TerrifyingShriek.cs" />
     <Compile Include="Powers\Origins\GravitationalPulse.cs" />
