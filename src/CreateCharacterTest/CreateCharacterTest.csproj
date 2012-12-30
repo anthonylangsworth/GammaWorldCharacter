@@ -74,7 +74,7 @@
       <Name>GammaWorldCharacter.Samples</Name>
     </ProjectReference>
     <ProjectReference Include="..\GammaWorldCharacter.Test.Integration\GammaWorldCharacter.Test.Integration.csproj">
-      <Project>{B5B0AAAA-4630-4F32-9F82-F6CE1C3CB13C}</Project>
+      <Project>{b5b0aaaa-4630-4f32-9f82-f6ce1c3cb13c}</Project>
       <Name>GammaWorldCharacter.Test.Integration</Name>
     </ProjectReference>
     <ProjectReference Include="..\GammaWorldCharacter\GammaWorldCharacter.csproj">

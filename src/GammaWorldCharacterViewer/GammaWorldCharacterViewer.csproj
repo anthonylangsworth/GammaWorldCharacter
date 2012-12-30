@@ -129,21 +129,21 @@
     <Resource Include="Images\ShowModifiers.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GammaWorldCharacter.Samples\GammaWorldCharacter.Samples.csproj">
-      <Project>{394D4097-4AF0-40AF-87D3-3FC8CCE73D13}</Project>
-      <Name>GammaWorldCharacterGenerator.Samples</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GammaWorldCharacter.Test.Integration\GammaWorldCharacter.Test.Integration.csproj">
-      <Project>{B5B0AAAA-4630-4F32-9F82-F6CE1C3CB13C}</Project>
-      <Name>GammaWorldCharacterGenerator.Test.Integration</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GammaWorldCharacter\GammaWorldCharacter.csproj">
-      <Project>{F04BACFC-B804-40DD-B0B7-B66DD910A751}</Project>
-      <Name>GammaWorldCharacterGenerator</Name>
-    </ProjectReference>
+    <Resource Include="Images\Melee.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Melee.ico" />
+    <ProjectReference Include="..\GammaWorldCharacter.Samples\GammaWorldCharacter.Samples.csproj">
+      <Project>{394d4097-4af0-40af-87d3-3fc8cce73d13}</Project>
+      <Name>GammaWorldCharacter.Samples</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GammaWorldCharacter.Test.Integration\GammaWorldCharacter.Test.Integration.csproj">
+      <Project>{b5b0aaaa-4630-4f32-9f82-f6ce1c3cb13c}</Project>
+      <Name>GammaWorldCharacter.Test.Integration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GammaWorldCharacter\GammaWorldCharacter.csproj">
+      <Project>{f04bacfc-b804-40dd-b0b7-b66dd910a751}</Project>
+      <Name>GammaWorldCharacter</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
