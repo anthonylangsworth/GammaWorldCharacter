@@ -6,38 +6,41 @@ using System.Text;
 namespace GammaWorldCharacter.Powers.Fluent
 {
     /// <summary>
-    /// The target is pushed one or more squares.
+    /// Apply damage to target(s) determined by a hard coded number of dice.
     /// </summary>
-    public class PushEffect: EffectComponent
+    public class DiceDamageEffect : EffectComponent
     {
         /// <summary>
-        /// Create a new <see cref="PushEffect"/>.
+        /// Create a new <see cref="DiceDamageEffect"/>.
         /// </summary>
+        /// <remarks>
+        /// TODO: Add DamageType
+        /// </remarks>
         /// <param name="target">
         /// The <see cref="Target"/> this effect component acts on. This
         /// cannot be null.
         /// </param>
-        /// <param name="squares">
-        /// The number of squares the target is pushed.
+        /// <param name="dice">
+        /// The damage dealt. This cannot be null.
         /// </param>
         /// <exception cref="ArgumentNullException">
         /// No argument can be null.
-        /// </exception>        
-        public PushEffect(Target target, int squares)
+        /// </exception>
+        public DiceDamageEffect(Target target, Dice dice)
             : base(target)
         {
-            if (squares <= 0)
+            if (dice == null)
             {
-                throw new ArgumentException("squares must be positive", "squares");
+                throw new ArgumentNullException("dice");
             }
 
-            this.Squares = squares;
+            this.Dice = dice;
         }
 
         /// <summary>
-        /// The number of squares the target is pushed.
+        /// The damage dealt.
         /// </summary>
-        public int Squares
+        public Dice Dice
         {
             get;
             private set;
