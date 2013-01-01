@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GammaWorldCharacter.Powers.Fluent;
+using GammaWorldCharacter.Powers.Fluent.EffectComponents;
 using GammaWorldCharacter.Samples;
 using NUnit.Framework;
 
@@ -35,6 +36,9 @@ namespace GammaWorldCharacter.Test.Unit.Powers
             Assert.That(expression.Components[1].Target.Expression, Is.SameAs(expression));
             Assert.That(expression.Components[1], Is.TypeOf<PushEffect>());
             Assert.That(((PushEffect) expression.Components[1]).Squares, Is.EqualTo(3));
+
+            Assert.That(expression.ToString(Level01Characters.Keravnos),
+                Is.EqualTo("The attack deals 1d10 damage and you push the target 3 squares"));
         }
 
         [Test]
@@ -68,6 +72,9 @@ namespace GammaWorldCharacter.Test.Unit.Powers
             Assert.That(level.ScoreType, Is.EqualTo(ScoreType.Level));
             Assert.That(level.GetValue(Level01Characters.Clip), Is.EqualTo(1));
             Assert.That(level.GetValue(Level02Characters.Clip), Is.EqualTo(2));
+
+            Assert.That(expression.ToString(Level01Characters.Kitty),
+                Is.EqualTo("One Ally within 5 squares of the target regains 4 hit points."));
         }
 
         /// <summary>

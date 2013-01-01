@@ -43,5 +43,22 @@ namespace GammaWorldCharacter.Powers.Fluent
                 return new EffectConjunction(this);
             }
         }
+
+        /// <summary>
+        /// Provide a human readable representation.
+        /// </summary>
+        /// <returns></returns>
+        public string ToString(Character character)
+        {
+            StringBuilder stringBuilder;
+
+            stringBuilder = new StringBuilder();
+            foreach (EffectSpan effectSpan in new EffectParser().Parse(character, this))
+            {
+                stringBuilder.Append(effectSpan.Text);
+            }
+
+            return stringBuilder.ToString();
+        }
     }
 }
