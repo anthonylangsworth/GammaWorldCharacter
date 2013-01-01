@@ -9,28 +9,28 @@ namespace GammaWorldCharacter.Powers.Fluent
     /// Used with some effects this indicates where an additional effect occurs
     /// relative to either the originator or target of a power.
     /// </summary>
-    public class Where
+    public class Where: IEquatable<Where>
     {
         /// <summary>
         /// Create a new <see cref="Where"/>.
         /// </summary>
-        /// <param name="number">
+        /// <param name="squares">
         /// The number of squares distant the new target can be.
         /// </param>
         /// <param name="of">
         /// Relative to either the original target or originator of the power.
         /// </param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="number"/> must be positive.
+        /// <paramref name="squares"/> must be positive.
         /// </exception>
-        public Where(int number, Of of)
+        public Where(int squares, Of of)
         {
-            if (number <= 0)
+            if (squares <= 0)
             {
                 throw new ArgumentException("number must be positive", "number");
             }
 
-            this.Number = number;
+            this.Squares = squares;
             this.Of = of;
         }
 
@@ -39,7 +39,7 @@ namespace GammaWorldCharacter.Powers.Fluent
         /// of the power or originator of the power.
         /// </summary>
         /// <see cref="Of"/>
-        public int Number
+        public int Squares
         {
             get;
             private set;
@@ -52,6 +52,65 @@ namespace GammaWorldCharacter.Powers.Fluent
         {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// Compare two <see cref="Where"/> objects.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(Where other)
+        {
+            if (other != null)
+            {
+                return this.Squares == other.Squares
+                       && this.Of == other.Of;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Compare two objects.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is Where)
+            {
+                return Equals((Where) obj);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Generate a hash code.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            int hashCode = 15;
+            unchecked // Let it wrap
+            {
+                hashCode = hashCode * 23 + this.Squares.GetHashCode();
+                hashCode = hashCode * 23 + this.Of.GetHashCode();               
+            }
+            return hashCode;
+        }
+
+        /// <summary>
+        /// Show a human-readable representation.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return string.Format("Within {0} squares of {1}", Squares, Of);
         }
 
         /// <summary>
@@ -73,5 +132,18 @@ namespace GammaWorldCharacter.Powers.Fluent
         {
             return new Where(number, of);
         }
+
+        /// <summary>
+        /// Where the additional effect occurs is unspecified or no
+        /// additional information is needed.
+        /// </summary>
+        public static Where Unspecified
+        {
+            get
+            {
+                return null;
+            }
+        }
+
     }
 }

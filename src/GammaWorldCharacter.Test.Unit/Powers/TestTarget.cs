@@ -14,16 +14,17 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         public void TestConstructor()
         {
             EffectExpression expression = new EffectExpression();
-            Target target = new Target(expression, TargetType.YouOrAlly);
+            Target target = new Target(expression, TargetType.Enemy, Where.Unspecified);
 
-            Assert.That(target.TargetType, Is.EqualTo(TargetType.YouOrAlly));
+            Assert.That(target.TargetType, Is.EqualTo(TargetType.Enemy));
             Assert.That(target.Expression, Is.SameAs(expression));
+            Assert.That(target.Where, Is.EqualTo(Where.Unspecified));
         }
 
         [Test]
         public void TestConstructor_NullExpression()
         {
-            Assert.That(() => new Target(null, TargetType.YouOrAlly),
+            Assert.That(() => new Target(null, TargetType.Enemy, Where.Unspecified),
                         Throws.TypeOf<ArgumentNullException>().And.Property("ParamName").EqualTo("expression"));
         }
     }

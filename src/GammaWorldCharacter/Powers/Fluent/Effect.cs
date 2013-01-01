@@ -51,7 +51,7 @@ namespace GammaWorldCharacter.Powers.Fluent
         {
             get
             {
-                return new Target(new EffectExpression(), TargetType.Creature);
+                return new Target(new EffectExpression(), TargetType.Creature, null);
             }
         }
 
@@ -62,41 +62,32 @@ namespace GammaWorldCharacter.Powers.Fluent
         {
             get
             {
-                return new Target(new EffectExpression(), TargetType.Creature);
+                return new Target(new EffectExpression(), TargetType.You, null);
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public static Target Ally
+        public static Target Ally(Where where)
         {
-            get
-            {
-                return new Target(new EffectExpression(), TargetType.Creature);
-            }
+            return new Target(new EffectExpression(), TargetType.Ally, where);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public static Target YouOrAlly
+        public static Target YouOrAlly(Where where)
         {
-            get
-            {
-                return new Target(new EffectExpression(), TargetType.Creature);
-            }
+            return new Target(new EffectExpression(), TargetType.YouOrAlly, where);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public static Target Enemy
+        public static Target Enemy(Where where)
         {
-            get
-            {
-                return new Target(new EffectExpression(), TargetType.Creature);
-            }
+            return new Target(new EffectExpression(), TargetType.Enemy, where);
         }
     }
 }
