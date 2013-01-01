@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GammaWorldCharacter.Powers.Fluent.EffectComponents;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace GammaWorldCharacter.Powers.Fluent
     public class Target
     {
         /// <summary>
-        /// Create a new <see cref="DiceDamageEffect"/>.
+        /// Create a new <see cref="Target"/>.
         /// </summary>
         /// <param name="expression">
         /// The <see cref="EffectExpression"/> this is part of. This cannot be null.
