@@ -19,10 +19,13 @@ namespace GammaWorldCharacter.Powers.Fluent
         /// <param name="targetType">
         /// The actual target of the <see cref="EffectComponent"/>.
         /// </param>
+        /// <param name="where">
+        /// Where the target is, or null if that is unspecified.
+        /// </param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="expression"/> cannot be null.
+        ///  <paramref name="expression"/> cannot be null.
         /// </exception>
-        public Target(EffectExpression expression, TargetType targetType)
+        public Target(EffectExpression expression, TargetType targetType, Where where)
         {
             if (expression == null)
             {
@@ -31,6 +34,7 @@ namespace GammaWorldCharacter.Powers.Fluent
 
             this.Expression = expression;
             this.TargetType = targetType;
+            this.Where = where;
         }
 
         /// <summary>
@@ -53,39 +57,12 @@ namespace GammaWorldCharacter.Powers.Fluent
         }
 
         /// <summary>
-        /// The target suffers the given damage.
+        /// Where the target is.
         /// </summary>
-        /// <param name="dice">
-        /// The amount of damage suffered. This cannot be null.
-        /// </param>
-        /// <returns>
-        /// The current <see cref="EffectExpression"/>.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="dice"/> cannot be null.
-        /// </exception>
-        public EffectExpression Damage(Dice dice)
+        public Where Where
         {
-            Expression.Components.Add(new DiceDamageEffect(this, dice));
-            return Expression;
-        }
-
-        /// <summary>
-        /// Push the target a number of squares.
-        /// </summary>
-        /// <param name="squares">
-        /// The number of squares the target is pushed.
-        /// </param>
-        /// <returns>
-        /// The current <see cref="EffectExpression"/>.
-        /// </returns>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="squares"/> must be positive.
-        /// </exception>
-        internal EffectExpression Pushed(int squares)
-        {
-            Expression.Components.Add(new PushEffect(this, squares));
-            return Expression;
+            get;
+            private set;
         }
     }
 }

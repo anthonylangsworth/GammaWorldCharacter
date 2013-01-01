@@ -15,7 +15,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         {
             EffectExpression expression = new EffectExpression();
             Dice dice = 1.D20();
-            Target target = new Target(expression, TargetType.Ally);
+            Target target = new Target(expression, TargetType.Ally, Where.WithinSquares(5, Of.Target));
             DiceDamageEffect effect = new DiceDamageEffect(target, dice);
 
             Assert.That(effect.Expression, Is.SameAs(expression));
@@ -33,7 +33,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestConstructor_NullDice()
         {
-            Assert.That(() => new DiceDamageEffect(new Target(new EffectExpression(), TargetType.Ally), null),
+            Assert.That(() => new DiceDamageEffect(new Target(new EffectExpression(), TargetType.Ally, Where.WithinSquares(5, Of.Target)), null),
                 Throws.InstanceOf<ArgumentNullException>().And.Property("ParamName").EqualTo("dice"));
         }
     }

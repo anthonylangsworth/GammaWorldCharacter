@@ -8,6 +8,9 @@ namespace GammaWorldCharacter.Powers.Fluent
     /// <summary>
     /// 
     /// </summary>
+    /// <remarks>
+    /// Methods should look similar to the static methods on <see cref="Effect"/>.
+    /// </remarks>
     public class EffectConjunction
     {
         /// <summary>
@@ -40,7 +43,7 @@ namespace GammaWorldCharacter.Powers.Fluent
         {
             get
             {
-                return new Target(Expression, TargetType.Creature);
+                return new Target(Expression, TargetType.Creature, Where.Unspecified);
             }
         }
 
@@ -51,41 +54,32 @@ namespace GammaWorldCharacter.Powers.Fluent
         {
             get
             {
-                return new Target(Expression, TargetType.Creature);
+                return new Target(Expression, TargetType.Creature, Where.Unspecified);
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public Target Ally
+        public Target Ally(Where where)
         {
-            get
-            {
-                return new Target(Expression, TargetType.Creature);
-            }
+            return new Target(Expression, TargetType.Creature, where);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public Target YouOrAlly
+        public Target YouOrAlly(Where where)
         {
-            get
-            {
-                return new Target(Expression, TargetType.Creature);
-            }
+            return new Target(Expression, TargetType.Creature, where);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public Target Enemy
+        public Target Enemy(Where where)
         {
-            get
-            {
-                return new Target(Expression, TargetType.Creature);
-            }
+            return new Target(Expression, TargetType.Creature, where);
         }
  
         /// <summary>
@@ -95,7 +89,7 @@ namespace GammaWorldCharacter.Powers.Fluent
         {
             get
             {
-                return new Target(Expression, TargetType.SameTarget);
+                return new Target(Expression, TargetType.SameTarget, Where.Unspecified);
             }
         }
     }

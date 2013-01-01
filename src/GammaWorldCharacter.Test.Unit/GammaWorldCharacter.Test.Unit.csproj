@@ -62,6 +62,10 @@
     <Compile Include="TestDiceExtension.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GammaWorldCharacter.Samples\GammaWorldCharacter.Samples.csproj">
+      <Project>{394d4097-4af0-40af-87d3-3fc8cce73d13}</Project>
+      <Name>GammaWorldCharacter.Samples</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GammaWorldCharacter\GammaWorldCharacter.csproj">
       <Project>{F04BACFC-B804-40DD-B0B7-B66DD910A751}</Project>
       <Name>GammaWorldCharacter</Name>
