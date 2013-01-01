@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GammaWorldCharacter.Powers.Fluent;
+using GammaWorldCharacter.Powers.Fluent.EffectComponents;
 using NUnit.Framework;
 
 namespace GammaWorldCharacter.Test.Unit.Powers
