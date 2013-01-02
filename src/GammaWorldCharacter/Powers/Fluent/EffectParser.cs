@@ -60,7 +60,7 @@ namespace GammaWorldCharacter.Powers.Fluent
             result = new List<EffectSpan>();
             foreach (EffectComponent component in expression.Components)
             {
-                result.AddRange(ParseEffectComponent(character, component));
+                ParseEffectComponent(character, component, result.Add);
             }
 
             // TODO: Add conjunctions like And
@@ -75,10 +75,11 @@ namespace GammaWorldCharacter.Powers.Fluent
         /// </summary>
         /// <param name="character"></param>
         /// <param name="component"></param>
+        /// <param name="addSpan"></param>
         /// <exception cref="ArgumentNullException">
         /// Neither <paramref name="character"/> nor <paramref name="component"/> can be null.
         /// </exception>
-        private IEnumerable<EffectSpan> ParseEffectComponent(Character character, EffectComponent component)
+        private void ParseEffectComponent(Character character, EffectComponent component, Action<EffectSpan> addSpan)
         {
             if (character == null)
             {
@@ -88,15 +89,13 @@ namespace GammaWorldCharacter.Powers.Fluent
             {
                 throw new ArgumentNullException("component");
             }
+            if (addSpan == null)
+            {
+                throw new ArgumentNullException("addSpan");
+            }
 
-            List<EffectSpan> result;
-
-            result = new List<EffectSpan>();
-
-            result.AddRange(ParseTarget(component.Target));
-            result.AddRange(ParseComponent(character, component));
-
-            return result;
+            ParseTarget(component.Target, addSpan);
+            ParseComponent(character, component, addSpan);
         }
 
         /// <summary>
@@ -104,11 +103,12 @@ namespace GammaWorldCharacter.Powers.Fluent
         /// </summary>
         /// <param name="character"></param>
         /// <param name="component"></param>
+        /// <param name="addSpan"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">
         /// Neither <paramref name="character"/> nor <paramref name="component"/> can be null.
         /// </exception>
-        private IEnumerable<EffectSpan> ParseComponent(Character character, EffectComponent component)
+        private void ParseComponent(Character character, EffectComponent component, Action<EffectSpan> addSpan)
         {
             if (character == null)
             {
@@ -118,25 +118,26 @@ namespace GammaWorldCharacter.Powers.Fluent
             {
                 throw new ArgumentNullException("component");
             }
-
-            List<EffectSpan> result;
+            if (addSpan == null)
+            {
+                throw new ArgumentNullException("addSpan");
+            }
 
             // TODO: Move these into separate classes or functions
 
-            result = new List<EffectSpan>();
             if (component is DiceDamageEffect)
             {
-                result.Add(new EffectSpan(string.Format("the attack deals {0} damage",
+                addSpan(new EffectSpan(string.Format("the attack deals {0} damage",
                     ((DiceDamageEffect) component).Dice)));
             }
             else if (component is PushEffect)
             {
-                result.Add(new EffectSpan(string.Format("you push the target {0} squares",
+                addSpan(new EffectSpan(string.Format("you push the target {0} squares",
                     ((PushEffect) component).Squares)));
             }
             else if (component is TemporaryHitPointsEffect)
             {
-                result.Add(new EffectSpan(string.Format("regains {0} hit points",
+                addSpan(new EffectSpan(string.Format("regains {0} hit points",
                     ((TemporaryHitPointsEffect) component).TemporaryHitPoints
                         .GetValue(character))));
             }
@@ -145,41 +146,46 @@ namespace GammaWorldCharacter.Powers.Fluent
                 throw new ArgumentException(string.Format("Unknown effect component type '{0}'",
                     component.GetType()), "component");
             }
-
-            return result;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="target"></param>
+        /// <param name="addSpan"></param>
         /// <returns></returns>
-        private IEnumerable<EffectSpan> ParseTarget(Target target)
+        private void ParseTarget(Target target, Action<EffectSpan> addSpan)
         {
-            List<EffectSpan> result;
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+            if (addSpan == null)
+            {
+                throw new ArgumentNullException("addSpan");
+            }
 
-            result = new List<EffectSpan>();
             switch (target.TargetType)
             {
                 case TargetType.Ally:
-                    result.Add(new EffectSpan(string.Format(
+                    addSpan(new EffectSpan(string.Format(
                         "one ally within {0} squares of {1}",
                         target.Where.Squares, target.Where.Of == Of.Target ? "the target" : "you")));
                     break;
                 case TargetType.Creature:
-                    result.Add(new EffectSpan("one creature"));
+                    addSpan(new EffectSpan("one creature"));
                     break;
                 case TargetType.Enemy:
-                    result.Add(new EffectSpan("one enemy"));
+                    addSpan(new EffectSpan("one enemy"));
                     break;
                 case TargetType.SameTarget:
                     // Do nothing
                     break;
                 case TargetType.You:
-                    result.Add(new EffectSpan("you"));
+                    addSpan(new EffectSpan("you"));
                     break;
                 case TargetType.YouOrAlly:
-                    result.Add(new EffectSpan(string.Format(
+                    addSpan(new EffectSpan(string.Format(
                         "you or one ally within {0} squares of {1}",
                         target.Where.Squares, target.Where.Of == Of.Target ? "the target" : "you")));
                     break;
@@ -187,8 +193,6 @@ namespace GammaWorldCharacter.Powers.Fluent
                     throw new ArgumentException(
                         string.Format("Unknown or missing target '{0}'", target.TargetType), "target");
             }
-
-            return result;
         }
     }
 
