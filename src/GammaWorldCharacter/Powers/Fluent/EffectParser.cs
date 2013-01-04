@@ -55,19 +55,28 @@ namespace GammaWorldCharacter.Powers.Fluent
                 throw new ArgumentNullException("expression");
             }
 
-            List<EffectSpan> result;
+            List<List<EffectSpan>> effectSpans;
+            List<EffectSpan> phrase;
 
-            result = new List<EffectSpan>();
+            effectSpans = new List<List<EffectSpan>>();
             foreach (EffectComponent component in expression.Components)
             {
-                ParseEffectComponent(character, component, result.Add);
+                phrase = new List<EffectSpan>();
+                ParseEffectComponent(character, component, phrase.Add);
+                effectSpans.Add(phrase);
             }
 
             // TODO: Add conjunctions like And
             // TODO: Capitalize first level, add spaces and add a full stop (a.k.a. period) at the end.
+            //if (result.Count > 0)
+            //{
+            //    result.Add(new EffectSpan("."));
+            //    result.Add(new EffectSpan("."));
+            //}
+
             // TODO: Merge adjacent text spans (type EffectSpanType.None)
 
-            return result;
+            return effectSpans.AddConjunctions().AddPeriod().CapitalizeFirstLetter().MergeAdjacentTextSpans();
         }
 
         /// <summary>
