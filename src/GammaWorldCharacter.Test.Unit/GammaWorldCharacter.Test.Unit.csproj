@@ -53,6 +53,7 @@
     <Compile Include="Origins\NullOrigin.cs" />
     <Compile Include="Powers\TestBasicAttack.cs" />
     <Compile Include="Powers\TestDiceDamageEffect.cs" />
+    <Compile Include="Powers\TestEffectParserHelper.cs" />
     <Compile Include="Powers\TestFluentPower.cs" />
     <Compile Include="Powers\TestTarget.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

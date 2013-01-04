@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GammaWorldCharacter.Powers.Fluent
+namespace GammaWorldCharacter.Powers.Effects
 {
     /// <summary>
     /// Helper methods for <see cref="EffectParser"/>.
@@ -27,7 +27,7 @@ namespace GammaWorldCharacter.Powers.Fluent
         /// <exception cref="ArgumentException">
         /// <paramref name="effectSpans"/> cannot be empty.
         /// </exception>
-        public static IList<EffectSpan> AddConjunctions(this IList<List<EffectSpan>> effectSpans)
+        public static IEnumerable<EffectSpan> AddConjunctions(this IList<List<EffectSpan>> effectSpans)
         {
             if (effectSpans == null)
             {
@@ -49,16 +49,13 @@ namespace GammaWorldCharacter.Powers.Fluent
             {
                 result.AddRange(effectSpans[i]);
 
-                if (effectSpans.Any())
+                if (i < effectSpans.Count() - 2)
                 {
-                    if (i < effectSpans.Count() - 2)
-                    {
-                        result.Add(new EffectSpan(" and "));
-                    }
-                    else
-                    {
-                        result.Add(new EffectSpan(", "));
-                    }
+                    result.Add(new EffectSpan(", "));
+                }
+                else if (i == effectSpans.Count() - 2)
+                {
+                    result.Add(new EffectSpan(" and "));
                 }
             }
 

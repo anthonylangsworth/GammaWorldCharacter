@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GammaWorldCharacter.Powers.Fluent
+namespace GammaWorldCharacter.Powers.Effects
 {
     /// <summary>
     /// A character's score used in a power.

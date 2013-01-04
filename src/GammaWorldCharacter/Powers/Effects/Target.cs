@@ -1,10 +1,9 @@
-﻿using GammaWorldCharacter.Powers.Fluent.EffectComponents;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GammaWorldCharacter.Powers.Fluent
+namespace GammaWorldCharacter.Powers.Effects
 {
     /// <summary>
     /// The portion of an <see cref="EffectComponent"/> that describes what the effect component acts on.

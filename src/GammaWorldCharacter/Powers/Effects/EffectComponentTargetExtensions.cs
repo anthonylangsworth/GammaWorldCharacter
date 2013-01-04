@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GammaWorldCharacter.Powers.Fluent.EffectComponents;
+using GammaWorldCharacter.Powers.Effects.EffectComponents;
 
-namespace GammaWorldCharacter.Powers.Fluent
+namespace GammaWorldCharacter.Powers.Effects
 {
     /// <summary>
     /// Extension methods for <see cref="Target"/> from different <see cref="EffectComponent"/> classes.

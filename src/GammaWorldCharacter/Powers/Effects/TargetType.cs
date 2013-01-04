@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GammaWorldCharacter.Powers.Fluent
+namespace GammaWorldCharacter.Powers.Effects
 {
     /// <summary>
     /// The entity the <see cref="EffectComponent"/> targets.
