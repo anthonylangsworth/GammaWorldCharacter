@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GammaWorldCharacter.Powers.Fluent.EffectComponents
+namespace GammaWorldCharacter.Powers.Effects.EffectComponents
 {
     /// <summary>
     /// Give the target temporary hit points.

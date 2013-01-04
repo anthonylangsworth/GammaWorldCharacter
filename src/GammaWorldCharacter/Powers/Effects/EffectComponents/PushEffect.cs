@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GammaWorldCharacter.Powers.Fluent.EffectComponents
+namespace GammaWorldCharacter.Powers.Effects.EffectComponents
 {
     /// <summary>
     /// The target is pushed one or more squares.

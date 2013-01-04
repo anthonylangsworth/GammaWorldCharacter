@@ -35,7 +35,7 @@ using GammaWorldCharacter.Powers.Origins;
 // Current thoughts:
 // * Does "Effect" become a static class to start the chain or should Effect merge with EffectComponent?
 
-namespace GammaWorldCharacter.Powers.Fluent
+namespace GammaWorldCharacter.Powers.Effects
 {
     /// <summary>
     /// An effect, such as damage or healing, on a target, such as a creature or an ally. It may
@@ -56,7 +56,7 @@ namespace GammaWorldCharacter.Powers.Fluent
         }
 
         /// <summary>
-        /// 
+        /// The power originator.
         /// </summary>
         public static Target You
         {
@@ -67,7 +67,7 @@ namespace GammaWorldCharacter.Powers.Fluent
         }
 
         /// <summary>
-        /// 
+        /// A friendly target
         /// </summary>
         public static Target Ally(Where where)
         {
@@ -75,7 +75,7 @@ namespace GammaWorldCharacter.Powers.Fluent
         }
 
         /// <summary>
-        /// 
+        /// Either the power originator or a friendly target.
         /// </summary>
         public static Target YouOrAlly(Where where)
         {
@@ -83,7 +83,7 @@ namespace GammaWorldCharacter.Powers.Fluent
         }
 
         /// <summary>
-        /// 
+        /// An unfriendly target.
         /// </summary>
         public static Target Enemy(Where where)
         {

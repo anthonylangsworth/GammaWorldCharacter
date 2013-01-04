@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GammaWorldCharacter.Powers.Fluent
+namespace GammaWorldCharacter.Powers.Effects
 {
     /// <summary>
     /// Used with some effects this indicates where an additional effect occurs
@@ -90,12 +90,14 @@ namespace GammaWorldCharacter.Powers.Fluent
         }
 
         /// <summary>
-        /// Generate a hash code.
+        /// A hash code for this object.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// A hash code.
+        /// </returns>
         public override int GetHashCode()
         {
-            int hashCode = 15;
+            int hashCode = 17;
             unchecked // Let it wrap
             {
                 hashCode = hashCode * 23 + this.Squares.GetHashCode();

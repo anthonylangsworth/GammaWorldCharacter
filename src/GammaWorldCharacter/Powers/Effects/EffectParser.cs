@@ -1,11 +1,11 @@
-﻿using GammaWorldCharacter.Powers.Fluent.EffectComponents;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers.Effects.EffectComponents;
 
-namespace GammaWorldCharacter.Powers.Fluent
+namespace GammaWorldCharacter.Powers.Effects
 {
     /// <summary>
     /// Take an <see cref="EffectExpression"/> and into <see cref="EffectSpan"/>s. 
@@ -203,65 +203,5 @@ namespace GammaWorldCharacter.Powers.Fluent
                         string.Format("Unknown or missing target '{0}'", target.TargetType), "target");
             }
         }
-    }
-
-    /// <summary>
-    /// Part of a textual effect description.
-    /// </summary>
-    public class EffectSpan
-    {
-        /// <summary>
-        /// Create a new <see cref="EffectSpan"/>.
-        /// </summary>
-        /// <param name="text">
-        /// The text to display. This cannot be null, empty or whitespace.
-        /// </param>
-        /// <param name="effectSpanType">
-        /// The <see cref="EffectSpanType"/> of the text shown. By default, 
-        /// it is EffectSpanType.None.
-        /// </param>
-        public EffectSpan(string text, EffectSpanType effectSpanType = EffectSpanType.None)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new ArgumentNullException("text");
-            }
-
-            this.Text = text;
-            this.Type = effectSpanType;
-        }
-
-        /// <summary>
-        /// The span's description or text.
-        /// </summary>
-        public string Text
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// What the text describes.
-        /// </summary>
-        public EffectSpanType Type
-        {
-            get;
-            private set;
-        }
-    }
-
-    /// <summary>
-    /// The different types of <see cref="EffectSpan"/>s.
-    /// </summary>
-    public enum EffectSpanType
-    {
-        /// <summary>
-        /// No special meaning. Just text.
-        /// </summary>
-        None,
-        /// <summary>
-        /// Power name.
-        /// </summary>
-        Power
     }
 }

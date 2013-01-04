@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using GammaWorldCharacter.Powers.Fluent;
-using GammaWorldCharacter.Powers.Fluent.EffectComponents;
+using GammaWorldCharacter.Powers.Effects;
+using GammaWorldCharacter.Powers.Effects.EffectComponents;
 using NUnit.Framework;
 
 namespace GammaWorldCharacter.Test.Unit.Powers
