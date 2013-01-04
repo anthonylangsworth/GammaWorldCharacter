@@ -102,6 +102,7 @@
     <Compile Include="Powers\Fluent\EffectComponents\PushEffect.cs" />
     <Compile Include="Powers\Fluent\EffectComponents\TemporaryHitPointsEffect.cs" />
     <Compile Include="Powers\Fluent\EffectParser.cs" />
+    <Compile Include="Powers\Fluent\EffectParserHelper.cs" />
     <Compile Include="Powers\Fluent\ICharacterScoreValue.cs" />
     <Compile Include="Powers\Fluent\Effect.cs" />
     <Compile Include="Powers\Fluent\EffectComponent.cs" />
