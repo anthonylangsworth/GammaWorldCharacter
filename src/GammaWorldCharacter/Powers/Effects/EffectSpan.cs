@@ -14,15 +14,18 @@ namespace GammaWorldCharacter.Powers.Effects
         /// Create a new <see cref="EffectSpan"/>.
         /// </summary>
         /// <param name="text">
-        /// The text to display. This cannot be null, empty or whitespace.
+        /// The text to display. This cannot be null or empty.
         /// </param>
         /// <param name="effectSpanType">
         /// The <see cref="EffectSpanType"/> of the text shown. By default, 
         /// it is EffectSpanType.None.
         /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// 
+        /// </exception>
         public EffectSpan(string text, EffectSpanType effectSpanType = EffectSpanType.None)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            if (string.IsNullOrEmpty(text))
             {
                 throw new ArgumentNullException("text");
             }

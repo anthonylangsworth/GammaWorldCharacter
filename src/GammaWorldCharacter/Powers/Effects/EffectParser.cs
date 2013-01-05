@@ -62,7 +62,17 @@ namespace GammaWorldCharacter.Powers.Effects
             foreach (EffectComponent component in expression.Components)
             {
                 phrase = new List<EffectSpan>();
-                ParseEffectComponent(character, component, phrase.Add);
+                ParseEffectComponent(character, component, x => 
+                {
+                    if (phrase.Any())
+                    {
+                        phrase.AddRange(new EffectSpan[] {new EffectSpan(" "), x});
+                    }
+                    else
+                    {
+                        phrase.Add(x);
+                    }
+                } );
                 effectSpans.Add(phrase);
             }
 
@@ -136,7 +146,7 @@ namespace GammaWorldCharacter.Powers.Effects
 
             if (component is DiceDamageEffect)
             {
-                addSpan(new EffectSpan(string.Format("the attack deals {0} damage",
+                addSpan(new EffectSpan(string.Format("suffers {0} damage",
                     ((DiceDamageEffect) component).Dice)));
             }
             else if (component is PushEffect)
@@ -150,6 +160,12 @@ namespace GammaWorldCharacter.Powers.Effects
                     ((TemporaryHitPointsEffect) component).TemporaryHitPoints
                         .GetValue(character))));
             }
+            //else if (component is UsePowerEffect<T>)
+            //{
+            //    addSpan(new EffectSpan(string.Format("regains {0} hit points",
+            //        ((TemporaryHitPointsEffect)component).TemporaryHitPoints
+            //            .GetValue(character))));
+            //}
             else
             {
                 throw new ArgumentException(string.Format("Unknown effect component type '{0}'",
