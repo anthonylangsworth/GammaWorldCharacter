@@ -45,7 +45,7 @@ namespace GammaWorldCharacter.Powers.Effects
     public static class Effect
     {
         /// <summary>
-        /// 
+        /// A creature.
         /// </summary>
         public static Target Creature
         {
