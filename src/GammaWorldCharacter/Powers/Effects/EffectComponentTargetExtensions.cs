@@ -30,7 +30,7 @@ namespace GammaWorldCharacter.Powers.Effects
         /// <exception cref="ArgumentNullException">
         /// Neither <paramref name="target"/> nor <paramref name="dice"/> can be null.
         /// </exception>
-        public static EffectExpression Damage(this Target target, Dice dice)
+        public static EffectExpression SuffersDamage(this Target target, Dice dice)
         {
             if (target == null)
             {
@@ -122,7 +122,6 @@ namespace GammaWorldCharacter.Powers.Effects
             return target.Expression;
         }
 
-
         /// <summary>
         /// Push the target a number of squares.
         /// </summary>
@@ -149,5 +148,102 @@ namespace GammaWorldCharacter.Powers.Effects
             target.Expression.Components.Add(new UsePowerEffect<TPower>(target, actionType));
             return target.Expression;
         }
+
+
+        /// <summary>
+        /// Push the target a number of squares.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This cannt be null.
+        /// </param>
+        /// <param name="to">
+        /// Who combat advantage is granted to.
+        /// </param>
+        /// <param name="until">
+        /// When the effect will end.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="EffectExpression"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="target"/> cannot be null.
+        /// </exception>
+        public static EffectExpression GrantsCombatAdvantage(this Target target, To to, Until until)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            target.Expression.Components.Add(new GrantCombatAdvantageEffect(target, to, until));
+            return target.Expression;
+        }
+
+        /// <summary>
+        /// The target suffers the given damage.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This cannt be null.
+        /// </param>
+        /// <param name="score">
+        /// The <see cref="CharacterScore"/> that gains the bonus. This
+        /// cannot be null.
+        /// </param>
+        /// <param name="bonus">
+        /// The bonus amount or value.
+        /// </param>
+        /// <param name="until">
+        /// When the bonus ends.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="EffectExpression"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// No argument can be null.
+        /// </exception>
+        public static EffectExpression GainsBonus(this Target target, CharacterScore score, int bonus, Until until)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            target.Expression.Components.Add(new GainBonusEffect(target, score, bonus, until));
+            return target.Expression;
+        }
+
+        /// <summary>
+        /// The target suffers the given damage.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This cannt be null.
+        /// </param>
+        /// <param name="score">
+        /// The <see cref="CharacterScore"/> that gains the bonus. This
+        /// cannot be null.
+        /// </param>
+        /// <param name="bonus">
+        /// A score that, when calculated, gives the number of hit points gained.
+        /// </param>
+        /// <param name="until">
+        /// When the bonus ends.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="EffectExpression"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// No argument can be null.
+        /// </exception>
+        public static EffectExpression GainsBonus(this Target target, CharacterScore score, ICharacterScoreValue bonus, Until until)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            target.Expression.Components.Add(new GainBonusEffect(target, score, bonus, until));
+            return target.Expression;
+        }
+
     }
 }

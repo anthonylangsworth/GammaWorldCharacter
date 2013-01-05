@@ -17,14 +17,14 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestGiantCritical()
         {
-            EffectExpression expression = Effect.Creature.Damage(1.D10()).And.SameTarget.Pushed(3);
+            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.TheTarget.Pushed(3);
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
             // Test the first component
             Assert.That(expression.Components[0], Is.Not.Null);
             Assert.That(expression.Components[0].Target, Is.Not.Null);
-            Assert.That(expression.Components[0].Target.TargetType, Is.EqualTo(TargetType.Creature));
+            Assert.That(expression.Components[0].Target.TargetType, Is.EqualTo(TargetType.TheTarget));
             Assert.That(expression.Components[0].Target.Where, Is.EqualTo(Where.Unspecified));
             Assert.That(expression.Components[0].Target.Expression, Is.SameAs(expression));
             Assert.That(expression.Components[0], Is.TypeOf<DiceDamageEffect>());
@@ -33,14 +33,14 @@ namespace GammaWorldCharacter.Test.Unit.Powers
             // Test the second component
             Assert.That(expression.Components[1], Is.Not.Null);
             Assert.That(expression.Components[1].Target, Is.Not.Null);
-            Assert.That(expression.Components[1].Target.TargetType, Is.EqualTo(TargetType.SameTarget));
+            Assert.That(expression.Components[1].Target.TargetType, Is.EqualTo(TargetType.TheTarget));
             Assert.That(expression.Components[1].Target.Where, Is.EqualTo(Where.Unspecified));
             Assert.That(expression.Components[1].Target.Expression, Is.SameAs(expression));
             Assert.That(expression.Components[1], Is.TypeOf<PushEffect>());
             Assert.That(((PushEffect) expression.Components[1]).Squares, Is.EqualTo(3));
 
             Assert.That(expression.ToString(Level01Characters.Keravnos),
-                Is.EqualTo("One creature suffers 1d10 damage and you push the target 3 squares."));
+                Is.EqualTo("The target suffers 1d10 damage and you push the target 3 squares."));
         }
 
         [Test]
@@ -82,14 +82,14 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestDoppelgangerCritical()
         {
-            EffectExpression expression = Effect.Creature.Damage(1.D10()).And.You.CanUsePower<DoubleTrouble>(ActionType.Free);
+            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.You.CanUsePower<DoubleTrouble>(ActionType.Free);
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
             // Test the first component
             Assert.That(expression.Components[0], Is.Not.Null);
             Assert.That(expression.Components[0].Target, Is.Not.Null);
-            Assert.That(expression.Components[0].Target.TargetType, Is.EqualTo(TargetType.Creature));
+            Assert.That(expression.Components[0].Target.TargetType, Is.EqualTo(TargetType.TheTarget));
             Assert.That(expression.Components[0].Target.Where, Is.EqualTo(Where.Unspecified));
             Assert.That(expression.Components[0].Target.Expression, Is.SameAs(expression));
             Assert.That(expression.Components[0], Is.TypeOf<DiceDamageEffect>());
@@ -103,18 +103,95 @@ namespace GammaWorldCharacter.Test.Unit.Powers
             Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.You));
             Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.Unspecified));
             Assert.That(effectComponent.Target.Expression, Is.SameAs(expression));
+            Assert.That(effectComponent.PowerName, Is.EqualTo("Double Trouble"));
 
             Assert.That(expression.ToString(Level01Characters.Keravnos),
-                Is.EqualTo("One creature suffers 1d10 damage and you can use the power Double Trouble as a free action."));
+                Is.EqualTo("The target suffers 1d10 damage and you can use the power Double Trouble as a free action."));
 
             Assert.That(new EffectParser().Parse(Level01Characters.Keravnos, expression),
                 Is.EquivalentTo(new []
                     {
-                        new EffectSpan("One creature suffers 1d10 damage and you can use the power "),
+                        new EffectSpan("The target suffers 1d10 damage and you can use the power "),
                         new EffectSpan("Double Trouble", EffectSpanType.Power),
                         new EffectSpan(" as a free action."),
                     }));
         }
+
+        [Test]
+        public void TestAndroidCritical()
+        {
+            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.TheTarget.GrantsCombatAdvantage(To.You, Until.EndOfEncounter);
+            Assert.That(expression, Is.Not.Null);
+            Assert.That(expression.Components.Count(), Is.EqualTo(2));
+
+            // Test the first component
+            Assert.That(expression.Components[0], Is.Not.Null);
+            Assert.That(expression.Components[0].Target, Is.Not.Null);
+            Assert.That(expression.Components[0].Target.TargetType, Is.EqualTo(TargetType.TheTarget));
+            Assert.That(expression.Components[0].Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(expression.Components[0].Target.Expression, Is.SameAs(expression));
+            Assert.That(expression.Components[0], Is.TypeOf<DiceDamageEffect>());
+            Assert.That(((DiceDamageEffect)expression.Components[0]).Dice, Is.EqualTo(1.D10()));
+
+            // Test the second component
+            Assert.That(expression.Components[1], Is.Not.Null);
+            Assert.That(expression.Components[1], Is.TypeOf<GrantCombatAdvantageEffect>());
+            GrantCombatAdvantageEffect effectComponent = (GrantCombatAdvantageEffect)expression.Components[1];
+            Assert.That(effectComponent.Target, Is.Not.Null);
+            Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.TheTarget));
+            Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(effectComponent.Target.Expression, Is.SameAs(expression));
+            Assert.That(effectComponent.To, Is.EqualTo(To.You));
+            Assert.That(effectComponent.Until, Is.EqualTo(Until.EndOfEncounter));
+
+            Assert.That(expression.ToString(Level01Characters.Keravnos),
+                Is.EqualTo("The target suffers 1d10 damage and grants combat advantage to you until the end of the encounter."));
+
+            Assert.That(new EffectParser().Parse(Level01Characters.Keravnos, expression),
+                Is.EquivalentTo(new[]
+                    {
+                        new EffectSpan("The target suffers 1d10 damage and grants combat advantage to you until the end of the encounter."),
+                    }));
+        }
+
+        [Test]
+        public void TestCockroachCritical()
+        {
+            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.You.GainsBonus(Your.AC, 4, Until.EndOfYourNextTurn);
+            Assert.That(expression, Is.Not.Null);
+            Assert.That(expression.Components.Count(), Is.EqualTo(2));
+
+            // Test the first component
+            Assert.That(expression.Components[0], Is.Not.Null);
+            Assert.That(expression.Components[0].Target, Is.Not.Null);
+            Assert.That(expression.Components[0].Target.TargetType, Is.EqualTo(TargetType.TheTarget));
+            Assert.That(expression.Components[0].Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(expression.Components[0].Target.Expression, Is.SameAs(expression));
+            Assert.That(expression.Components[0], Is.TypeOf<DiceDamageEffect>());
+            Assert.That(((DiceDamageEffect)expression.Components[0]).Dice, Is.EqualTo(1.D10()));
+
+            // Test the second component
+            Assert.That(expression.Components[1], Is.Not.Null);
+            Assert.That(expression.Components[1], Is.TypeOf<GainBonusEffect>());
+            GainBonusEffect effectComponent = (GainBonusEffect)expression.Components[1];
+            Assert.That(effectComponent.Target, Is.Not.Null);
+            Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.You));
+            Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(effectComponent.Target.Expression, Is.SameAs(expression));
+            Assert.That(effectComponent.Score, Is.EqualTo(Your.AC));
+            Assert.That(effectComponent.Bonus, Is.EqualTo(new ConstantValue(4)));
+            Assert.That(effectComponent.Until, Is.EqualTo(Until.EndOfYourNextTurn));
+
+            Assert.That(expression.ToString(Level01Characters.Keravnos),
+                Is.EqualTo("The target suffers 1d10 damage and you gain a +4 bonus to ArmorClass until the end of your next turn."));
+
+            Assert.That(new EffectParser().Parse(Level01Characters.Keravnos, expression),
+                Is.EquivalentTo(new[]
+                    {
+                        new EffectSpan("The target suffers 1d10 damage and you gain a +4 bonus to ArmorClass until the end of your next turn."),
+                    }));
+        }
+
 
         /// <summary>
         /// 
@@ -126,13 +203,13 @@ namespace GammaWorldCharacter.Test.Unit.Powers
             /// </summary>
             public void TestFluent()
             {
-                //Effect.Creature.Damage(1.D10()).And.SameTarget.GrantsCombatAdvantage(Until.EncounterEnd); // Android critical
-                //Effect.Creature.Damage(1.D10()).And.You.GainBonus(Score(ScoreType.AC), 4, Until.EndOfNextTurn); // Cockroach critical
-                Effect.Creature.Damage(1.D10()).And.You.CanUsePower<DoubleTrouble>(ActionType.Free); // DoppelGanger critical
-                //Effect.Creature.Damage(1.D10()).And.Ally(Where.WithinSquares(5, Of.Target).GainsBonus(ScoreType.TemporaryHitPoints, 10)); // Electrokinetic critical
+                Effect.Creature.SuffersDamage(1.D10()).And.TheTarget.GrantsCombatAdvantage(To.You, Until.EndOfEncounter); // Android critical
+                Effect.Creature.SuffersDamage(1.D10()).And.You.GainsBonus(Your.AC, 4, Until.EndOfYourNextTurn); // Cockroach critical
+                Effect.Creature.SuffersDamage(1.D10()).And.You.CanUsePower<DoubleTrouble>(ActionType.Free); // DoppelGanger critical
+                // Effect.Creature.Damage(1.D10()).And.Ally(Where.WithinSquares(5, Of.Target).GainsBonus(ScoreType.TemporaryHitPoints, 10)); // Electrokinetic critical
                 Effect.Ally(Where.WithinSquares(5, Of.Target)).GainsTemporaryHitPoints(Your.Level.Times(2)); // Empath critical
                 //Effect.Creature.Damage(1.D10()).And.You.Shift(3, ActionType.Free); // Felinoid critical
-                Effect.Creature.Damage(1.D10()).And.SameTarget.Pushed(3); // Giant critical
+                Effect.Creature.SuffersDamage(1.D10()).And.TheTarget.Pushed(3); // Giant critical
                 //Effect.Creature.Damage(1.D10()).And.Creature(Where.WithinSquares(2, Of.Target)).Immobilized(Until.EndOfNextTurn); // Gravity Controller critical
                 //Effect.Creature.Damage(1.D10()).And.You.CanFly(Score(ScoreType.Speed), ActionType.Free); // Hawkoid critical
                 //Effect.Creature.Damage(1.D10()).And.YouOrAlly(Where.WithinSquares(5, Of.You)).GainsBonusToAllDefenses(2, Until.EndOfNextTurn); // Hypercognitive critical

@@ -8,7 +8,7 @@ namespace GammaWorldCharacter.Powers.Effects
     /// <summary>
     /// Use a constant with <see cref="ICharacterScoreValue"/>.
     /// </summary>
-    public class ConstantValue: ICharacterScoreValue
+    public class ConstantValue: ICharacterScoreValue, IEquatable<ConstantValue>
     {
         /// <summary>
         /// Create a new <see cref="ConstantValue"/>.
@@ -42,6 +42,40 @@ namespace GammaWorldCharacter.Powers.Effects
         {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(ConstantValue other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Value == other.Value;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((ConstantValue) obj);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return Value;
         }
     }
 }
