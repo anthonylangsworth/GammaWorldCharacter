@@ -129,6 +129,9 @@ namespace GammaWorldCharacter.Powers.Effects
         /// <param name="target">
         /// The <see cref="Target"/> this effect component acts on. This cannt be null.
         /// </param>
+        /// <param name="powerType">
+        /// The <see cref="Type"/> of <see cref="Power"/> that can be used.
+        /// </param>
         /// <param name="actionType">
         /// The <see cref="ActionType"/> the power can be used as, usually free.
         /// </param>
@@ -136,17 +139,16 @@ namespace GammaWorldCharacter.Powers.Effects
         /// The current <see cref="EffectExpression"/>.
         /// </returns>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="target"/> cannot be null.
+        /// Neither <paramref name="target"/> nor <paramref name="powerType"/> can be null.
         /// </exception>
-        public static EffectExpression CanUsePower<TPower>(this Target target, ActionType actionType)
-            where TPower: Power, new()
+        public static EffectExpression CanUsePower(this Target target, Type powerType, ActionType actionType)
         {
             if (target == null)
             {
                 throw new ArgumentNullException("target");
             }
 
-            target.Expression.Components.Add(new UsePowerEffect<TPower>(target, actionType));
+            target.Expression.Components.Add(new UsePowerEffect(target, powerType, actionType));
             return target.Expression;
         }
     }

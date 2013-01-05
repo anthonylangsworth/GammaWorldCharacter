@@ -160,12 +160,13 @@ namespace GammaWorldCharacter.Powers.Effects
                     ((TemporaryHitPointsEffect) component).TemporaryHitPoints
                         .GetValue(character))));
             }
-            //else if (component is UsePowerEffect<T>)
-            //{
-            //    addSpan(new EffectSpan(string.Format("regains {0} hit points",
-            //        ((TemporaryHitPointsEffect)component).TemporaryHitPoints
-            //            .GetValue(character))));
-            //}
+            else if (component is UsePowerEffect)
+            {
+                addSpan(new EffectSpan("can use the power"));
+                addSpan(new EffectSpan(((UsePowerEffect)component).PowerName, EffectSpanType.Power));
+                addSpan(new EffectSpan(string.Format("as a {0} action",
+                    ((UsePowerEffect)component).ActionType.ToString().ToLower())));
+            }
             else
             {
                 throw new ArgumentException(string.Format("Unknown effect component type '{0}'",
