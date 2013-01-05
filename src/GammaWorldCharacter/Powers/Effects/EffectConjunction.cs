@@ -85,11 +85,11 @@ namespace GammaWorldCharacter.Powers.Effects
         /// <summary>
         /// The same target as the previous <see cref="EffectConjunction"/>.
         /// </summary>
-        public Target SameTarget
+        public Target TheTarget
         {
             get
             {
-                return new Target(Expression, TargetType.SameTarget, Where.Unspecified);
+                return new Target(Expression, TargetType.TheTarget, Where.Unspecified);
             }
         }
     }

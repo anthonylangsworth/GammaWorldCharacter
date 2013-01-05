@@ -11,7 +11,7 @@ namespace GammaWorldCharacter.Powers.Effects
     /// <remarks>
     /// Might need a better name.
     /// </remarks>
-    public class CharacterScore: ICharacterScoreValue
+    public class CharacterScore: ICharacterScoreValue, IEquatable<CharacterScore>
     {
         /// <summary>
         /// Create a new <see cref="CharacterScore"/>.
@@ -51,6 +51,40 @@ namespace GammaWorldCharacter.Powers.Effects
             }
 
             return character[ScoreType].Total;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(CharacterScore other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return ScoreType == other.ScoreType;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((CharacterScore) obj);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return (int) ScoreType;
         }
     }
 }

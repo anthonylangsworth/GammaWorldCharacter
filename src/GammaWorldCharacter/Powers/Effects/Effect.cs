@@ -89,5 +89,16 @@ namespace GammaWorldCharacter.Powers.Effects
         {
             return new Target(new EffectExpression(), TargetType.Enemy, where);
         }
+
+        /// <summary>
+        /// The target specified elsewhere.
+        /// </summary>
+        public static Target TheTarget
+        {
+            get
+            {
+                return new Target(new EffectExpression(), TargetType.TheTarget, null);
+            }
+        }
     }
 }

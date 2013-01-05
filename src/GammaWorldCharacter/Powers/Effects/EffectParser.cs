@@ -57,12 +57,14 @@ namespace GammaWorldCharacter.Powers.Effects
 
             List<List<EffectSpan>> effectSpans;
             List<EffectSpan> phrase;
+            bool firstComponent;
 
+            firstComponent = true;
             effectSpans = new List<List<EffectSpan>>();
             foreach (EffectComponent component in expression.Components)
             {
                 phrase = new List<EffectSpan>();
-                ParseEffectComponent(character, component, x => 
+                ParseEffectComponent(character, component, firstComponent, x => 
                 {
                     if (phrase.Any())
                     {
@@ -74,6 +76,7 @@ namespace GammaWorldCharacter.Powers.Effects
                     }
                 } );
                 effectSpans.Add(phrase);
+                firstComponent = false;
             }
 
             // TODO: Add conjunctions like And
@@ -94,11 +97,12 @@ namespace GammaWorldCharacter.Powers.Effects
         /// </summary>
         /// <param name="character"></param>
         /// <param name="component"></param>
+        /// <param name="firstComponent"></param>
         /// <param name="addSpan"></param>
         /// <exception cref="ArgumentNullException">
         /// Neither <paramref name="character"/> nor <paramref name="component"/> can be null.
         /// </exception>
-        private void ParseEffectComponent(Character character, EffectComponent component, Action<EffectSpan> addSpan)
+        private void ParseEffectComponent(Character character, EffectComponent component, bool firstComponent, Action<EffectSpan> addSpan)
         {
             if (character == null)
             {
@@ -113,7 +117,7 @@ namespace GammaWorldCharacter.Powers.Effects
                 throw new ArgumentNullException("addSpan");
             }
 
-            ParseTarget(component.Target, addSpan);
+            ParseTarget(component.Target, firstComponent, addSpan);
             ParseComponent(character, component, addSpan);
         }
 
@@ -152,9 +156,10 @@ namespace GammaWorldCharacter.Powers.Effects
         /// 
         /// </summary>
         /// <param name="target"></param>
+        /// <param name="firstTarget"></param>
         /// <param name="addSpan"></param>
         /// <returns></returns>
-        private void ParseTarget(Target target, Action<EffectSpan> addSpan)
+        private void ParseTarget(Target target, bool firstTarget, Action<EffectSpan> addSpan)
         {
             if (target == null)
             {
@@ -178,8 +183,12 @@ namespace GammaWorldCharacter.Powers.Effects
                 case TargetType.Enemy:
                     addSpan(new EffectSpan("one enemy"));
                     break;
-                case TargetType.SameTarget:
-                    // Do nothing
+                case TargetType.TheTarget:
+                    if (firstTarget)
+                    {
+                        addSpan(new EffectSpan("the target"));
+                    }
+                    // else do nothing
                     break;
                 case TargetType.You:
                     addSpan(new EffectSpan("you"));

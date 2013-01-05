@@ -13,11 +13,22 @@ namespace GammaWorldCharacter.Powers.Effects
         /// <summary>
         /// The character's level.
         /// </summary>
-        public static ICharacterScoreValue Level
+        public static CharacterScore Level
         {
             get
             {
                 return new CharacterScore(ScoreType.Level);
+            }
+        }
+
+        /// <summary>
+        /// The character's Armor Class (AC).
+        /// </summary>
+        public static CharacterScore AC
+        {
+            get
+            {
+                return new CharacterScore(ScoreType.ArmorClass);
             }
         }
     }

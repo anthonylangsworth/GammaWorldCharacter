@@ -31,8 +31,9 @@ namespace GammaWorldCharacter.Powers.Effects
         /// </summary>
         Enemy,
         /// <summary>
-        /// The same target as a previous <see cref="EffectComponent"/>.
+        /// The same target as a previous <see cref="EffectComponent"/>
+        /// or a target specified elsewhere.
         /// </summary>
-        SameTarget
+        TheTarget
     }
 }
