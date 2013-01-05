@@ -37,7 +37,7 @@ namespace GammaWorldCharacter.Powers.Effects
         }
 
         /// <summary>
-        /// 
+        /// A creature.
         /// </summary>
         public Target Creature
         {
@@ -48,18 +48,18 @@ namespace GammaWorldCharacter.Powers.Effects
         }
 
         /// <summary>
-        /// 
+        /// The power originator.
         /// </summary>
         public Target You
         {
             get
             {
-                return new Target(Expression, TargetType.Creature, Where.Unspecified);
+                return new Target(Expression, TargetType.You, Where.Unspecified);
             }
         }
 
         /// <summary>
-        /// 
+        /// A friendly creature.
         /// </summary>
         public Target Ally(Where where)
         {
@@ -67,7 +67,7 @@ namespace GammaWorldCharacter.Powers.Effects
         }
 
         /// <summary>
-        /// 
+        /// Either the power originator or a friendly creature.
         /// </summary>
         public Target YouOrAlly(Where where)
         {
@@ -75,7 +75,7 @@ namespace GammaWorldCharacter.Powers.Effects
         }
 
         /// <summary>
-        /// 
+        /// An unfriendly creature.
         /// </summary>
         public Target Enemy(Where where)
         {
@@ -83,7 +83,7 @@ namespace GammaWorldCharacter.Powers.Effects
         }
  
         /// <summary>
-        /// 
+        /// The same target as the previous <see cref="EffectConjunction"/>.
         /// </summary>
         public Target SameTarget
         {
