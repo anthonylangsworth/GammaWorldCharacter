@@ -82,7 +82,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestDoppelgangerCritical()
         {
-            EffectExpression expression = Effect.Creature.Damage(1.D10()).And.You.CanUsePower(typeof(DoubleTrouble), ActionType.Free);
+            EffectExpression expression = Effect.Creature.Damage(1.D10()).And.You.CanUsePower<DoubleTrouble>(ActionType.Free);
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
@@ -97,8 +97,8 @@ namespace GammaWorldCharacter.Test.Unit.Powers
 
             // Test the second component
             Assert.That(expression.Components[1], Is.Not.Null);
-            Assert.That(expression.Components[1], Is.TypeOf<UsePowerEffect>());
-            UsePowerEffect effectComponent = (UsePowerEffect)expression.Components[1];
+            Assert.That(expression.Components[1], Is.TypeOf < UsePowerEffect<DoubleTrouble>>());
+            UsePowerEffect<DoubleTrouble> effectComponent = (UsePowerEffect<DoubleTrouble>)expression.Components[1];
             Assert.That(effectComponent.Target, Is.Not.Null);
             Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.You));
             Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.Unspecified));
@@ -114,9 +114,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
                         new EffectSpan("Double Trouble", EffectSpanType.Power),
                         new EffectSpan(" as a free action."),
                     }));
-
         }
-
 
         /// <summary>
         /// 
@@ -130,7 +128,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
             {
                 //Effect.Creature.Damage(1.D10()).And.SameTarget.GrantsCombatAdvantage(Until.EncounterEnd); // Android critical
                 //Effect.Creature.Damage(1.D10()).And.You.GainBonus(Score(ScoreType.AC), 4, Until.EndOfNextTurn); // Cockroach critical
-                Effect.Creature.Damage(1.D10()).And.You.CanUsePower(typeof(DoubleTrouble), ActionType.Free); // DoppelGanger critical
+                Effect.Creature.Damage(1.D10()).And.You.CanUsePower<DoubleTrouble>(ActionType.Free); // DoppelGanger critical
                 //Effect.Creature.Damage(1.D10()).And.Ally(Where.WithinSquares(5, Of.Target).GainsBonus(ScoreType.TemporaryHitPoints, 10)); // Electrokinetic critical
                 Effect.Ally(Where.WithinSquares(5, Of.Target)).GainsTemporaryHitPoints(Your.Level.Times(2)); // Empath critical
                 //Effect.Creature.Damage(1.D10()).And.You.Shift(3, ActionType.Free); // Felinoid critical

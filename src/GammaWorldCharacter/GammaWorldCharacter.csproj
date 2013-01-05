@@ -112,6 +112,7 @@
     <Compile Include="Powers\Effects\EffectSpan.cs" />
     <Compile Include="Powers\Effects\EffectSpanType.cs" />
     <Compile Include="Powers\Effects\ICharacterScoreValue.cs" />
+    <Compile Include="Powers\Effects\IEffectParsable.cs" />
     <Compile Include="Powers\Effects\Of.cs" />
     <Compile Include="Powers\Effects\Target.cs" />
     <Compile Include="Powers\Effects\TargetType.cs" />

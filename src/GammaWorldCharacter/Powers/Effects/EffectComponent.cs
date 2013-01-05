@@ -9,7 +9,7 @@ namespace GammaWorldCharacter.Powers.Effects
     /// The part of an effect that damages, buffs, debuffs, heals, applies a condition or
     /// otherwise effects the target(s) of the power.
     /// </summary>
-    public abstract class EffectComponent
+    public abstract class EffectComponent: IEffectParsable
     {
         /// <summary>
         /// Create a new <see cref="EffectComponent"/>.
@@ -105,5 +105,21 @@ namespace GammaWorldCharacter.Powers.Effects
                 return null;
             }
         }
+
+        /// <summary>
+        /// Return <see cref="EffectSpan"/>s representing a human 
+        /// readable display.
+        /// </summary>
+        /// <param name="character">
+        /// The <see cref="Character"/> to base the representation from.
+        /// This cannot be null.
+        /// </param>
+        /// <returns>
+        /// <see cref="EffectSpan"/>s representing this component.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="character"/> cannot be null.
+        /// </exception>
+        public abstract IEnumerable<EffectSpan> Parse(Character character);
     }
 }

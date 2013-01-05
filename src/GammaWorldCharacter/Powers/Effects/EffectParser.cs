@@ -142,35 +142,9 @@ namespace GammaWorldCharacter.Powers.Effects
                 throw new ArgumentNullException("addSpan");
             }
 
-            // TODO: Move these into separate classes or functions
-
-            if (component is DiceDamageEffect)
+            foreach (EffectSpan effectSpan in component.Parse(character))
             {
-                addSpan(new EffectSpan(string.Format("suffers {0} damage",
-                    ((DiceDamageEffect) component).Dice)));
-            }
-            else if (component is PushEffect)
-            {
-                addSpan(new EffectSpan(string.Format("you push the target {0} squares",
-                    ((PushEffect) component).Squares)));
-            }
-            else if (component is TemporaryHitPointsEffect)
-            {
-                addSpan(new EffectSpan(string.Format("regains {0} hit points",
-                    ((TemporaryHitPointsEffect) component).TemporaryHitPoints
-                        .GetValue(character))));
-            }
-            else if (component is UsePowerEffect)
-            {
-                addSpan(new EffectSpan("can use the power"));
-                addSpan(new EffectSpan(((UsePowerEffect)component).PowerName, EffectSpanType.Power));
-                addSpan(new EffectSpan(string.Format("as a {0} action",
-                    ((UsePowerEffect)component).ActionType.ToString().ToLower())));
-            }
-            else
-            {
-                throw new ArgumentException(string.Format("Unknown effect component type '{0}'",
-                    component.GetType()), "component");
+                addSpan(effectSpan);
             }
         }
 
