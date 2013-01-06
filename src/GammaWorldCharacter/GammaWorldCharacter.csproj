@@ -102,7 +102,7 @@
     <Compile Include="Powers\Effects\Effect.cs" />
     <Compile Include="Powers\Effects\EffectComponent.cs" />
     <Compile Include="Powers\Effects\EffectComponents\FlyEffect.cs" />
-    <Compile Include="Powers\Effects\EffectComponents\GainBonusEffect.cs" />
+    <Compile Include="Powers\Effects\EffectComponents\GainModifierEffect.cs" />
     <Compile Include="Powers\Effects\EffectComponents\GrantCombatAdvantageEffect.cs" />
     <Compile Include="Powers\Effects\EffectComponents\HealHitPointsEffect.cs" />
     <Compile Include="Powers\Effects\EffectComponents\ConditionEffect.cs" />
