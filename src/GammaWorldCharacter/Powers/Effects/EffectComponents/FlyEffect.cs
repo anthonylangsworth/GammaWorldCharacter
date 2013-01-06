@@ -6,51 +6,56 @@ using System.Text;
 namespace GammaWorldCharacter.Powers.Effects.EffectComponents
 {
     /// <summary>
-    /// Grant combat advantage.
+    /// The target can fly.
     /// </summary>
-    public class GrantCombatAdvantageEffect: EffectComponent
+    public class FlyEffect: EffectComponent
     {
         /// <summary>
-        /// Create a new <see cref="PushEffect"/>.
+        /// Create a new <see cref="FlyEffect"/>.
         /// </summary>
         /// <param name="target">
-        /// The <see cref="Target"/> this effect component acts on. This
-        /// cannot be null.
+        /// The <see cref="Target"/> that can fly.
         /// </param>
-        /// <param name="to">
-        /// Who combat advantage is granted to.
+        /// <param name="squares">
+        /// How far they can fly.
         /// </param>
-        /// <param name="until">
-        /// When the effect will end.
+        /// <param name="actionType">
+        /// The action used to fly, usually ActionType.Free.
         /// </param>
         /// <exception cref="ArgumentNullException">
         /// No argument can be null.
-        /// </exception>        
-        public GrantCombatAdvantageEffect(Target target, To to, Until until)
+        /// </exception>
+        public FlyEffect(Target target, ICharacterScoreValue squares, ActionType actionType)
             : base(target)
         {
-            this.To = to;
-            this.Until = until;
+            if (squares == null)
+            {
+                throw new ArgumentNullException("squares");
+            }
+
+            this.Squares = squares;
+            this.ActionType = actionType;
         }
 
         /// <summary>
-        /// When the target ceases granting combat advantage.
+        /// The number of squares the target can fly.
         /// </summary>
-        public Until Until
+        public ICharacterScoreValue Squares
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// Who combat advantage applies to.
+        /// The action used to fly, usually ActionType.Free.
         /// </summary>
-        public To To
+        public ActionType ActionType
         {
             get;
             private set;
         }
 
+        
         /// <summary>
         /// Return <see cref="EffectSpan"/>s representing a human 
         /// readable display.
@@ -67,8 +72,14 @@ namespace GammaWorldCharacter.Powers.Effects.EffectComponents
         /// </exception>
         public override IEnumerable<EffectSpan> Parse(Character character)
         {
-            yield return new EffectSpan(string.Format("grants combat advantage to {0} {1}",
-                To.ToString().ToLower(), UntilHelper.ToString(Until)));
+            if (character == null)
+            {
+                throw new ArgumentNullException("character");
+            }
+
+            yield return new EffectSpan(string.Format("can fly {0} squares as a {1} action",
+                Squares.GetValue(character), ActionType.ToString().ToLower()));
+
         }
     }
 }

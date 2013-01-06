@@ -31,5 +31,16 @@ namespace GammaWorldCharacter.Powers.Effects
                 return new CharacterScore(ScoreType.ArmorClass);
             }
         }
+
+        /// <summary>
+        /// The character's speed.
+        /// </summary>
+        public static CharacterScore Speed
+        {
+            get
+            {
+                return new CharacterScore(ScoreType.Speed);
+            }
+        }
     }
 }

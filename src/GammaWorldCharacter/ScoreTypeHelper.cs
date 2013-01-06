@@ -187,5 +187,149 @@ namespace GammaWorldCharacter
                 };
             }
         }
+
+        /// <summary>
+        /// Convert the given <paramref name="scoreType"/> to a 
+        /// human readable string.
+        /// </summary>
+        /// <param name="scoreType">
+        /// </param>
+        /// <returns></returns>
+        public static string ToString(ScoreType scoreType)
+        {
+            string result = string.Empty;
+            switch (scoreType)
+            {
+                case ScoreType.Strength:
+                    result = "Strength";
+				    break;
+                case ScoreType.Constitution:
+                    result = "Constitution";
+				    break;
+                case ScoreType.Dexterity:
+                    result = "Dexterity";
+				    break;
+                case ScoreType.Intelligence:
+                    result = "Intelligence";
+				    break;
+                case ScoreType.Wisdom:
+                    result = "Wisdom";
+				    break;
+                case ScoreType.Charisma:
+                    result = "Charisma";
+				    break;
+                case ScoreType.Initiative:
+                    result = "Initiative";
+				    break;
+                case ScoreType.HitPoints:
+                    result = "Hit Points";
+				    break;
+                case ScoreType.Bloodied:
+                    result = "Bloodied";
+				    break;
+                case ScoreType.ArmorClass:
+                    result = "Armor Class";
+				    break;
+                case ScoreType.Fortitude:
+                    result = "Fortitude";
+				    break;
+                case ScoreType.Reflex:
+                    result = "Reflex";
+				    break;
+                case ScoreType.Will:
+                    result = "Will";
+				    break;
+                case ScoreType.Speed:
+                    result = "Speed";
+				    break;
+                case ScoreType.Fly:
+                    result = "Fly";
+				    break;
+                case ScoreType.Climb:
+                    result = "Climb";
+				    break;
+                case ScoreType.Swim:
+                    result = "Swim";
+				    break;
+                case ScoreType.SavingThrows:
+                    result = "Saving Throws";
+				    break;
+                case ScoreType.Acrobatics:
+                    result = "Acrobatics";
+				    break;
+                case ScoreType.Athletics:
+                    result = "Athletics";
+				    break;
+                case ScoreType.Conspiracy:
+                    result = "Conspiracy";
+				    break;
+                case ScoreType.Insight:
+                    result = "Insight";
+				    break;
+                case ScoreType.Interaction:
+                    result = "Interaction";
+				    break;
+                case ScoreType.Mechanics:
+                    result = "Mechanics";
+				    break;
+                case ScoreType.Nature:
+                    result = "Nature";
+				    break;
+                case ScoreType.Perception:
+                    result = "Perception";
+				    break;
+                case ScoreType.Science:
+                    result = "Science";
+				    break;
+                case ScoreType.Stealth:
+                    result = "Stealth";
+				    break;
+                case ScoreType.Level:
+                    result = "Level";
+				    break;
+                case ScoreType.OpportunityAttackAttackBonus:
+                    result = "Opportunity Attack Attack Bonus";
+				    break;
+                case ScoreType.OpportunityAttackArmorClassBonus:
+                    result = "Opportunity Attack Armor Class Bonus";
+				    break;
+                case ScoreType.StrengthCheck:
+                    result = "Strength Check";
+				    break;
+                case ScoreType.ConstitutionCheck:
+                    result = "Constitution Check";
+				    break;
+                case ScoreType.DexterityCheck:
+                    result = "Dexterity Check";
+				    break;
+                case ScoreType.IntelligenceCheck:
+                    result = "Intelligence Check";
+				    break;
+                case ScoreType.WisdomCheck:
+                    result = "Wisdom Check";
+				    break;
+                case ScoreType.CharismaCheck:
+                    result = "Charisma Check";
+				    break;
+                case ScoreType.FireResistance:
+                    result = "Fire Resistance";
+				    break;
+                case ScoreType.ElectricityResistance:
+                    result = "Electricity Resistance";
+				    break;
+                case ScoreType.ColdResistance:
+                    result = "Cold Resistance";
+				    break;
+                case ScoreType.PhysicalResistance:
+                    result = "Physical Resistance";
+				    break;
+                case ScoreType.FireVulnerability:
+                    result = "Fire Vulnerability";
+                    break;
+                default:
+                    throw new ArgumentException("Unknown ScoreType", "scoreType");
+            }
+            return result;
+        }
     }
 }

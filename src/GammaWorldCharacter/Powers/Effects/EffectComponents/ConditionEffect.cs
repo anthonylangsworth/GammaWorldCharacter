@@ -6,46 +6,45 @@ using System.Text;
 namespace GammaWorldCharacter.Powers.Effects.EffectComponents
 {
     /// <summary>
-    /// Grant combat advantage.
+    /// Impose a <see cref="Condition"/> like immobilized or stunned (see condition descriptions on GW85).
     /// </summary>
-    public class GrantCombatAdvantageEffect: EffectComponent
+    public class ConditionEffect: EffectComponent
     {
         /// <summary>
-        /// Create a new <see cref="PushEffect"/>.
+        /// Create a new <see cref="ConditionEffect"/>.
         /// </summary>
         /// <param name="target">
-        /// The <see cref="Target"/> this effect component acts on. This
-        /// cannot be null.
+        /// The <see cref="Target"/> that is immobilized.
         /// </param>
-        /// <param name="to">
-        /// Who combat advantage is granted to.
+        /// <param name="condition">
+        /// The <see cref="Condition"/> imposed on the target.
         /// </param>
         /// <param name="until">
-        /// When the effect will end.
+        /// Then the immoblization ceases.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        /// No argument can be null.
-        /// </exception>        
-        public GrantCombatAdvantageEffect(Target target, To to, Until until)
+        /// <paramref name="target"/> cannot be null.
+        /// </exception>
+        public ConditionEffect(Target target, Condition condition, Until until)
             : base(target)
         {
-            this.To = to;
+            this.Condition = condition;
             this.Until = until;
         }
 
         /// <summary>
-        /// When the target ceases granting combat advantage.
+        /// The condition imposed.
         /// </summary>
-        public Until Until
+        public Condition Condition
         {
             get;
-            private set;
+            set;
         }
 
         /// <summary>
-        /// Who combat advantage applies to.
+        /// When the immobilization ceases.
         /// </summary>
-        public To To
+        public Until Until
         {
             get;
             private set;
@@ -67,8 +66,13 @@ namespace GammaWorldCharacter.Powers.Effects.EffectComponents
         /// </exception>
         public override IEnumerable<EffectSpan> Parse(Character character)
         {
-            yield return new EffectSpan(string.Format("grants combat advantage to {0} {1}",
-                To.ToString().ToLower(), UntilHelper.ToString(Until)));
+            if (character == null)
+            {
+                throw new ArgumentNullException("character");
+            }
+            
+            yield return new EffectSpan(string.Format("is {0} {1}",
+                Condition.ToString().ToLower(), UntilHelper.ToString(Until)));
         }
     }
 }

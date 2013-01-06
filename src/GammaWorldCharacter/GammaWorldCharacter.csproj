@@ -97,11 +97,16 @@
     <Compile Include="Origins\Hypercognitive.cs" />
     <Compile Include="Origins\Origin.cs" />
     <Compile Include="Powers\Effects\CharacterScore.cs" />
+    <Compile Include="Powers\Effects\Condition.cs" />
     <Compile Include="Powers\Effects\ConstantValue.cs" />
     <Compile Include="Powers\Effects\Effect.cs" />
     <Compile Include="Powers\Effects\EffectComponent.cs" />
+    <Compile Include="Powers\Effects\EffectComponents\FlyEffect.cs" />
     <Compile Include="Powers\Effects\EffectComponents\GainBonusEffect.cs" />
     <Compile Include="Powers\Effects\EffectComponents\GrantCombatAdvantageEffect.cs" />
+    <Compile Include="Powers\Effects\EffectComponents\HealHitPointsEffect.cs" />
+    <Compile Include="Powers\Effects\EffectComponents\ConditionEffect.cs" />
+    <Compile Include="Powers\Effects\EffectComponents\ShiftEffect.cs" />
     <Compile Include="Powers\Effects\EffectComponents\UsePowerEffect.cs" />
     <Compile Include="Powers\Effects\EffectComponents\DiceDamageEffect.cs" />
     <Compile Include="Powers\Effects\EffectComponents\PushEffect.cs" />
@@ -116,6 +121,7 @@
     <Compile Include="Powers\Effects\ICharacterScoreValue.cs" />
     <Compile Include="Powers\Effects\IEffectParsable.cs" />
     <Compile Include="Powers\Effects\Of.cs" />
+    <Compile Include="Powers\Effects\OfHelper.cs" />
     <Compile Include="Powers\Effects\Target.cs" />
     <Compile Include="Powers\Effects\TargetType.cs" />
     <Compile Include="Powers\Effects\Times.cs" />

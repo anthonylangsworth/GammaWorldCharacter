@@ -6,34 +6,30 @@ using System.Text;
 namespace GammaWorldCharacter.Powers.Effects.EffectComponents
 {
     /// <summary>
-    /// Gain a bonus.
+    /// Heal the target, i.e. give it hit points.
     /// </summary>
-    public class GainBonusEffect : EffectComponent
+    public class HealHitPointsEffect : EffectComponent
     {
         /// <summary>
-        /// Create a new <see cref="DiceDamageEffect"/>.
+        /// Create a new <see cref="HealHitPointsEffect"/>.
         /// </summary>
         /// <param name="target">
         /// The <see cref="Target"/> this effect component acts on. This
         /// cannot be null.
         /// </param>
-        /// <param name="score">
-        /// The <see cref="CharacterScore"/> that gains the bonus. This
-        /// cannot be null.
-        /// </param>
-        /// <param name="bonus">
-        /// The amount of the bonus.
-        /// </param>
-        /// <param name="until">
-        /// Then the bonus ends.
+        /// <param name="hitPoints">
+        /// The number of hit points healed. This must be positive.
         /// </param>
         /// <exception cref="ArgumentNullException">
         /// No argument can be null.
         /// </exception>
-        public GainBonusEffect(Target target, CharacterScore score, int bonus, Until until)
-            : this(target, score, new ConstantValue(bonus), until )
+        public HealHitPointsEffect(Target target, int hitPoints)
+            : this(target, new ConstantValue(hitPoints))
         {
-            // Do nothing
+            if (hitPoints <= 0)
+            {
+                throw new ArgumentException("hitPoints");
+            }
         }
 
         /// <summary>
@@ -43,58 +39,27 @@ namespace GammaWorldCharacter.Powers.Effects.EffectComponents
         /// The <see cref="Target"/> this effect component acts on. This
         /// cannot be null.
         /// </param>
-        /// <param name="score">
-        /// The <see cref="CharacterScore"/> that gains the bonus. This
-        /// cannot be null.
-        /// </param>
-        /// <param name="bonus">
+        /// <param name="characterScoreValue">
         /// A score that, when calculated, gives the number of hit points gained.
         /// </param>
-        /// <param name="until">
-        /// When the bonus ends.
-        /// </param>
         /// <exception cref="ArgumentNullException">
         /// No argument can be null.
         /// </exception>
-        public GainBonusEffect(Target target, CharacterScore score, ICharacterScoreValue bonus, Until until)
+        public HealHitPointsEffect(Target target, ICharacterScoreValue characterScoreValue)
             : base(target)
         {
-            if (score == null)
+            if (characterScoreValue == null)
             {
-                throw new ArgumentNullException("score");
-            }
-            if (bonus == null)
-            {
-                throw new ArgumentNullException("bonus");
+                throw new ArgumentNullException("characterScoreValue");
             }
 
-            this.Score = score;
-            this.Bonus = bonus;
-            this.Until = until;
+            this.TemporaryHitPoints = characterScoreValue;
         }
 
         /// <summary>
         /// The damage dealt.
         /// </summary>
-        public ICharacterScoreValue Bonus
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// The damage dealt.
-        /// </summary>
-        public CharacterScore Score
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// When the bonus ends.
-        /// </summary>
-        public Until Until
+        public ICharacterScoreValue TemporaryHitPoints
         {
             get;
             private set;
@@ -116,8 +81,8 @@ namespace GammaWorldCharacter.Powers.Effects.EffectComponents
         /// </exception>
         public override IEnumerable<EffectSpan> Parse(Character character)
         {
-            yield return new EffectSpan(string.Format("gain a {0:+0} bonus to {1} {2}",
-                Bonus.GetValue(character), ScoreTypeHelper.ToString(Score.ScoreType), UntilHelper.ToString(Until)));
+            yield return new EffectSpan(string.Format("regains {0} hit points",
+                TemporaryHitPoints.GetValue(character)));
         }
     }
 }

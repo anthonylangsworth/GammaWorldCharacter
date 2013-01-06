@@ -37,7 +37,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
             Assert.That(expression.Components[1].Target.Where, Is.EqualTo(Where.Unspecified));
             Assert.That(expression.Components[1].Target.Expression, Is.SameAs(expression));
             Assert.That(expression.Components[1], Is.TypeOf<PushEffect>());
-            Assert.That(((PushEffect) expression.Components[1]).Squares, Is.EqualTo(3));
+            Assert.That(((PushEffect) expression.Components[1]).Squares, Is.EqualTo(new ConstantValue(3)));
 
             Assert.That(expression.ToString(Level01Characters.Keravnos),
                 Is.EqualTo("The target suffers 1d10 damage and you push the target 3 squares."));
@@ -46,14 +46,14 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestEmpathCritical()
         {
-            EffectExpression expression = Effect.Ally(Where.WithinSquares(5, Of.Target)).GainsTemporaryHitPoints(Your.Level.Times(2));
+            EffectExpression expression = Effect.Ally(Where.WithinSquares(5, Of.Target)).RegainsHitPoints(Your.Level.Times(2));
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(1));
 
             // Test the first component
             Assert.That(expression.Components[0], Is.Not.Null);
-            Assert.That(expression.Components[0], Is.TypeOf<TemporaryHitPointsEffect>());
-            TemporaryHitPointsEffect effectComponent = (TemporaryHitPointsEffect)expression.Components[0];
+            Assert.That(expression.Components[0], Is.TypeOf<HealHitPointsEffect>());
+            HealHitPointsEffect effectComponent = (HealHitPointsEffect)expression.Components[0];
             Assert.That(effectComponent.Target, Is.Not.Null);
             Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.Ally));
             Assert.That(effectComponent.Target.Where, Is.EqualTo(new Where(5, Of.Target)));
@@ -183,37 +183,198 @@ namespace GammaWorldCharacter.Test.Unit.Powers
             Assert.That(effectComponent.Until, Is.EqualTo(Until.EndOfYourNextTurn));
 
             Assert.That(expression.ToString(Level01Characters.Keravnos),
-                Is.EqualTo("The target suffers 1d10 damage and you gain a +4 bonus to ArmorClass until the end of your next turn."));
+                Is.EqualTo("The target suffers 1d10 damage and you gain a +4 bonus to Armor Class until the end of your next turn."));
 
             Assert.That(new EffectParser().Parse(Level01Characters.Keravnos, expression),
                 Is.EquivalentTo(new[]
                     {
-                        new EffectSpan("The target suffers 1d10 damage and you gain a +4 bonus to ArmorClass until the end of your next turn."),
+                        new EffectSpan("The target suffers 1d10 damage and you gain a +4 bonus to Armor Class until the end of your next turn."),
                     }));
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public class Test
+        [Test]
+        public void TestElectrokineticCritical()
         {
-            /// <summary>
-            /// 
-            /// </summary>
-            public void TestFluent()
-            {
-                Effect.Creature.SuffersDamage(1.D10()).And.TheTarget.GrantsCombatAdvantage(To.You, Until.EndOfEncounter); // Android critical
-                Effect.Creature.SuffersDamage(1.D10()).And.You.GainsBonus(Your.AC, 4, Until.EndOfYourNextTurn); // Cockroach critical
-                Effect.Creature.SuffersDamage(1.D10()).And.You.CanUsePower<DoubleTrouble>(ActionType.Free); // DoppelGanger critical
-                // Effect.Creature.Damage(1.D10()).And.Ally(Where.WithinSquares(5, Of.Target).GainsBonus(ScoreType.TemporaryHitPoints, 10)); // Electrokinetic critical
-                Effect.Ally(Where.WithinSquares(5, Of.Target)).GainsTemporaryHitPoints(Your.Level.Times(2)); // Empath critical
-                //Effect.Creature.Damage(1.D10()).And.You.Shift(3, ActionType.Free); // Felinoid critical
-                Effect.Creature.SuffersDamage(1.D10()).And.TheTarget.Pushed(3); // Giant critical
-                //Effect.Creature.Damage(1.D10()).And.Creature(Where.WithinSquares(2, Of.Target)).Immobilized(Until.EndOfNextTurn); // Gravity Controller critical
-                //Effect.Creature.Damage(1.D10()).And.You.CanFly(Score(ScoreType.Speed), ActionType.Free); // Hawkoid critical
-                //Effect.Creature.Damage(1.D10()).And.YouOrAlly(Where.WithinSquares(5, Of.You)).GainsBonusToAllDefenses(2, Until.EndOfNextTurn); // Hypercognitive critical
-            }
+            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.Ally(Where.WithinSquares(5, Of.Target)).GainsTemporaryHitPoints(10);
+            Assert.That(expression, Is.Not.Null);
+            Assert.That(expression.Components.Count(), Is.EqualTo(2));
+
+            // Test the first component
+            Assert.That(expression.Components[0], Is.Not.Null);
+            Assert.That(expression.Components[0].Target, Is.Not.Null);
+            Assert.That(expression.Components[0].Target.TargetType, Is.EqualTo(TargetType.TheTarget));
+            Assert.That(expression.Components[0].Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(expression.Components[0].Target.Expression, Is.SameAs(expression));
+            Assert.That(expression.Components[0], Is.TypeOf<DiceDamageEffect>());
+            Assert.That(((DiceDamageEffect)expression.Components[0]).Dice, Is.EqualTo(1.D10()));
+
+            // Test the second component
+            Assert.That(expression.Components[1], Is.Not.Null);
+            Assert.That(expression.Components[1], Is.TypeOf<TemporaryHitPointsEffect>());
+            TemporaryHitPointsEffect effectComponent = (TemporaryHitPointsEffect)expression.Components[1];
+            Assert.That(effectComponent.Target, Is.Not.Null);
+            Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.Ally));
+            Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.WithinSquares(5, Of.Target)));
+            Assert.That(effectComponent.Target.Expression, Is.SameAs(expression));
+            Assert.That(effectComponent.TemporaryHitPoints, Is.EqualTo(new ConstantValue(10)));
+            Assert.That(effectComponent.TemporaryHitPoints.GetValue(Level01Characters.Keravnos), Is.EqualTo(10));
+
+            Assert.That(expression.ToString(Level01Characters.Keravnos),
+                Is.EqualTo("The target suffers 1d10 damage and one ally within 5 squares of the target gains 10 temporary hit points."));
+
+            Assert.That(new EffectParser().Parse(Level01Characters.Keravnos, expression),
+                Is.EquivalentTo(new[]
+                    {
+                        new EffectSpan("The target suffers 1d10 damage and one ally within 5 squares of the target gains 10 temporary hit points."),
+                    }));
+        }
+
+        [Test]
+        public void TestFelinoidCritical()
+        {
+            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.You.Shift(3, ActionType.Free);
+            Assert.That(expression, Is.Not.Null);
+            Assert.That(expression.Components.Count(), Is.EqualTo(2));
+
+            // Test the first component
+            Assert.That(expression.Components[0], Is.Not.Null);
+            Assert.That(expression.Components[0].Target, Is.Not.Null);
+            Assert.That(expression.Components[0].Target.TargetType, Is.EqualTo(TargetType.TheTarget));
+            Assert.That(expression.Components[0].Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(expression.Components[0].Target.Expression, Is.SameAs(expression));
+            Assert.That(expression.Components[0], Is.TypeOf<DiceDamageEffect>());
+            Assert.That(((DiceDamageEffect)expression.Components[0]).Dice, Is.EqualTo(1.D10()));
+
+            // Test the second component
+            Assert.That(expression.Components[1], Is.Not.Null);
+            Assert.That(expression.Components[1], Is.TypeOf<ShiftEffect>());
+            ShiftEffect effectComponent = (ShiftEffect)expression.Components[1];
+            Assert.That(effectComponent.Target, Is.Not.Null);
+            Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.You));
+            Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(effectComponent.Target.Expression, Is.SameAs(expression));
+            Assert.That(effectComponent.Squares, Is.EqualTo(new ConstantValue(3)));
+            Assert.That(effectComponent.ActionType, Is.EqualTo(ActionType.Free));
+
+            Assert.That(expression.ToString(Level01Characters.Keravnos),
+                Is.EqualTo("The target suffers 1d10 damage and you can shift 3 squares as a free action."));
+
+            Assert.That(new EffectParser().Parse(Level01Characters.Keravnos, expression),
+                Is.EquivalentTo(new[]
+                    {
+                        new EffectSpan("The target suffers 1d10 damage and you can shift 3 squares as a free action."),
+                    }));
+        }
+
+        [Test]
+        public void TestGravityControllerCritical()
+        {
+            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.Creature(Where.WithinSquares(2, Of.Target)).IsImmobilized(Until.EndOfYourNextTurn);
+            Assert.That(expression, Is.Not.Null);
+            Assert.That(expression.Components.Count(), Is.EqualTo(2));
+
+            // Test the first component
+            Assert.That(expression.Components[0], Is.Not.Null);
+            Assert.That(expression.Components[0].Target, Is.Not.Null);
+            Assert.That(expression.Components[0].Target.TargetType, Is.EqualTo(TargetType.TheTarget));
+            Assert.That(expression.Components[0].Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(expression.Components[0].Target.Expression, Is.SameAs(expression));
+            Assert.That(expression.Components[0], Is.TypeOf<DiceDamageEffect>());
+            Assert.That(((DiceDamageEffect)expression.Components[0]).Dice, Is.EqualTo(1.D10()));
+
+            // Test the second component
+            Assert.That(expression.Components[1], Is.Not.Null);
+            Assert.That(expression.Components[1], Is.TypeOf<ConditionEffect>());
+            ConditionEffect effectComponent = (ConditionEffect)expression.Components[1];
+            Assert.That(effectComponent.Target, Is.Not.Null);
+            Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.Creature));
+            Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.WithinSquares(2, Of.Target)));
+            Assert.That(effectComponent.Target.Expression, Is.SameAs(expression));
+            Assert.That(effectComponent.Until, Is.EqualTo(Until.EndOfYourNextTurn));
+
+            Assert.That(expression.ToString(Level01Characters.Keravnos),
+                Is.EqualTo("The target suffers 1d10 damage and one creature within 2 squares of the target is immobilized until the end of your next turn."));
+
+            Assert.That(new EffectParser().Parse(Level01Characters.Keravnos, expression),
+                Is.EquivalentTo(new[]
+                    {
+                        new EffectSpan("The target suffers 1d10 damage and one creature within 2 squares of the target is immobilized until the end of your next turn."),
+                    }));
+        }
+
+        [Test]
+        public void TestHawkoidCritical()
+        {
+            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.You.CanFly(Your.Speed, ActionType.Free);
+            Assert.That(expression, Is.Not.Null);
+            Assert.That(expression.Components.Count(), Is.EqualTo(2));
+
+            // Test the first component
+            Assert.That(expression.Components[0], Is.Not.Null);
+            Assert.That(expression.Components[0].Target, Is.Not.Null);
+            Assert.That(expression.Components[0].Target.TargetType, Is.EqualTo(TargetType.TheTarget));
+            Assert.That(expression.Components[0].Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(expression.Components[0].Target.Expression, Is.SameAs(expression));
+            Assert.That(expression.Components[0], Is.TypeOf<DiceDamageEffect>());
+            Assert.That(((DiceDamageEffect)expression.Components[0]).Dice, Is.EqualTo(1.D10()));
+
+            // Test the second component
+            Assert.That(expression.Components[1], Is.Not.Null);
+            Assert.That(expression.Components[1], Is.TypeOf<FlyEffect>());
+            FlyEffect effectComponent = (FlyEffect)expression.Components[1];
+            Assert.That(effectComponent.Target, Is.Not.Null);
+            Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.You));
+            Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(effectComponent.Target.Expression, Is.SameAs(expression));
+            Assert.That(effectComponent.Squares, Is.EqualTo(Your.Speed));
+            Assert.That(effectComponent.Squares.GetValue(Level01Characters.Hermes), Is.EqualTo(6));
+
+            Assert.That(expression.ToString(Level01Characters.Hermes),
+                Is.EqualTo("The target suffers 1d10 damage and you can fly 6 squares as a free action."));
+
+            Assert.That(new EffectParser().Parse(Level01Characters.Hermes, expression),
+                Is.EquivalentTo(new[]
+                    {
+                        new EffectSpan("The target suffers 1d10 damage and you can fly 6 squares as a free action."),
+                    }));
+        }
+
+        [Test]
+        public void TestHypercognitiveCritical()
+        {
+            EffectExpression expression = null; // Effect.TheTarget.SuffersDamage(1.D10()).And.YouOrAlly(Where.WithinSquares(5, Of.You)).GainsBonusToAllDefenses(2, Until.EndOfYourNextTurn);
+            Assert.That(expression, Is.Not.Null);
+            Assert.That(expression.Components.Count(), Is.EqualTo(2));
+
+            // Test the first component
+            Assert.That(expression.Components[0], Is.Not.Null);
+            Assert.That(expression.Components[0].Target, Is.Not.Null);
+            Assert.That(expression.Components[0].Target.TargetType, Is.EqualTo(TargetType.TheTarget));
+            Assert.That(expression.Components[0].Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(expression.Components[0].Target.Expression, Is.SameAs(expression));
+            Assert.That(expression.Components[0], Is.TypeOf<DiceDamageEffect>());
+            Assert.That(((DiceDamageEffect)expression.Components[0]).Dice, Is.EqualTo(1.D10()));
+
+            // Test the second component
+            Assert.That(expression.Components[1], Is.Not.Null);
+            Assert.That(expression.Components[1], Is.TypeOf<FlyEffect>());
+            FlyEffect effectComponent = (FlyEffect)expression.Components[1];
+            Assert.That(effectComponent.Target, Is.Not.Null);
+            Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.You));
+            Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(effectComponent.Target.Expression, Is.SameAs(expression));
+            Assert.That(effectComponent.Squares, Is.EqualTo(Your.Speed));
+            Assert.That(effectComponent.Squares.GetValue(Level01Characters.Hermes), Is.EqualTo(6));
+
+            Assert.That(expression.ToString(Level01Characters.Hermes),
+                Is.EqualTo("The target suffers 1d10 damage and you or an ally within 5 squares of you gains a +2 bonus to all defenses until the end of your next turn."));
+
+            Assert.That(new EffectParser().Parse(Level01Characters.Hermes, expression),
+                Is.EquivalentTo(new[]
+                    {
+                        new EffectSpan("The target suffers 1d10 damage and you or an ally within 5 squares of you gains a +2 bonus to all defenses until the end of your next turn."),
+                    }));
         }
     }
 }

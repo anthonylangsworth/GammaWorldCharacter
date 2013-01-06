@@ -6,60 +6,76 @@ using System.Text;
 namespace GammaWorldCharacter.Powers.Effects.EffectComponents
 {
     /// <summary>
-    /// Give the target temporary hit points.
+    /// Shift the target (i.e. move it without providing opportunity attacks for moving).
     /// </summary>
-    public class TemporaryHitPointsEffect: EffectComponent
+    public class ShiftEffect : EffectComponent
     {
         /// <summary>
-        /// Create a new <see cref="TemporaryHitPointsEffect"/>.
+        /// Create a new <see cref="ShiftEffect"/>.
         /// </summary>
         /// <param name="target">
         /// The <see cref="Target"/> this effect component acts on. This
         /// cannot be null.
         /// </param>
-        /// <param name="temporaryHitPoints">
-        /// The number of temporary hit points. This must be positive.
+        /// <param name="squares">
+        /// The number of squares the target is pushed.
+        /// </param>
+        /// <param name="actionType">
+        /// The action the target can shift as.
         /// </param>
         /// <exception cref="ArgumentNullException">
         /// No argument can be null.
-        /// </exception>
-        public TemporaryHitPointsEffect(Target target, int temporaryHitPoints)
-            : this(target, new ConstantValue(temporaryHitPoints))
+        /// </exception>        
+        public ShiftEffect(Target target, int squares, ActionType actionType)
+            : this(target, new ConstantValue(squares), actionType)
         {
-            if (temporaryHitPoints <= 0)
+            if (squares <= 0)
             {
-                throw new ArgumentException("temporaryHitPoints");
+                throw new ArgumentException("squares must be positive", "squares");
             }
         }
 
         /// <summary>
-        /// Create a new <see cref="DiceDamageEffect"/>.
+        /// Create a new <see cref="ShiftEffect"/>.
         /// </summary>
         /// <param name="target">
         /// The <see cref="Target"/> this effect component acts on. This
         /// cannot be null.
         /// </param>
-        /// <param name="characterScoreValue">
-        /// A score that, when calculated, gives the number of hit points gained.
+        /// <param name="squares">
+        /// An <see cref="ICharacterScoreValue"/> containing the number of squares moved.
+        /// </param>
+        /// <param name="actionType">
+        /// The action the target can shift as.
         /// </param>
         /// <exception cref="ArgumentNullException">
         /// No argument can be null.
-        /// </exception>
-        public TemporaryHitPointsEffect(Target target, ICharacterScoreValue characterScoreValue)
+        /// </exception>        
+        public ShiftEffect(Target target, ICharacterScoreValue squares, ActionType actionType)
             : base(target)
         {
-            if (characterScoreValue == null)
+            if (squares == null)
             {
-                throw new ArgumentNullException("characterScoreValue");
+                throw new ArgumentNullException("squares");
             }
 
-            this.TemporaryHitPoints = characterScoreValue;
+            this.Squares = squares;
+            this.ActionType = actionType;
         }
 
         /// <summary>
-        /// The damage dealt.
+        /// The number of squares the target is pushed.
         /// </summary>
-        public ICharacterScoreValue TemporaryHitPoints
+        public ICharacterScoreValue Squares
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// The action
+        /// </summary>
+        public ActionType ActionType
         {
             get;
             private set;
@@ -81,8 +97,8 @@ namespace GammaWorldCharacter.Powers.Effects.EffectComponents
         /// </exception>
         public override IEnumerable<EffectSpan> Parse(Character character)
         {
-            yield return new EffectSpan(string.Format("gains {0} temporary hit points",
-                TemporaryHitPoints.GetValue(character)));
+            yield return new EffectSpan(string.Format("can shift {0} squares as a {1} action",
+                Squares.GetValue(character), ActionType.ToString().ToLower()));
         }
     }
 }
