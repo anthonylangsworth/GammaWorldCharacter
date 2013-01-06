@@ -157,7 +157,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestCockroachCritical()
         {
-            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.You.GainsBonus(Your.AC, 4, Until.EndOfYourNextTurn);
+            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.You.GainsModifier(Your.AC, 4, Until.EndOfYourNextTurn);
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
@@ -172,14 +172,15 @@ namespace GammaWorldCharacter.Test.Unit.Powers
 
             // Test the second component
             Assert.That(expression.Components[1], Is.Not.Null);
-            Assert.That(expression.Components[1], Is.TypeOf<GainBonusEffect>());
-            GainBonusEffect effectComponent = (GainBonusEffect)expression.Components[1];
+            Assert.That(expression.Components[1], Is.TypeOf<GainModifierEffect>());
+            GainModifierEffect effectComponent = (GainModifierEffect)expression.Components[1];
             Assert.That(effectComponent.Target, Is.Not.Null);
             Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.You));
             Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.Unspecified));
             Assert.That(effectComponent.Target.Expression, Is.SameAs(expression));
-            Assert.That(effectComponent.Score, Is.EqualTo(Your.AC));
-            Assert.That(effectComponent.Bonus, Is.EqualTo(new ConstantValue(4)));
+            Assert.That(effectComponent.Scores.Count(), Is.EqualTo(1));
+            Assert.That(effectComponent.Scores.First(), Is.EqualTo(Your.AC));
+            Assert.That(effectComponent.Modifier, Is.EqualTo(new ConstantValue(4)));
             Assert.That(effectComponent.Until, Is.EqualTo(Until.EndOfYourNextTurn));
 
             Assert.That(expression.ToString(Level01Characters.Keravnos),
@@ -343,7 +344,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestHypercognitiveCritical()
         {
-            EffectExpression expression = null; // Effect.TheTarget.SuffersDamage(1.D10()).And.YouOrAlly(Where.WithinSquares(5, Of.You)).GainsBonusToAllDefenses(2, Until.EndOfYourNextTurn);
+            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.YouOrAlly(Where.WithinSquares(5, Of.You)).GainsModifiers(Your.Defenses, 2, Until.EndOfYourNextTurn);
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
@@ -358,22 +359,27 @@ namespace GammaWorldCharacter.Test.Unit.Powers
 
             // Test the second component
             Assert.That(expression.Components[1], Is.Not.Null);
-            Assert.That(expression.Components[1], Is.TypeOf<FlyEffect>());
-            FlyEffect effectComponent = (FlyEffect)expression.Components[1];
+            Assert.That(expression.Components[1], Is.TypeOf<GainModifierEffect>());
+            GainModifierEffect effectComponent = (GainModifierEffect)expression.Components[1];
             Assert.That(effectComponent.Target, Is.Not.Null);
-            Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.You));
-            Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.Unspecified));
+            Assert.That(effectComponent.Target.TargetType, Is.EqualTo(TargetType.YouOrAlly));
+            Assert.That(effectComponent.Target.Where, Is.EqualTo(Where.WithinSquares(5, Of.You)));
             Assert.That(effectComponent.Target.Expression, Is.SameAs(expression));
-            Assert.That(effectComponent.Squares, Is.EqualTo(Your.Speed));
-            Assert.That(effectComponent.Squares.GetValue(Level01Characters.Hermes), Is.EqualTo(6));
+            Assert.That(effectComponent.Scores.Count(), Is.EqualTo(4));
+            Assert.That(effectComponent.Scores, Contains.Item(new CharacterScore(ScoreType.Fortitude)));
+            Assert.That(effectComponent.Scores, Contains.Item(new CharacterScore(ScoreType.Reflex)));
+            Assert.That(effectComponent.Scores, Contains.Item(new CharacterScore(ScoreType.Will)));
+            Assert.That(effectComponent.Scores, Contains.Item(new CharacterScore(ScoreType.ArmorClass)));
+            Assert.That(effectComponent.Modifier, Is.EqualTo(new ConstantValue(2)));
+            Assert.That(effectComponent.Until, Is.EqualTo(Until.EndOfYourNextTurn));
 
             Assert.That(expression.ToString(Level01Characters.Hermes),
-                Is.EqualTo("The target suffers 1d10 damage and you or an ally within 5 squares of you gains a +2 bonus to all defenses until the end of your next turn."));
+                Is.EqualTo("The target suffers 1d10 damage and you or one ally within 5 squares of you gains a +2 bonus to all defenses until the end of your next turn."));
 
             Assert.That(new EffectParser().Parse(Level01Characters.Hermes, expression),
                 Is.EquivalentTo(new[]
                     {
-                        new EffectSpan("The target suffers 1d10 damage and you or an ally within 5 squares of you gains a +2 bonus to all defenses until the end of your next turn."),
+                        new EffectSpan("The target suffers 1d10 damage and you or one ally within 5 squares of you gains a +2 bonus to all defenses until the end of your next turn."),
                     }));
         }
     }

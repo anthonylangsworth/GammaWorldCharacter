@@ -238,8 +238,7 @@ namespace GammaWorldCharacter.Powers.Effects
         /// The <see cref="Target"/> this effect component acts on. This cannt be null.
         /// </param>
         /// <param name="score">
-        /// The <see cref="CharacterScore"/> that gains the bonus. This
-        /// cannot be null.
+        /// The <see cref="CharacterScore"/> that gains the bonus. This cannot be null.
         /// </param>
         /// <param name="bonus">
         /// The bonus amount or value.
@@ -253,14 +252,14 @@ namespace GammaWorldCharacter.Powers.Effects
         /// <exception cref="ArgumentNullException">
         /// No argument can be null.
         /// </exception>
-        public static EffectExpression GainsBonus(this Target target, CharacterScore score, int bonus, Until until)
+        public static EffectExpression GainsModifier(this Target target, CharacterScore score, int bonus, Until until)
         {
             if (target == null)
             {
                 throw new ArgumentNullException("target");
             }
 
-            target.Expression.Components.Add(new GainBonusEffect(target, score, bonus, until));
+            target.Expression.Components.Add(new GainModifierEffect(target, score, bonus, until));
             return target.Expression;
         }
 
@@ -271,8 +270,7 @@ namespace GammaWorldCharacter.Powers.Effects
         /// The <see cref="Target"/> this effect component acts on. This cannt be null.
         /// </param>
         /// <param name="score">
-        /// The <see cref="CharacterScore"/> that gains the bonus. This
-        /// cannot be null.
+        /// The <see cref="CharacterScore"/> that gains the bonus. This cannot be null.
         /// </param>
         /// <param name="bonus">
         /// A score that, when calculated, gives the number of hit points gained.
@@ -286,14 +284,75 @@ namespace GammaWorldCharacter.Powers.Effects
         /// <exception cref="ArgumentNullException">
         /// No argument can be null.
         /// </exception>
-        public static EffectExpression GainsBonus(this Target target, CharacterScore score, ICharacterScoreValue bonus, Until until)
+        public static EffectExpression GainsModifier(this Target target, CharacterScore score, ICharacterScoreValue bonus, Until until)
         {
             if (target == null)
             {
                 throw new ArgumentNullException("target");
             }
 
-            target.Expression.Components.Add(new GainBonusEffect(target, score, bonus, until));
+            target.Expression.Components.Add(new GainModifierEffect(target, score, bonus, until));
+            return target.Expression;
+        }
+
+        /// <summary>
+        /// The target suffers the given damage.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This cannt be null.
+        /// </param>
+        /// <param name="scores">
+        /// The <see cref="CharacterScore"/>s that gain the bonus. This
+        /// cannot be null or contain null.
+        /// </param>
+        /// <param name="bonus">
+        /// The bonus amount or value.
+        /// </param>
+        /// <param name="until">
+        /// When the bonus ends.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="EffectExpression"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// No argument can be null.
+        /// </exception>
+        public static EffectExpression GainsModifiers(this Target target, IEnumerable<CharacterScore> scores, int bonus, Until until)
+        {
+            return GainsModifiers(target, scores, new ConstantValue(bonus), until );
+        }
+
+
+        /// <summary>
+        /// The target suffers the given damage.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This cannt be null.
+        /// </param>
+        /// <param name="scores">
+        /// The <see cref="CharacterScore"/>s that gain the bonus. This
+        /// cannot be null or contain null.
+        /// </param>
+        /// <param name="bonus">
+        /// A score that, when calculated, gives the number of hit points gained.
+        /// </param>
+        /// <param name="until">
+        /// When the bonus ends.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="EffectExpression"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// No argument can be null.
+        /// </exception>
+        public static EffectExpression GainsModifiers(this Target target, IEnumerable<CharacterScore> scores, ICharacterScoreValue bonus, Until until)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            target.Expression.Components.Add(new GainModifierEffect(target, scores, bonus, until));
             return target.Expression;
         }
 
