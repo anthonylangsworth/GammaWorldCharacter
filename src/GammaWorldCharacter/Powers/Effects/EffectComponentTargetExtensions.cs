@@ -71,7 +71,59 @@ namespace GammaWorldCharacter.Powers.Effects
         }
 
         /// <summary>
-        /// The target suffers the given damage.
+        /// The target gains temporary hit points.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This cannt be null.
+        /// </param>
+        /// <param name="hitPoints">
+        /// The temporary hit points gained.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="EffectExpression"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="target"/> cannot be null.
+        /// </exception>
+        public static EffectExpression RegainsHitPoints(this Target target, int hitPoints)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            target.Expression.Components.Add(new HealHitPointsEffect(target, hitPoints));
+            return target.Expression;
+        }
+
+        /// <summary>
+        /// The target gains temporary hit points.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This cannt be null.
+        /// </param>
+        /// <param name="characterScoreValue">
+        /// A score that, when calculated, gives the number of hit points gained.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="EffectExpression"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="target"/> cannot be null.
+        /// </exception>
+        public static EffectExpression RegainsHitPoints(this Target target, ICharacterScoreValue characterScoreValue)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            target.Expression.Components.Add(new HealHitPointsEffect(target, characterScoreValue));
+            return target.Expression;
+        }
+
+        /// <summary>
+        /// The target gains temporary hit points.
         /// </summary>
         /// <param name="target">
         /// The <see cref="Target"/> this effect component acts on. This cannt be null.
@@ -97,7 +149,7 @@ namespace GammaWorldCharacter.Powers.Effects
         }
 
         /// <summary>
-        /// The target suffers the given damage.
+        /// The target gains temporary hit points.
         /// </summary>
         /// <param name="target">
         /// The <see cref="Target"/> this effect component acts on. This cannt be null.
@@ -245,5 +297,123 @@ namespace GammaWorldCharacter.Powers.Effects
             return target.Expression;
         }
 
+        /// <summary>
+        /// Shift the target a number of squares.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This cannt be null.
+        /// </param>
+        /// <param name="squares">
+        /// The number of squares the target is pushed.
+        /// </param>
+        /// <param name="actionType">
+        /// The action the target can shift as.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="EffectExpression"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="target"/> cannot be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="squares"/> must be positive.
+        /// </exception>
+        public static EffectExpression Shift(this Target target, int squares, ActionType actionType)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            target.Expression.Components.Add(new ShiftEffect(target, squares, actionType));
+            return target.Expression;
+        }
+
+        /// <summary>
+        /// Shift the target a number of squares.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This cannt be null.
+        /// </param>
+        /// <param name="squares">
+        /// An <see cref="ICharacterScoreValue"/> containing the number of squares moved.
+        /// </param>
+        /// <param name="actionType">
+        /// The action the target can shift as.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="EffectExpression"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// Neither <paramref name="target"/> nor<paramref name="squares"/> can be null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="squares"/> must be positive.
+        /// </exception>
+        public static EffectExpression CanShift(this Target target, ICharacterScoreValue squares, ActionType actionType)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            target.Expression.Components.Add(new ShiftEffect(target, squares, actionType));
+            return target.Expression;
+        }
+
+        /// <summary>
+        /// Immoblize the target.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This cannt be null.
+        /// </param>
+        /// <param name="until">
+        /// Then the immoblization ceases.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="EffectExpression"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="target"/> cannot be null.
+        /// </exception>
+        public static EffectExpression IsImmobilized(this Target target, Until until)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            target.Expression.Components.Add(new ConditionEffect(target, Condition.Immobilized, until));
+            return target.Expression;
+        }
+
+        /// <summary>
+        /// Allow the target to fly.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This cannt be null.
+        /// </param>
+        /// <param name="characterScore">
+        /// The number of squares the target can fly.
+        /// </param>
+        /// <param name="actionType">
+        /// The type of action used to fly, usually a free action.
+        /// </param>
+        /// <returns>
+        /// The current <see cref="EffectExpression"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// No argument can be null.
+        /// </exception>
+        public static EffectExpression CanFly(this Target target, ICharacterScoreValue characterScore, ActionType actionType)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            target.Expression.Components.Add(new FlyEffect(target, characterScore, actionType));
+            return target.Expression;
+        }
     }
 }

@@ -25,14 +25,17 @@ namespace GammaWorldCharacter.Powers.Effects
             string result;
             switch (until)
             {
+                case Until.Unspecified:
+                    result = string.Empty;
+                    break;
                 case Until.EndOfEncounter:
-                    result = "end of the encounter";
+                    result = "until the end of the encounter";
                     break;
                 case Until.EndOfYourNextTurn:
-                    result = "end of your next turn";
+                    result = "until the end of your next turn";
                     break;
                 case Until.StartOfYourNextTurn:
-                    result = "start of your next turn";
+                    result = "until the start of your next turn";
                     break;
                 default:
                     throw new ArgumentException("Unknown Until value", "until");

@@ -58,14 +58,14 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestAddPeriod_NullList()
         {
-            Assert.That(() => EffectParserHelper.AddPeriod(null),
+            Assert.That(() => EffectParserHelper.AddTrailingPeriod(null),
                         Throws.TypeOf<ArgumentNullException>().And.Property("ParamName").EqualTo("effectSpans"));           
         }
 
         [Test]
         public void TestAddPeriod()
         {
-            IEnumerable<EffectSpan> result = EffectParserHelper.AddPeriod(new [] {new EffectSpan("a")});
+            IEnumerable<EffectSpan> result = EffectParserHelper.AddTrailingPeriod(new [] {new EffectSpan("a")});
             Assert.That(result, Is.EquivalentTo(new EffectSpan[] {new EffectSpan("a"), new EffectSpan(".")}));
         }
 

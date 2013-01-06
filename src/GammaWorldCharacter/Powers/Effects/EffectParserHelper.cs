@@ -75,7 +75,7 @@ namespace GammaWorldCharacter.Powers.Effects
         /// <exception cref="ArgumentNullException">
         /// <paramref name="effectSpans"/> cannot be null.
         /// </exception>
-        public static IEnumerable<EffectSpan> AddPeriod(this IEnumerable<EffectSpan> effectSpans)
+        public static IEnumerable<EffectSpan> AddTrailingPeriod(this IEnumerable<EffectSpan> effectSpans)
         {
             if (effectSpans == null)
             {

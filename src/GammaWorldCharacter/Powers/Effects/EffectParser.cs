@@ -79,17 +79,8 @@ namespace GammaWorldCharacter.Powers.Effects
                 firstComponent = false;
             }
 
-            // TODO: Add conjunctions like And
-            // TODO: Capitalize first level, add spaces and add a full stop (a.k.a. period) at the end.
-            //if (result.Count > 0)
-            //{
-            //    result.Add(new EffectSpan("."));
-            //    result.Add(new EffectSpan("."));
-            //}
-
-            // TODO: Merge adjacent text spans (type EffectSpanType.None)
-
-            return effectSpans.AddConjunctions().AddPeriod().CapitalizeFirstLetter().MergeAdjacentTextSpans();
+            // Clean up before returning.
+            return effectSpans.AddConjunctions().AddTrailingPeriod().CapitalizeFirstLetter().MergeAdjacentTextSpans();
         }
 
         /// <summary>
@@ -178,7 +169,15 @@ namespace GammaWorldCharacter.Powers.Effects
                         target.Where.Squares, target.Where.Of == Of.Target ? "the target" : "you")));
                     break;
                 case TargetType.Creature:
-                    addSpan(new EffectSpan("one creature"));
+                    if (target.Where == Where.Unspecified)
+                    {
+                        addSpan(new EffectSpan("one creature"));
+                    }
+                    else
+                    {
+                        addSpan(new EffectSpan(string.Format("one creature within {0} squares of {1}", 
+                            target.Where.Squares, OfHelper.ToString(target.Where.Of))));
+                    }
                     break;
                 case TargetType.Enemy:
                     addSpan(new EffectSpan("one enemy"));

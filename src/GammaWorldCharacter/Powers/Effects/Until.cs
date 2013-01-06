@@ -11,6 +11,10 @@ namespace GammaWorldCharacter.Powers.Effects
     public enum Until
     {
         /// <summary>
+        /// Unspecified or the effect ends by some other means like standing up from being prone.
+        /// </summary>
+        Unspecified,
+        /// <summary>
         /// Start of the your next turn.
         /// </summary>
         StartOfYourNextTurn,

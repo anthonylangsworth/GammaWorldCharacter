@@ -24,11 +24,33 @@ namespace GammaWorldCharacter.Powers.Effects.EffectComponents
         /// No argument can be null.
         /// </exception>        
         public PushEffect(Target target, int squares)
-            : base(target)
+            : this(target, new ConstantValue(squares))
         {
             if (squares <= 0)
             {
                 throw new ArgumentException("squares must be positive", "squares");
+            }
+        }
+
+        /// <summary>
+        /// Create a new <see cref="PushEffect"/>.
+        /// </summary>
+        /// <param name="target">
+        /// The <see cref="Target"/> this effect component acts on. This
+        /// cannot be null.
+        /// </param>
+        /// <param name="squares">
+        /// An <see cref="ICharacterScoreValue"/> representing the number of squares pushed.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// No argument can be null.
+        /// </exception>        
+        public PushEffect(Target target, ICharacterScoreValue squares)
+            : base(target)
+        {
+            if (squares == null)
+            {
+                throw new ArgumentNullException("squares");
             }
 
             this.Squares = squares;
@@ -37,7 +59,7 @@ namespace GammaWorldCharacter.Powers.Effects.EffectComponents
         /// <summary>
         /// The number of squares the target is pushed.
         /// </summary>
-        public int Squares
+        public ICharacterScoreValue Squares
         {
             get;
             private set;
@@ -59,8 +81,13 @@ namespace GammaWorldCharacter.Powers.Effects.EffectComponents
         /// </exception>
         public override IEnumerable<EffectSpan> Parse(Character character)
         {
+            if (character == null)
+            {
+                throw new ArgumentNullException("character");
+            }
+
             yield return new EffectSpan(string.Format("you push the target {0} squares",
-                Squares));
+                Squares.GetValue(character)));
         }
     }
 }

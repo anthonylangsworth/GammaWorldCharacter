@@ -39,12 +39,12 @@ namespace GammaWorldCharacter.Powers.Effects
         /// <summary>
         /// A creature.
         /// </summary>
-        public Target Creature
+        /// <param name="where">
+        /// There the creature is relative to the target (if any).
+        /// </param>
+        public Target Creature(Where where = null)
         {
-            get
-            {
-                return new Target(Expression, TargetType.Creature, Where.Unspecified);
-            }
+            return new Target(Expression, TargetType.Creature, where);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace GammaWorldCharacter.Powers.Effects
         /// </summary>
         public Target Ally(Where where)
         {
-            return new Target(Expression, TargetType.Creature, where);
+            return new Target(Expression, TargetType.Ally, where);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace GammaWorldCharacter.Powers.Effects
         /// </summary>
         public Target YouOrAlly(Where where)
         {
-            return new Target(Expression, TargetType.Creature, where);
+            return new Target(Expression, TargetType.YouOrAlly, where);
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace GammaWorldCharacter.Powers.Effects
         /// </summary>
         public Target Enemy(Where where)
         {
-            return new Target(Expression, TargetType.Creature, where);
+            return new Target(Expression, TargetType.Enemy, where);
         }
  
         /// <summary>
