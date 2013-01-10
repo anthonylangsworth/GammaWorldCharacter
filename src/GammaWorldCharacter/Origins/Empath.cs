@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Traits;
 using GammaWorldCharacter.Powers.Origins;
 
@@ -17,7 +18,7 @@ namespace GammaWorldCharacter.Origins
         /// </summary>
         public Empath()
             : base("Empath", ScoreType.Charisma, PowerSource.Psi,
-            "One ally within 5 squares of the target regains hit points qual to twice your level.")
+                Effect.Ally(Where.WithinSquares(5, Of.Target)).RegainsHitPoints(Your.Level.Times(2)))
         {
             AddTrait(new Trait("Pacifying Aura", "You and each ally adjacent to you never grant combat advantage."));
             AddTrait(new Trait("Vital Presence", "Allies adjacent to you get a +5 bonus to death saving throws."));

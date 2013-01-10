@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Traits;
 using GammaWorldCharacter.Powers.Origins;
 
@@ -17,7 +18,7 @@ namespace GammaWorldCharacter.Origins
         /// </summary>
         public Giant()
             : base("Giant", ScoreType.Strength, PowerSource.Bio,
-            "Deal 1d10 extra damage and you push the target 3 squares.")
+                Effect.TheTarget.SuffersDamage(1.D10()).And.TheTarget.Pushed(3))
         {
             AddTrait(new Trait("Encumbered Speed", "You move your speed, even while wearing heavy armor or carrying a heavy load."));
             AddPower(new Brickbat());

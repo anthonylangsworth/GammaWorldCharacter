@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Traits;
 using GammaWorldCharacter.Powers.Origins;
 
@@ -17,7 +19,7 @@ namespace GammaWorldCharacter.Origins
         /// </summary>
         public Hawkoid()
             : base("Hawkoid", ScoreType.Wisdom, PowerSource.Bio,
-            "Deal 1d10 extra damage and you can fly your speed as a free action.")
+            Effect.TheTarget.SuffersDamage(1.D10()).And.You.CanFly(Your.Speed, ActionType.Free))
         {
             AddTrait(new AdditionalMovementMode("Flight", 
                 "You have a fly speed equal to your speed. Whilst flying, you take a -2 penalty to attack rolls.", ScoreType.Fly));

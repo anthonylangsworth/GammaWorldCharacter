@@ -13,6 +13,7 @@ using GammaWorldCharacter.Powers;
 using GammaWorldCharacter.Gear.Weapons;
 using GammaWorldCharacter.Gear.Armor;
 using GammaWorldCharacter.Origins;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Traits;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
@@ -1015,16 +1016,26 @@ namespace GammaWorldCharacterViewer.Renderers
                     detail.Inlines.Add(new Run(attackDetails.MissEffect));
                 }
                 // Gamma World Characters get bonus critical damage at level 2 and 6
-                if (character.Level >= 2)
+                if (attackPower.Criticals.Any())
                 {
                     detail.Inlines.Add(new LineBreak());
-                    OriginChoice criticalHitBenefitOrigin =
-                        ((Level02) character.Levels.Single(x => x is Level02)).CriticalHitBenefitOrigin;
-                    detail.Inlines.Add(new Bold(new Run("Critical: ")));
-                    detail.Inlines.Add(new Run(criticalHitBenefitOrigin == OriginChoice.Primary ? 
-                        character.PrimaryOrigin.CriticalHitBenefit : character.SecondaryOrigin.CriticalHitBenefit ));
+                    foreach (EffectExpression effectExpression in attackPower.Criticals)
+                    {
+                        detail.Inlines.Add(new Bold(new Run("Critical: ")));
+                        // TODO: Move this into a separate method
+                        foreach (EffectSpan effectSpan in new EffectParser().Parse(character, effectExpression))
+                        {
+                            if (effectSpan.Type == EffectSpanType.Power)
+                            {
+                                detail.Inlines.Add(new Italic(new Run(effectSpan.Text)));
+                            }
+                            else
+                            {
+                                detail.Inlines.Add(new Run(effectSpan.Text));
+                            }
+                        }
+                    }
                 }
-                // TODO: Level 6
                 detail.Inlines.Add(new LineBreak());
             }
 
@@ -1042,16 +1053,6 @@ namespace GammaWorldCharacterViewer.Renderers
                     CharacterRendererHelper.GetActionType(attackPower.SustainDetails.Action)))));
                 detail.Inlines.Add(new Run(attackPower.SustainDetails.Text));
                 detail.Inlines.Add(new LineBreak());
-            }
-            foreach (Modifier modifier in attackPower.Conditionals.GetConditionalModifiers())
-            {
-                if (modifier.Conditional)
-                {
-                    detail.Inlines.Add(new Bold(new Run("Special: ")));
-                    detail.Inlines.Add(new Run(string.Format("({0}) {1}", modifier.Source.Name,
-                        modifier.Condition)));
-                    detail.Inlines.Add(new LineBreak());
-                }
             }
 
             // Special cases.

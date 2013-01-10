@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Origins;
 using GammaWorldCharacter.Powers;
 using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Powers.Effects.EffectComponents;
@@ -12,12 +13,12 @@ using NUnit.Framework;
 namespace GammaWorldCharacter.Test.Unit.Powers
 {
     [TestFixture]
-    public class TestFluentPower
+    public class TestFluentCriticals
     {
         [Test]
         public void TestGiantCritical()
         {
-            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.TheTarget.Pushed(3);
+            EffectExpression expression = new Giant().CriticalHitBenefit;
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
@@ -46,7 +47,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestEmpathCritical()
         {
-            EffectExpression expression = Effect.Ally(Where.WithinSquares(5, Of.Target)).RegainsHitPoints(Your.Level.Times(2));
+            EffectExpression expression = new Empath().CriticalHitBenefit;
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(1));
 
@@ -82,7 +83,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestDoppelgangerCritical()
         {
-            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.You.CanUsePower<DoubleTrouble>(ActionType.Free);
+            EffectExpression expression = new Doppelganger().CriticalHitBenefit;
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
@@ -106,13 +107,13 @@ namespace GammaWorldCharacter.Test.Unit.Powers
             Assert.That(effectComponent.PowerName, Is.EqualTo("Double Trouble"));
 
             Assert.That(expression.ToString(Level01Characters.Keravnos),
-                Is.EqualTo("The target suffers 1d10 damage and you can use the power Double Trouble as a free action."));
+                Is.EqualTo("The target suffers 1d10 damage and you can use the power double trouble as a free action."));
 
             Assert.That(new EffectParser().Parse(Level01Characters.Keravnos, expression),
                 Is.EquivalentTo(new []
                     {
                         new EffectSpan("The target suffers 1d10 damage and you can use the power "),
-                        new EffectSpan("Double Trouble", EffectSpanType.Power),
+                        new EffectSpan("double trouble", EffectSpanType.Power),
                         new EffectSpan(" as a free action."),
                     }));
         }
@@ -120,7 +121,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestAndroidCritical()
         {
-            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.TheTarget.GrantsCombatAdvantage(To.You, Until.EndOfEncounter);
+            EffectExpression expression = new Android().CriticalHitBenefit;
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
@@ -157,7 +158,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestCockroachCritical()
         {
-            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.You.GainsModifier(Your.AC, 4, Until.EndOfYourNextTurn);
+            EffectExpression expression = new Cockroach().CriticalHitBenefit;
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
@@ -197,7 +198,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestElectrokineticCritical()
         {
-            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.Ally(Where.WithinSquares(5, Of.Target)).GainsTemporaryHitPoints(10);
+            EffectExpression expression = new Electrokinetic().CriticalHitBenefit;
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
@@ -234,7 +235,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestFelinoidCritical()
         {
-            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.You.Shift(3, ActionType.Free);
+            EffectExpression expression = new Felinoid().CriticalHitBenefit;
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
@@ -271,7 +272,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestGravityControllerCritical()
         {
-            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.Creature(Where.WithinSquares(2, Of.Target)).IsImmobilized(Until.EndOfYourNextTurn);
+            EffectExpression expression = new GravityController().CriticalHitBenefit;
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
@@ -307,7 +308,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestHawkoidCritical()
         {
-            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.You.CanFly(Your.Speed, ActionType.Free);
+            EffectExpression expression = new Hawkoid().CriticalHitBenefit;
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 
@@ -344,7 +345,7 @@ namespace GammaWorldCharacter.Test.Unit.Powers
         [Test]
         public void TestHypercognitiveCritical()
         {
-            EffectExpression expression = Effect.TheTarget.SuffersDamage(1.D10()).And.YouOrAlly(Where.WithinSquares(5, Of.You)).GainsModifiers(Your.Defenses, 2, Until.EndOfYourNextTurn);
+            EffectExpression expression = new Hypercognitive().CriticalHitBenefit;
             Assert.That(expression, Is.Not.Null);
             Assert.That(expression.Components.Count(), Is.EqualTo(2));
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Traits;
 using GammaWorldCharacter.Powers.Origins;
 
@@ -17,7 +18,7 @@ namespace GammaWorldCharacter.Origins
         /// </summary>
         public GravityController()
             : base("Gravity Controller", ScoreType.Constitution, PowerSource.Dark,
-            "Deal 1d10 extra damage and one creature within 2 squares of the target is immobilized until the end of your next turn.")
+                Effect.TheTarget.SuffersDamage(1.D10()).And.Creature(Where.WithinSquares(2, Of.Target)).IsImmobilized(Until.EndOfYourNextTurn))
         {
             AddTrait(new Trait("Gravity by Choice", "You take no damage from falling."));
             AddPower(new GravitationalPulse());

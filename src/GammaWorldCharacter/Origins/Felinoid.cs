@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Traits;
 using GammaWorldCharacter.Powers.Origins;
 
@@ -17,7 +19,7 @@ namespace GammaWorldCharacter.Origins
         /// </summary>
         public Felinoid()
             : base("Felinoid", ScoreType.Dexterity, PowerSource.Bio,
-            "Deal 1d10 extra damage and you can shift 3 squares as a free action.")
+            Effect.TheTarget.SuffersDamage(1.D10()).And.You.Shift(3, ActionType.Free))
         {
             AddTrait(new Trait("Catfall", "You take no damage from falls of 50 feet or less and you always land on your feet when you fall."));
             AddPower(new SlashingClaws());

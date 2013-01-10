@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GammaWorldCharacter.Origins;
+using GammaWorldCharacter.Powers.Effects;
 
 namespace GammaWorldCharacter.Test.Unit.Origins
 {
@@ -27,7 +28,7 @@ namespace GammaWorldCharacter.Test.Unit.Origins
         /// The primary ability score.
         /// </param>
         public NullOrigin(ScoreType scoreType)
-            : base("Null", scoreType, PowerSource.Bio, "Sample critical benefit.")
+            : base("Null", scoreType, PowerSource.Bio, Effect.TheTarget.SuffersDamage(1.D10()))
         {
             // Do nothing
         }
