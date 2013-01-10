@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Traits;
 using GammaWorldCharacter.Powers;
 using GammaWorldCharacter.Powers.Origins;
@@ -18,7 +19,7 @@ namespace GammaWorldCharacter.Origins
         /// </summary>
         public Android()
             : base("Android", ScoreType.Intelligence, PowerSource.Dark,
-            "Deal 1d10 extra damage and the target grants combat advantage to you until the end of the encounter.")
+                Effect.TheTarget.SuffersDamage(1.D10()).And.TheTarget.GrantsCombatAdvantage(To.You, Until.EndOfEncounter))
         {
             AddTrait(new Trait("Machine Powered", "You do not need to eat, drink or breathe"));
             AddPower(new MachineGrip());

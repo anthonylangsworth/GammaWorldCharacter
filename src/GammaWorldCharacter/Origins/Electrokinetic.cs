@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Traits;
 using GammaWorldCharacter.Powers.Origins;
 
@@ -17,7 +18,7 @@ namespace GammaWorldCharacter.Origins
         /// </summary>
         public Electrokinetic()
             : base("Electrokinetic", ScoreType.Wisdom, PowerSource.Dark,
-            "Deal 1d10 extra damage and one ally within 5 squares of the target gains 10 temporary hit points.")
+            Effect.TheTarget.SuffersDamage(1.D10()).And.Ally(Where.WithinSquares(5, Of.Target)).GainsTemporaryHitPoints(10))
         {
             AddPower(new ElectricBoogaloo());
         }

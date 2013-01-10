@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Traits;
 using GammaWorldCharacter.Powers;
 
@@ -12,8 +13,8 @@ namespace GammaWorldCharacter.Origins
     /// </summary>
     public abstract class Origin : ModifierSource, IPowerSource, ITraitSource
     {
-        private List<Trait> traits;
-        private List<Power> powers;
+        private readonly List<Trait> traits;
+        private readonly List<Power> powers;
 
         /// <summary>
         /// Create an <see cref="Origin"/>.
@@ -29,18 +30,21 @@ namespace GammaWorldCharacter.Origins
         /// +2 bonus with to overcharge.
         /// </param>
         /// <param name="criticalHitBenefit">
-        /// The description of the benefit gained at level 2 or 6 when a critical hit
-        /// occurs. 
+        /// The benefit gained at level 2 or 6 when a critical hit occurs. 
         /// </param>
         /// <exception cref="ArgumentException">
-        /// <paramref name="abilityScore"/> cannot be null.
+        /// Neither <paramref name="abilityScore"/> nor <paramref name="criticalHitBenefit"/> can be null.
         /// </exception>
-        public Origin(string name, ScoreType abilityScore, PowerSource powerSource, string criticalHitBenefit)
+        public Origin(string name, ScoreType abilityScore, PowerSource powerSource, EffectExpression criticalHitBenefit)
             : base(name, name)
         {
             if (!ScoreTypeHelper.IsAbilityScore(abilityScore))
             {
                 throw new ArgumentException("Not an ability score", "abilityScore");
+            }
+            if (criticalHitBenefit == null)
+            {
+                throw new ArgumentNullException("criticalHitBenefit");
             }
 
             traits = new List<Trait>();
@@ -94,7 +98,7 @@ namespace GammaWorldCharacter.Origins
         /// The description of the benefit gained at level 2 or 6 when a critical hit
         /// occurs. 
         /// </summary>
-        public string CriticalHitBenefit
+        public EffectExpression CriticalHitBenefit
         {
             get; 
             private set;

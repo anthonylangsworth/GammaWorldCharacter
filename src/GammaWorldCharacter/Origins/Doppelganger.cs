@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Traits;
 using GammaWorldCharacter.Powers.Origins;
 
@@ -17,7 +19,7 @@ namespace GammaWorldCharacter.Origins
         /// </summary>
         public Doppelganger()
             : base("Doppelganger", ScoreType.Intelligence, PowerSource.Dark,
-            "Deal 1d10 extra damage and you can use double trouble as a free action.")
+            Effect.TheTarget.SuffersDamage(1.D10()).And.You.CanUsePower<DoubleTrouble>(ActionType.Free))
         {
             AddTrait(new Trait("Two Possibilities", 
                 "Whenever you draw an Alpha Mutation card, draw two cards from the same deck and choose which one to keep. Put the other on the bottom of the deck."));

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Powers.Origins;
 
 namespace GammaWorldCharacter.Origins
@@ -16,7 +17,7 @@ namespace GammaWorldCharacter.Origins
         /// </summary>
         public Hypercognitive()
             : base("Hypercognitive", ScoreType.Wisdom, PowerSource.Psi,
-                "Deal 1d10 extra daamge and you or an ally within 5 squares of you gains a +2 bonus to all defenses until the end of your next turn.")
+                Effect.TheTarget.SuffersDamage(1.D10()).And.YouOrAlly(Where.WithinSquares(5, Of.You)).GainsModifiers(Your.Defenses, 2, Until.EndOfYourNextTurn))
         {
             AddPower(new UncannyStrike());
         }

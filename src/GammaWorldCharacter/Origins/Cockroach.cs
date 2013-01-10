@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Traits;
 using GammaWorldCharacter.Powers.Origins;
 
@@ -17,7 +18,7 @@ namespace GammaWorldCharacter.Origins
         /// </summary>
         public Cockroach()
             : base("Cockroach", ScoreType.Constitution, PowerSource.Bio,
-            "Deal 1d10 extra damage and you gain a +4 bonus to AC until the end of your next turn.")
+                Effect.TheTarget.SuffersDamage(1.D10()).And.You.GainsModifier(Your.AC, 4, Until.EndOfYourNextTurn))
         {
             AddTrait(new AdditionalMovementMode("Bug Legs", 
                 "You can climb your speed. You can even climb upside down across horizontal surfaces. You can't attack while climbing.", ScoreType.Climb));

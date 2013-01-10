@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using GammaWorldCharacter.Levels;
+using GammaWorldCharacter.Powers.Effects;
 
 namespace GammaWorldCharacter.Powers
 {
@@ -8,8 +11,8 @@ namespace GammaWorldCharacter.Powers
     /// </summary>
     public abstract class AttackPower: Power
     {
-        private List<AttackDetails> attacks;
-        private Score conditionals;
+        private readonly List<AttackDetails> attacks;
+        private readonly List<EffectExpression> criticals;
 
         /// <summary>
         /// Create an <see cref="AttackPower"/>.
@@ -31,37 +34,7 @@ namespace GammaWorldCharacter.Powers
             : base(name, requiredOrigin, requiredLevel)
         {
             this.attacks = new List<AttackDetails>();
-            conditionals = new Score(string.Format("{0} conditionals", name), string.Format("{0} conditionals", name));
-            AddModifierSource(conditionals);
-        }
-
-        /// <summary>
-        /// This <see cref="Score"/> can be used for conditional attack or damage 
-        /// modifiers for AttackPowers that have multiple attacks.
-        /// </summary>
-        public Score Conditionals
-        {
-            get
-            {
-                return conditionals;
-            }
-        }
-
-        /// <summary>
-        /// Check whether at least one attack has been added.
-        /// </summary>
-        /// <param name="addDependency">
-        /// The list of depdencies.
-        /// </param>
-        /// <param name="character">
-        /// The <see cref="Character"/> to add dependencies for.
-        /// </param>
-        protected override void AddDependencies(Action<ModifierSource, ModifierSource> addDependency,
-            Character character)
-        {
-            base.AddDependencies(addDependency, character);
-
-            // Some attack powers have no attacks, e.g. "Follow-up Attack". Therefore, do not check.
+            this.criticals = new List<EffectExpression>();
         }
 
         /// <summary>
@@ -74,6 +47,18 @@ namespace GammaWorldCharacter.Powers
                 return attacks.AsReadOnly();
             }
         }
+
+        /// <summary>
+        /// Effects that occur on a critical.
+        /// </summary>
+        public IList<EffectExpression> Criticals
+        {
+            get
+            {
+                return criticals.AsReadOnly();
+            }
+        }
+
 
         /// <summary>
         /// Add a new attack. This also adds the power to ModifierSources.
@@ -95,6 +80,45 @@ namespace GammaWorldCharacter.Powers
 
             // Add the attack to the power's list of scores
             AddModifierSources(attack.ModifierSources);
+        }
+
+        /// <summary>
+        /// Ensure the character meets the minimum requirements for the power during the
+        /// score updating phase.
+        /// </summary>
+        /// <param name="stage">
+        /// The character update stage at which this is called.
+        /// </param>
+        /// <param name="addModifier">
+        /// Add modifiers by calling this method.
+        /// </param>
+        /// <param name="character">
+        /// The <see cref="Character"/> to add modifiers for.
+        /// </param>
+        protected override void AddModifiers(CharacterUpdateStage stage, Action<Modifier> addModifier, Character character)
+        {
+            base.AddModifiers(stage, addModifier, character);
+
+            OriginChoice level2CriticalHitBenefitOrigin;
+
+            criticals.Clear();
+            if (character.Level >= 2)
+            {
+                level2CriticalHitBenefitOrigin = ((Level02) character.Levels.OfType<Level02>().First()).CriticalHitBenefitOrigin;
+                if (level2CriticalHitBenefitOrigin == OriginChoice.Primary)
+                {
+                    criticals.Add(character.PrimaryOrigin.CriticalHitBenefit);
+                }
+                else
+                {
+                    criticals.Add(character.SecondaryOrigin.CriticalHitBenefit);
+                }
+            }
+            else if (character.Level >= 6)
+            {
+                criticals.Add(character.PrimaryOrigin.CriticalHitBenefit);
+                criticals.Add(character.SecondaryOrigin.CriticalHitBenefit);
+            }
         }
 
         /// <summary>

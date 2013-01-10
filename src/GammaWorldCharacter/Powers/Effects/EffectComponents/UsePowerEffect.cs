@@ -62,7 +62,7 @@ namespace GammaWorldCharacter.Powers.Effects.EffectComponents
         public override IEnumerable<EffectSpan> Parse(Character character)
         {
             yield return new EffectSpan("can use the power");
-            yield return new EffectSpan(PowerName, EffectSpanType.Power);
+            yield return new EffectSpan(PowerName.ToLower(), EffectSpanType.Power);
             yield return new EffectSpan(string.Format("as a {0} action",
                 ActionType.ToString().ToLower()));
         }
