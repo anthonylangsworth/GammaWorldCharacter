@@ -6,7 +6,7 @@ using GammaWorldCharacter.Powers.Effects;
 using GammaWorldCharacter.Powers.Effects.EffectComponents;
 using NUnit.Framework;
 
-namespace GammaWorldCharacter.Test.Unit.Powers
+namespace GammaWorldCharacter.Test.Unit.Powers.Effects
 {
     [TestFixture]
     public class TestDiceDamageEffect

@@ -52,61 +52,6 @@ namespace GammaWorldCharacter.Powers.Effects
         }
 
         /// <summary>
-        /// Target a creature.
-        /// </summary>
-        public Target Creature
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Target the power originator.
-        /// </summary>
-        public Target You
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Target a friendly creature that is not the power originator.
-        /// </summary>
-        public Target Ally
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Target either the power originator or a friendly creature.
-        /// </summary>
-        public Target YouOrAlly
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Target an unfriendly creature.
-        /// </summary>
-        public Target Enemy
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
         /// Return <see cref="EffectSpan"/>s representing a human 
         /// readable display.
         /// </summary>

@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using GammaWorldCharacter.Powers.Effects;
 
-namespace GammaWorldCharacter.Test.Unit.Powers
+namespace GammaWorldCharacter.Test.Unit.Powers.Effects
 {
     [TestFixture]
     public class TestEffectParserHelper

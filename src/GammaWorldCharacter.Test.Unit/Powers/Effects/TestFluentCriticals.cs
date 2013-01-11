@@ -10,7 +10,7 @@ using GammaWorldCharacter.Powers.Origins;
 using GammaWorldCharacter.Samples;
 using NUnit.Framework;
 
-namespace GammaWorldCharacter.Test.Unit.Powers
+namespace GammaWorldCharacter.Test.Unit.Powers.Effects
 {
     [TestFixture]
     public class TestFluentCriticals
