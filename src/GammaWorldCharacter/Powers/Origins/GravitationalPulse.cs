@@ -7,15 +7,15 @@ using GammaWorldCharacter.Origins;
 namespace GammaWorldCharacter.Powers.Origins
 {
     /// <summary>
-    /// The Machine Grip novice <see cref="Android"/> power.
+    /// The Gravity Controller novice power.
     /// </summary>
     public class GravitationalPulse: AttackPower
     {
         /// <summary>
-        /// Create a new <see cref="MachineGrip"/>.
+        /// Create a new <see cref="GravitationalPulse"/>.
         /// </summary>
         public GravitationalPulse()
-            : base("Gravitational Pulse", typeof(Android), 1)
+            : base("Gravitational Pulse", typeof(GravityController), 1)
         {
             SetDescription("You unleach a flood of gravitons that swarm your foe dragging down its every step.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Dark, DamageTypes.Physical, 

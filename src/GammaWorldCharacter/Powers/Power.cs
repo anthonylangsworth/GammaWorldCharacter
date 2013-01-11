@@ -32,8 +32,8 @@ namespace GammaWorldCharacter.Powers
         /// The name of the power.
         /// </param>
         /// <param name="requiredOrigin">
-        /// The class the character must be a memeber of to take this power or null,
-        /// if this power does not require a class.
+        /// The origin the character must be a memeber of to take this power or null,
+        /// if this power does not require an origin.
         /// </param>
         /// <param name="requiredLevel">
         /// The minimum character level for this power.
@@ -116,6 +116,13 @@ namespace GammaWorldCharacter.Powers
             {
                 throw new UnmetPrerequisiteException(
                     string.Format("Level {0}+", requiredLevel), this);
+            }
+            if (requiredOrigin != null
+                && character.PrimaryOrigin.GetType() != requiredOrigin
+                && character.SecondaryOrigin.GetType() != requiredOrigin)
+            {
+                throw new UnmetPrerequisiteException(
+                    string.Format("Origin {0}", requiredOrigin.Name), this);
             }
         }
 
