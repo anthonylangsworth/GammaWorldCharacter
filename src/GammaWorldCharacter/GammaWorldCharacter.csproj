@@ -141,6 +141,7 @@
     <Compile Include="Powers\Origins\MachineGrip.cs" />
     <Compile Include="Powers\Origins\UncannyStrike.cs" />
     <Compile Include="Powers\Origins\VitalityTransfer.cs" />
+    <Compile Include="Powers\Range.cs" />
     <Compile Include="Powers\SecondWind.cs" />
     <Compile Include="Traits\AdditionalMovementMode.cs" />
     <Compile Include="Traits\ITraitSource.cs" />
