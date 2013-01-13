@@ -18,7 +18,7 @@ namespace GammaWorldCharacter.Powers.Origins
             : base("Double Trouble", typeof(Doppelganger), 1)
         {
             SetDescription("You create a duplicate of yourself for a short time.");
-            SetAttackTypeAndRange(AttackType.Personal, null);
+            SetAttackTypeAndRange(Range.Personal(Name));
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Dark, DamageTypes.Physical,
                 EffectTypes.None, ActionType.Standard, null);
             SetEffect("You create a duplicate of yourself in an unnoccupied square within 5 squares of you. "

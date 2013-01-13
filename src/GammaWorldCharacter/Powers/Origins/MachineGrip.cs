@@ -20,7 +20,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetDescription("When you get a hand on an enemy, your grip tightens like a steel-jawed vice.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Dark, DamageTypes.Physical, 
                 EffectTypes.None, ActionType.Standard, null);
-            SetAttackTypeAndRange(AttackType.Melee, "1");
+            SetAttackTypeAndRange(Range.Melee(Name, 1));
             AddAttack(new AttackDetails("One creature",
                 new AbilityPlusLevelBonus("Machine Grip attack bonus", new ScoreType[] { ScoreType.Intelligence }, 1),
                 new PowerDamage("Machine Grip damage", 1.D10()),

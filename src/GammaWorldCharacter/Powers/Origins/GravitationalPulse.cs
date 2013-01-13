@@ -20,7 +20,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetDescription("You unleach a flood of gravitons that swarm your foe dragging down its every step.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Dark, DamageTypes.Physical, 
                 EffectTypes.None, ActionType.Standard, null);
-            SetAttackTypeAndRange(AttackType.Ranged, "10");
+            SetAttackTypeAndRange(Range.Ranged(Name, 10));
             AddAttack(new AttackDetails("One creature",
                 new AbilityPlusLevelBonus("Gravitational Pulse attack bonus", new ScoreType[] { ScoreType.Constitution }, 1),
                 new PowerDamage("Gravitational Pulse damage", 1.D10()),

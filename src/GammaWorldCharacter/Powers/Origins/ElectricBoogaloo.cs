@@ -20,7 +20,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetDescription("You zap your enemy with an arc of electricity, making your foe jerk and dance around like a spaz.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Dark, DamageTypes.Electricity,
                 EffectTypes.None, ActionType.Standard, null);
-            SetAttackTypeAndRange(AttackType.Melee, "1");
+            SetAttackTypeAndRange(Range.Melee(Name, 1));
             AddAttack(new AttackDetails("One creature",
                 new AbilityPlusLevelBonus("Electric Boogaloo attack bonus", new ScoreType[] { ScoreType.Wisdom }, 1),
                 new PowerDamage("Electric Boogaloo damage", 1.D10()),

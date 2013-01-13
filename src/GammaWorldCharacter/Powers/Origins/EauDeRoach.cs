@@ -20,7 +20,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetDescription("You spit at your foe. The spit is a combination of excrement, scent gland fluid, regurgitated food and stomach acid. Yep, it's nasty and it burns your foe and forces it away from you.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Bio, DamageTypes.Acid, 
                 EffectTypes.None, ActionType.Standard, null);
-            SetAttackTypeAndRange(AttackType.Melee, "1");
+            SetAttackTypeAndRange(Range.Melee(Name, 1));
             AddAttack(new AttackDetails("One creature",
                 new AbilityPlusLevelBonus("Eau de Roach attack bonus", new ScoreType[] { ScoreType.Constitution }, 1),
                 new PowerDamage("Eau de Roach damage", 2.D8()),

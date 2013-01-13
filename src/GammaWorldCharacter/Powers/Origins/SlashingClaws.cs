@@ -20,7 +20,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetDescription("You rake at your foe's face with a lighting fast flurry of razor sharp claws.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Bio, DamageTypes.Physical, 
                 EffectTypes.None, ActionType.Standard, null);
-            SetAttackTypeAndRange(AttackType.Melee, "1");
+            SetAttackTypeAndRange(Range.Melee(Name, 1));
             AddAttack(new AttackDetails("One creature, roll twice",
                 new AbilityPlusLevelBonus("Slashing Claws attack bonus", new ScoreType[] { ScoreType.Dexterity }, 1),
                 null,

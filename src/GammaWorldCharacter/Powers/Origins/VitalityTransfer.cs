@@ -20,7 +20,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetDescription("First do no harm-not to anyone you like, anyway.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Psi, DamageTypes.None, 
                 EffectTypes.None, ActionType.Standard, null);
-            SetAttackTypeAndRange(AttackType.Ranged, "3");
+            SetAttackTypeAndRange(Range.Ranged(Name, 3));
             AddAttack(new AttackDetails("One creature",
                 new AbilityPlusLevelBonus("Vitality Transfer attack bonus", new ScoreType[] { ScoreType.Charisma }, 1),
                 null,

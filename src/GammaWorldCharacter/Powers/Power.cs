@@ -408,21 +408,6 @@ namespace GammaWorldCharacter.Powers
         /// Set the <see cref="AttackTypeAndRange"/> for this <see cref="Power"/>.
         /// This also adds the power to ModifierSources.
         /// </summary>
-        /// <param name="attackType">
-        /// The power's <see cref="AttackType"/>.
-        /// </param>
-        /// <param name="description">
-        /// The description of the power that appears after the attack type.
-        /// </param>
-        protected void SetAttackTypeAndRange(AttackType attackType, string description)
-        {
-            SetAttackTypeAndRange(new AttackTypeAndRange(string.Format("{0} attack type and range", Name), attackType, description));
-        }
-
-        /// <summary>
-        /// Set the <see cref="AttackTypeAndRange"/> for this <see cref="Power"/>.
-        /// This also adds the power to ModifierSources.
-        /// </summary>
         /// <param name="attackTypeAndRange">
         /// The <see cref="AttackTypeAndRange"/> to use.
         /// </param>

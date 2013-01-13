@@ -18,7 +18,7 @@ namespace GammaWorldCharacter.Powers
         {
             SetPowerDetails(PowerFrequency.Encounter, PowerSource.None, DamageTypes.None, 
                 EffectTypes.Healing, ActionType.Minor, null);
-            SetAttackTypeAndRange(AttackType.Personal, null);
+            SetAttackTypeAndRange(Range.Personal(Name));
 
             HitPointsHealed = new Score("Second Wind hit points healed", "Second Window");
             SetEffect("You heal {0} hit points and gain +2 to all defenses until the end of your next turn.", HitPointsHealed);

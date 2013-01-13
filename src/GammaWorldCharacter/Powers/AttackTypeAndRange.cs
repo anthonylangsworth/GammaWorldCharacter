@@ -58,7 +58,7 @@ namespace GammaWorldCharacter.Powers
         /// </returns>
         public override string ToString()
         {
-            return string.Format("{0} {1}", attackType, !string.IsNullOrEmpty(Range) ? Range : string.Empty);
+            return string.Format("{0}{1}", attackType, !string.IsNullOrEmpty(Range) ? " " + Range : string.Empty);
         }
 
         /// <summary>

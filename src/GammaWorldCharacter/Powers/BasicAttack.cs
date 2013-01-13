@@ -18,7 +18,7 @@ namespace GammaWorldCharacter.Powers
             SetDescription("For you, this is the most natural thing in the world. For your target, it's a really bad day.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.None,
                 DamageTypes.Physical, EffectTypes.None, ActionType.Standard, null);
-            SetAttackTypeAndRange(AttackType.Melee, "1"); 
+            SetAttackTypeAndRange(Range.MeleeWeapon(Name)); 
 
             AddAttack(new WeaponAttackDetails("One creature",
                 new BasicAttackAttackBonus(),
@@ -42,12 +42,12 @@ namespace GammaWorldCharacter.Powers
             weapon = character.GetHeldItem<Weapon>(Hand.Main);
             if (weapon is RangedWeapon)
             {
-                SetAttackTypeAndRange(AttackType.Ranged, ((RangedWeapon)weapon).Range.ToString());
+                SetAttackTypeAndRange(Range.Ranged(Name, ((RangedWeapon)weapon).Range));
             }
             else
             {
                 // This is needed for subsequent updates
-                SetAttackTypeAndRange(AttackType.Melee, "1");
+                SetAttackTypeAndRange(Range.Melee(Name, 1));
             }
         }
 

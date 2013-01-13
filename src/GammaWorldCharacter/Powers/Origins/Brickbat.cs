@@ -21,7 +21,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetDescription("You spin in a circle with your weapon, knocking down a wide swathe of foes.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Bio, DamageTypes.Physical, 
                 EffectTypes.None, ActionType.Standard, null);
-            SetAttackTypeAndRange(AttackType.Close, "burst 1");
+            SetAttackTypeAndRange(Range.CloseBurst(Name, 1));
             AddAttack("Each enemy in burst you can see", Hand.Main, ScoreType.Strength, ScoreType.ArmorClass, 1, 0,
                 "physical damage and you knock the target prone", null);
         }

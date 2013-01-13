@@ -20,7 +20,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetDescription("You make a piercing shriek that sends nearby creatures reeling in terror.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Bio, DamageTypes.Psychic, 
                 EffectTypes.None, ActionType.Standard, null);
-            SetAttackTypeAndRange(AttackType.Close, "burst 2");
+            SetAttackTypeAndRange(Range.CloseBurst(Name, 2));
             AddAttack(new AttackDetails("Each creature in burst",
                 new AbilityPlusLevelBonus("Terrifying Shriek attack bonus", new ScoreType[] { ScoreType.Wisdom }, 1),
                 new PowerDamage("Terrifying Shriek damage", 1.D6()),

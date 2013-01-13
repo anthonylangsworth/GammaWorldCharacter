@@ -21,7 +21,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetDescription("With a glance, you asses your foe's weaknesses and strike to enhance that disadvantage.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Psi, DamageTypes.Physical, 
                 EffectTypes.None, ActionType.Standard, null);
-            SetAttackTypeAndRange(AttackType.Melee, "weapon");
+            SetAttackTypeAndRange(Range.MeleeWeapon(Name));
             AddAttack("One creature", Hand.Main, ScoreType.Wisdom, ScoreType.ArmorClass, 1, 1,
                 "physical damage and the target grants combat advantage until the end of your next turn", null);
         }
@@ -40,11 +40,11 @@ namespace GammaWorldCharacter.Powers.Origins
             if (weapon != null
                 && weapon is RangedWeapon)
             {
-                SetAttackTypeAndRange(AttackType.Ranged, "weapon");
+                SetAttackTypeAndRange(Range.RangedWeapon(Name));
             }
             else
             {
-                SetAttackTypeAndRange(AttackType.Melee, "weapon");
+                SetAttackTypeAndRange(Range.MeleeWeapon(Name));
             }
         }
     }
