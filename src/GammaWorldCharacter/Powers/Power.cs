@@ -20,8 +20,6 @@ namespace GammaWorldCharacter.Powers
         private bool powerDetailsSet;
         private PowerSource powerSource;
         private string trigger;
-        private Type requiredOrigin;
-        private int requiredLevel;
         private SustainDetails sustainDetails;
         private bool unique;
 
@@ -31,39 +29,18 @@ namespace GammaWorldCharacter.Powers
         /// <param name="name">
         /// The name of the power.
         /// </param>
-        /// <param name="requiredOrigin">
-        /// The origin the character must be a memeber of to take this power or null,
-        /// if this power does not require an origin.
-        /// </param>
-        /// <param name="requiredLevel">
-        /// The minimum character level for this power.
-        /// </param>
         /// <exception cref="ArgumentNullException">
         /// name cannot be null.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// If not null, requiredClass must derive from <see cref="Origin"/>. requiredLevel must
-        /// also be positive.
-        /// </exception>
-        protected Power(string name, Type requiredOrigin, int requiredLevel)
+        protected Power(string name)
             : base(name, name)
         {
             if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentNullException("name");
             }
-            if (requiredLevel < 1)
-            {
-                throw new ArgumentException("requiredLevel must be positive", "requiredLevel");
-            }
-            if (requiredOrigin != null && !typeof(Origin).IsAssignableFrom(requiredOrigin))
-            {
-                throw new ArgumentException("requiredOrigin must be derived from Origin", "requiredOrigin");
-            }
 
             this.powerDetailsSet = false;
-            this.requiredOrigin = requiredOrigin;
-            this.requiredLevel = requiredLevel;
         }
 
         /// <summary>
@@ -111,18 +88,6 @@ namespace GammaWorldCharacter.Powers
             if (IsUnique && character.GetPowers().Any(x => Equals(x)))
             {
                 throw new UnmetPrerequisiteException("Power not already taken", this);
-            }
-            if (character.Level < requiredLevel)
-            {
-                throw new UnmetPrerequisiteException(
-                    string.Format("Level {0}+", requiredLevel), this);
-            }
-            if (requiredOrigin != null
-                && character.PrimaryOrigin.GetType() != requiredOrigin
-                && character.SecondaryOrigin.GetType() != requiredOrigin)
-            {
-                throw new UnmetPrerequisiteException(
-                    string.Format("Origin {0}", requiredOrigin.Name), this);
             }
         }
 
@@ -303,17 +268,6 @@ namespace GammaWorldCharacter.Powers
             get
             {
                 return powerSource;
-            }
-        }
-
-        /// <summary>
-        /// a <see cref="Character"/> must be at least this level to use this pwoer.
-        /// </summary>
-        public int RequiredLevel
-        {
-            get
-            {
-                return requiredLevel;
             }
         }
 

@@ -18,18 +18,11 @@ namespace GammaWorldCharacter.Powers
         /// <param name="name">
         /// The power's name.
         /// </param>
-        /// <param name="requiredClass">
-        /// The class the character must be a memeber of to take this power or null,
-        /// if this power does not require a class.
-        /// </param>
-        /// <param name="requiredLevel">
-        /// The minimum character level for this power.
-        /// </param>
         /// <exception cref="ArgumentNullException">
-        /// Niether <paramref name="name"/> nor <paramref name="requiredClass"/> can be null.
+        ///  <paramref name="name"/> cannot be null.
         /// </exception>
-        protected UtilityPower(string name, Type requiredClass, int requiredLevel)
-            : base(name, requiredClass, requiredLevel)
+        protected UtilityPower(string name)
+            : base(name)
         {
             // Do nothing
         }

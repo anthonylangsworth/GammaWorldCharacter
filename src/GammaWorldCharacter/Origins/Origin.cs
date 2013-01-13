@@ -64,17 +64,6 @@ namespace GammaWorldCharacter.Origins
         }
 
         /// <summary>
-        /// The <see cref="Power"/>s supplied by this <see cref="Origin"/>.
-        /// </summary>
-        public IEnumerable<Power> Powers
-        {
-            get
-            {
-                return powers.AsReadOnly();
-            }
-        }
-
-        /// <summary>
         /// The <see cref="PowerSource"/> the origin has an affinity for.
         /// </summary>
         public PowerSource PowerSource
@@ -105,22 +94,12 @@ namespace GammaWorldCharacter.Origins
         }
 
         /// <summary>
-        /// Add a <see cref="Power"/>.
+        /// The novice <see cref="Power"/>.
         /// </summary>
-        /// <param name="power">
-        /// The <see cref="Power"/> to add.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// No argument can be null.
-        /// </exception>
-        protected void AddPower(Power power)
+        public Power NovicePower
         {
-            if (power == null)
-            {
-                throw new ArgumentNullException("power");
-            }
-
-            powers.Add(power);
+            get;
+            protected set;
         }
 
         /// <summary>
@@ -142,5 +121,44 @@ namespace GammaWorldCharacter.Origins
             traits.Add(trait);
         }
 
+        /// <summary>
+        /// Check that <see cref="NovicePower"/> has been set.
+        /// </summary>
+        /// <remarks>
+        /// This implementation calls AddModifiers and creates a dependency for each modifier added during 
+        /// the DependencyMappting stage.
+        /// <para/>
+        /// This needs to be overridden if a requirements check or bonus involves a Score or ModifierSource
+        /// not referenced in AddModifiers.
+        /// </remarks>
+        /// <param name="addDependency">
+        /// Add by calling this method.
+        /// </param>
+        /// <param name="character">
+        /// The <see cref="Character"/> to add dependencies for.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Neither dependencies nor Character can be null.
+        /// </exception>
+        protected override void AddDependencies(Action<ModifierSource, ModifierSource> addDependency, Character character)
+        {
+            base.AddDependencies(addDependency, character);
+
+            if (NovicePower == null)
+            {
+                throw new ArgumentException("Novice power not specified.");
+            }
+        }
+
+        /// <summary>
+        /// The <see cref="Power"/>s provided by having this origin, specifically the novice power only
+        /// </summary>
+        public IEnumerable<Power> Powers
+        {
+            get
+            {
+                yield return NovicePower;
+            }
+        }
     }
 }

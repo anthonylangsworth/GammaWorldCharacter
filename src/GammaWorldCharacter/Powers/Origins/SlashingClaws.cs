@@ -15,7 +15,7 @@ namespace GammaWorldCharacter.Powers.Origins
         /// Create a new <see cref="SlashingClaws"/>.
         /// </summary>
         public SlashingClaws()
-            : base("Slashing Claws", typeof(Felinoid), 1)
+            : base("Slashing Claws")
         {
             SetDescription("You rake at your foe's face with a lighting fast flurry of razor sharp claws.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Bio, DamageTypes.Physical, 

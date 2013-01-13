@@ -15,7 +15,7 @@ namespace GammaWorldCharacter.Powers.Origins
         /// Create a new <see cref="MachineGrip"/>.
         /// </summary>
         public MachineGrip()
-            : base("Machine Grip", typeof(Android), 1)
+            : base("Machine Grip")
         {
             SetDescription("When you get a hand on an enemy, your grip tightens like a steel-jawed vice.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Dark, DamageTypes.Physical, 

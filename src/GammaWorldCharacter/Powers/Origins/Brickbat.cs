@@ -16,7 +16,7 @@ namespace GammaWorldCharacter.Powers.Origins
         /// Create a new <see cref="Brickbat"/>.
         /// </summary>
         public Brickbat()
-            : base("Brickbat", typeof(Giant), 1)
+            : base("Brickbat")
         {
             SetDescription("You spin in a circle with your weapon, knocking down a wide swathe of foes.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Bio, DamageTypes.Physical, 
@@ -24,17 +24,6 @@ namespace GammaWorldCharacter.Powers.Origins
             SetAttackTypeAndRange(Range.CloseBurst(Name, 1));
             AddAttack("Each enemy in burst you can see", Hand.Main, ScoreType.Strength, ScoreType.ArmorClass, 1, 0,
                 "physical damage and you knock the target prone", null);
-        }
-
-        /// <summary>
-        /// This power is only usable if the character is wielding a melee weapon.
-        /// </summary>
-        /// <param name="character"></param>
-        /// <returns></returns>
-        public override bool IsUsable(Character character)
-        {
-            return base.IsUsable(character)
-                && character.GetHeldItem<MeleeWeapon>(Hand.Main) != null;
         }
     }
 }

@@ -16,22 +16,11 @@ namespace GammaWorldCharacter.Powers
         /// <param name="name">
         /// The power's name.
         /// </param>
-        /// <param name="requiredOrigin">
-        /// The class the character must be a memeber of to take this power or null,
-        /// if this power does not require a class.
-        /// </param>
-        /// <param name="requiredLevel">
-        /// The minimum character level for this power.
-        /// </param>
         /// <exception cref="ArgumentNullException">
         /// <paramref name="name"/> can be null.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="requiredOrigin"/> must be for a class that inherits from <see cref="Origin"/>.
-        /// <paramref name="requiredLevel"/> must be positive.
-        /// </exception>
-        protected WeaponAttackPower(string name, Type requiredOrigin, int requiredLevel)
-            : base(name, requiredOrigin, requiredLevel)
+        protected WeaponAttackPower(string name)
+            : base(name)
         {
             // Do nothing
         }

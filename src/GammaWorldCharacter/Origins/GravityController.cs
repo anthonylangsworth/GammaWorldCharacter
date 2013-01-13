@@ -21,7 +21,7 @@ namespace GammaWorldCharacter.Origins
                 Effect.TheTarget.SuffersDamage(1.D10()).And.Creature(Where.WithinSquares(2, Of.Target)).IsImmobilized(Until.EndOfYourNextTurn))
         {
             AddTrait(new Trait("Gravity by Choice", "You take no damage from falling."));
-            AddPower(new GravitationalPulse());
+            NovicePower = new GravitationalPulse();
         }
 
         /// <summary>

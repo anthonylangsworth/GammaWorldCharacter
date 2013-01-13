@@ -13,7 +13,7 @@ namespace GammaWorldCharacter.Powers
         /// Create a new <see cref="BasicAttack"/>,
         /// </summary>
         public BasicAttack()
-            : base("Basic Attack", null, 1) 
+            : base("Basic Attack") 
         {
             SetDescription("For you, this is the most natural thing in the world. For your target, it's a really bad day.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.None,

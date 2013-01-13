@@ -20,7 +20,7 @@ namespace GammaWorldCharacter.Origins
             : base("Electrokinetic", ScoreType.Wisdom, PowerSource.Dark,
             Effect.TheTarget.SuffersDamage(1.D10()).And.Ally(Where.WithinSquares(5, Of.Target)).GainsTemporaryHitPoints(10))
         {
-            AddPower(new ElectricBoogaloo());
+            NovicePower = new ElectricBoogaloo();
         }
 
         /// <summary>

@@ -21,7 +21,7 @@ namespace GammaWorldCharacter.Origins
                 Effect.TheTarget.SuffersDamage(1.D10()).And.TheTarget.Pushed(3))
         {
             AddTrait(new Trait("Encumbered Speed", "You move your speed, even while wearing heavy armor or carrying a heavy load."));
-            AddPower(new Brickbat());
+            NovicePower = new Brickbat();
         }
 
         /// <summary>

@@ -20,18 +20,11 @@ namespace GammaWorldCharacter.Powers
         /// <param name="name">
         /// The power's name.
         /// </param>
-        /// <param name="requiredOrigin">
-        /// The class the character must have this origin or null,
-        /// if this power does not require a class.
-        /// </param>
-        /// <param name="requiredLevel">
-        /// The minimum character level for this power.
-        /// </param>
         /// <exception cref="ArgumentNullException">
         /// Niether name nor targetText can be null.
         /// </exception>
-        protected AttackPower(string name, Type requiredOrigin, int requiredLevel)
-            : base(name, requiredOrigin, requiredLevel)
+        protected AttackPower(string name)
+            : base(name)
         {
             this.attacks = new List<AttackDetails>();
             this.criticals = new List<EffectExpression>();

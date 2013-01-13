@@ -15,7 +15,7 @@ namespace GammaWorldCharacter.Powers.Origins
         /// Create a new <see cref="VitalityTransfer"/>.
         /// </summary>
         public VitalityTransfer()
-            : base("Vitality Transfer", typeof(Empath), 1)
+            : base("Vitality Transfer")
         {
             SetDescription("First do no harm-not to anyone you like, anyway.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Psi, DamageTypes.None, 

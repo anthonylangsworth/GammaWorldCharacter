@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using GammaWorldCharacter.Origins;
 using GammaWorldCharacter.Powers.Effects;
+using GammaWorldCharacter.Test.Unit.Powers;
 
 namespace GammaWorldCharacter.Test.Unit.Origins
 {
@@ -30,7 +31,7 @@ namespace GammaWorldCharacter.Test.Unit.Origins
         public NullOrigin(ScoreType scoreType)
             : base("Null", scoreType, PowerSource.Bio, Effect.TheTarget.SuffersDamage(1.D10()))
         {
-            // Do nothing
+            NovicePower = new NullPower();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace GammaWorldCharacter.Origins
         {
             AddTrait(new AdditionalMovementMode("Bug Legs", 
                 "You can climb your speed. You can even climb upside down across horizontal surfaces. You can't attack while climbing.", ScoreType.Climb));
-            AddPower(new EauDeRoach());
+            NovicePower = new EauDeRoach();
         }
 
         /// <summary>

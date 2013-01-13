@@ -22,7 +22,7 @@ namespace GammaWorldCharacter.Origins
             Effect.TheTarget.SuffersDamage(1.D10()).And.You.Shift(3, ActionType.Free))
         {
             AddTrait(new Trait("Catfall", "You take no damage from falls of 50 feet or less and you always land on your feet when you fall."));
-            AddPower(new SlashingClaws());
+            NovicePower = new SlashingClaws();
         }
 
         /// <summary>

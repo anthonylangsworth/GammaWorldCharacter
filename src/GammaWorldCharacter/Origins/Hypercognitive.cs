@@ -19,7 +19,7 @@ namespace GammaWorldCharacter.Origins
             : base("Hypercognitive", ScoreType.Wisdom, PowerSource.Psi,
                 Effect.TheTarget.SuffersDamage(1.D10()).And.YouOrAlly(Where.WithinSquares(5, Of.You)).GainsModifiers(Your.Defenses, 2, Until.EndOfYourNextTurn))
         {
-            AddPower(new UncannyStrike());
+            NovicePower = new UncannyStrike();
         }
 
         /// <summary>

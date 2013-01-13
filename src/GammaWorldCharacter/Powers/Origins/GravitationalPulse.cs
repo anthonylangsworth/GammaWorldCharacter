@@ -15,7 +15,7 @@ namespace GammaWorldCharacter.Powers.Origins
         /// Create a new <see cref="GravitationalPulse"/>.
         /// </summary>
         public GravitationalPulse()
-            : base("Gravitational Pulse", typeof(GravityController), 1)
+            : base("Gravitational Pulse")
         {
             SetDescription("You unleach a flood of gravitons that swarm your foe dragging down its every step.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Dark, DamageTypes.Physical, 

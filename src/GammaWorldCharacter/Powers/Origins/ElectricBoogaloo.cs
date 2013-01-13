@@ -15,7 +15,7 @@ namespace GammaWorldCharacter.Powers.Origins
         /// Create a new <see cref="ElectricBoogaloo"/>.
         /// </summary>
         public ElectricBoogaloo()
-            : base("Electric Boogaloo", typeof(Electrokinetic), 1)
+            : base("Electric Boogaloo")
         {
             SetDescription("You zap your enemy with an arc of electricity, making your foe jerk and dance around like a spaz.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Dark, DamageTypes.Electricity,

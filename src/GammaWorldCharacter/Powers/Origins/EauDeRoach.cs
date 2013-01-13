@@ -12,10 +12,10 @@ namespace GammaWorldCharacter.Powers.Origins
     public class EauDeRoach : AttackPower
     {
         /// <summary>
-        /// Create a new <see cref="MachineGrip"/>.
+        /// Create a new <see cref="EauDeRoach"/>.
         /// </summary>
         public EauDeRoach()
-            : base("Eau de Roach", typeof(Cockroach), 1)
+            : base("Eau de Roach")
         {
             SetDescription("You spit at your foe. The spit is a combination of excrement, scent gland fluid, regurgitated food and stomach acid. Yep, it's nasty and it burns your foe and forces it away from you.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Bio, DamageTypes.Acid, 

@@ -15,7 +15,7 @@ namespace GammaWorldCharacter.Powers.Origins
         /// Create a <see cref="DoubleTrouble"/>.
         /// </summary>
         public DoubleTrouble()
-            : base("Double Trouble", typeof(Doppelganger), 1)
+            : base("Double Trouble")
         {
             SetDescription("You create a duplicate of yourself for a short time.");
             SetAttackTypeAndRange(Range.Personal(Name));

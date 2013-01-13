@@ -16,7 +16,7 @@ namespace GammaWorldCharacter.Powers.Origins
         /// Create a new <see cref="UncannyStrike"/>.
         /// </summary>
         public UncannyStrike()
-            : base("Uncanny Strike", typeof(Hypercognitive), 1)
+            : base("Uncanny Strike")
         {
             SetDescription("With a glance, you asses your foe's weaknesses and strike to enhance that disadvantage.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Psi, DamageTypes.Physical, 

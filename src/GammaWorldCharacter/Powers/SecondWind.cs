@@ -14,7 +14,7 @@ namespace GammaWorldCharacter.Powers
         /// Create a <see cref="SecondWind"/>.
         /// </summary>
         public SecondWind()
-            : base("Second Wind", null, 1)
+            : base("Second Wind")
         {
             SetPowerDetails(PowerFrequency.Encounter, PowerSource.None, DamageTypes.None, 
                 EffectTypes.Healing, ActionType.Minor, null);

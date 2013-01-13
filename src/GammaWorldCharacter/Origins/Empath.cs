@@ -22,7 +22,7 @@ namespace GammaWorldCharacter.Origins
         {
             AddTrait(new Trait("Pacifying Aura", "You and each ally adjacent to you never grant combat advantage."));
             AddTrait(new Trait("Vital Presence", "Allies adjacent to you get a +5 bonus to death saving throws."));
-            AddPower(new VitalityTransfer());
+            NovicePower = new VitalityTransfer();
         }
 
         /// <summary>

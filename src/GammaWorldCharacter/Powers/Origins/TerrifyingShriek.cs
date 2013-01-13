@@ -15,7 +15,7 @@ namespace GammaWorldCharacter.Powers.Origins
         /// Create a new <see cref="TerrifyingShriek"/>.
         /// </summary>
         public TerrifyingShriek()
-            : base("Terrifying Shriek", typeof(Hawkoid), 1)
+            : base("Terrifying Shriek")
         {
             SetDescription("You make a piercing shriek that sends nearby creatures reeling in terror.");
             SetPowerDetails(PowerFrequency.AtWill, PowerSource.Bio, DamageTypes.Psychic, 

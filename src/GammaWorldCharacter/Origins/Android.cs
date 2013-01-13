@@ -22,7 +22,7 @@ namespace GammaWorldCharacter.Origins
                 Effect.TheTarget.SuffersDamage(1.D10()).And.TheTarget.GrantsCombatAdvantage(To.You, Until.EndOfEncounter))
         {
             AddTrait(new Trait("Machine Powered", "You do not need to eat, drink or breathe"));
-            AddPower(new MachineGrip());
+            NovicePower = new MachineGrip();
         }
 
         /// <summary>
