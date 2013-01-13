@@ -75,11 +75,13 @@ namespace GammaWorldCharacter.Test.Integration
             base.TestAttackPower(type, attack, attackBonus, damageDiceCount, damageDiceType, damageBonus, additionalText);
         }
 
-        [TestCase(typeof(GammaWorldCharacter.Powers.SecondWind))]
-        [TestCase(typeof(GammaWorldCharacter.Powers.Origins.DoubleTrouble))]
-        public override void TestUtilityPower(Type type)
+        [TestCase(typeof(GammaWorldCharacter.Powers.SecondWind), "You heal 15 hit points and gain +2 to all defenses until the end of your next turn.")]
+        [TestCase(typeof(GammaWorldCharacter.Powers.Origins.DoubleTrouble), "You create a duplicate of yourself in an unnoccupied square within 5 squares of you. "
+                + "The duplicate acts in the initiative order directly after you and can take all actions that you can take, except that it can't use doppelganger powers, Alpha Mutation or Omega Tech. "
+                + "Its statistics are the same as yours, except that it only has 1 hit point. Your duplicate disappears when it drops to 0 hit points or at the end of your next turn.")]
+        public override void TestUtilityPower(Type type, string expectedEffect)
         {
-            base.TestUtilityPower(type);
+            base.TestUtilityPower(type, expectedEffect);
         }
 
         [TestCase(typeof(GammaWorldCharacter.Powers.BasicAttack), ActionType.Standard, AttackType.Melee, "1", 64, null, 0, PowerFrequency.AtWill, PowerSource.None, null)]

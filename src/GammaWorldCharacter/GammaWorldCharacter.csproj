@@ -77,6 +77,7 @@
     <Compile Include="Hand.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\Level02.cs" />
+    <Compile Include="Levels\Level03.cs" />
     <Compile Include="Levels\OriginChoice.cs" />
     <Compile Include="Modifier.cs" />
     <Compile Include="ModifierHelper.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Powers\Effects\UntilHelper.cs" />
     <Compile Include="Powers\Effects\Where.cs" />
     <Compile Include="Powers\Effects\Your.cs" />
+    <Compile Include="Powers\Origins\BeMyBattery.cs" />
     <Compile Include="Powers\Origins\Brickbat.cs" />
     <Compile Include="Powers\Origins\TerrifyingShriek.cs" />
     <Compile Include="Powers\Origins\GravitationalPulse.cs" />

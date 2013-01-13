@@ -43,12 +43,13 @@ namespace GammaWorldCharacter.Test.Integration
             Assert.AreEqual(additionalText, attackPower.Attacks[attack].AdditionalText, "Additional text differs");
         }
 
-        public virtual void TestUtilityPower(Type type)
+        public virtual void TestUtilityPower(Type type, string expectedEffect)
         {
             UtilityPower utilityPower;
 
             utilityPower = Character.GetPowers().Where(x => (x.GetType() == type)).First() as UtilityPower;
             Assert.NotNull(utilityPower, "Utility power not found");
+            Assert.That(utilityPower.Effect, Is.EqualTo(expectedEffect), "Utility power effect differs");
         }
 
         public virtual void TestPower(Type type, ActionType actionType, AttackType attackType, string range, DamageTypes damageTypes, string effect,

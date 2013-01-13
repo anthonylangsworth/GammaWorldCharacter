@@ -21,7 +21,7 @@
 	// 4. Copy CharacterTest.generated.cs to the test assembly and rename.
 
 	// NOTE: Remember to change the character in the Character property below, too.
-	Character character = Level02Characters.Virtus;
+	Character character = Level03Characters.Clip;
 #>
 using System;
 using System.Collections.Generic;
@@ -85,13 +85,13 @@ namespace GammaWorldCharacter.Test.Integration
     foreach(UtilityPower utilityPower in character.GetPowers().Where(x => x is UtilityPower))
     {
 #>
-        [TestCase(typeof(<#= utilityPower.GetType().FullName #>))]
+        [TestCase(typeof(<#= utilityPower.GetType().FullName #>), "<#= utilityPower.Effect #>")]
 <#
     }
 #>
-        public override void TestUtilityPower(Type type)
+        public override void TestUtilityPower(Type type, string expectedEffect)
         {
-            base.TestUtilityPower(type);
+            base.TestUtilityPower(type, expectedEffect);
         }
 
 <#
@@ -117,7 +117,7 @@ namespace GammaWorldCharacter.Test.Integration
             {
 				if(testCharacter == null)
 				{
-					testCharacter = Level02Characters.Virtus;
+					testCharacter = Level03Characters.Clip;
 				}
                 return testCharacter;
             }

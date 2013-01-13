@@ -76,10 +76,10 @@ namespace GammaWorldCharacter.Test.Integration
             base.TestAttackPower(type, attack, attackBonus, damageDiceCount, damageDiceType, damageBonus, additionalText);
         }
 
-        [TestCase(typeof(GammaWorldCharacter.Powers.SecondWind))]
-        public override void TestUtilityPower(Type type)
+        [TestCase(typeof(GammaWorldCharacter.Powers.SecondWind), "You heal 12 hit points and gain +2 to all defenses until the end of your next turn.")]
+        public override void TestUtilityPower(Type type, string expectedEffect)
         {
-            base.TestUtilityPower(type);
+            base.TestUtilityPower(type, expectedEffect);
         }
 
         [TestCase(typeof(GammaWorldCharacter.Powers.BasicAttack), ActionType.Standard, AttackType.Ranged, "10", 64, null, 0, PowerFrequency.AtWill, PowerSource.None, null)]

@@ -23,6 +23,7 @@ namespace GammaWorldCharacter.Origins
         {
             AddTrait(new Trait("Machine Powered", "You do not need to eat, drink or breathe"));
             NovicePower = new MachineGrip();
+            UtilityPower = new BeMyBattery();
         }
 
         /// <summary>

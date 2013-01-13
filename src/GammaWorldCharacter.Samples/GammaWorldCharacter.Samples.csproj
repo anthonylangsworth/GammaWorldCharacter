@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Level02Characters.cs" />
+    <Compile Include="Level03Characters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Level01Characters.cs" />
   </ItemGroup>

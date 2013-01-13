@@ -103,6 +103,15 @@ namespace GammaWorldCharacter.Origins
         }
 
         /// <summary>
+        /// Ther utility <see cref="Power"/>.
+        /// </summary>
+        public Power UtilityPower
+        {
+            get; 
+            protected set;
+        }
+
+        /// <summary>
         /// Add a <see cref="Trait"/>.
         /// </summary>
         /// <param name="trait">
@@ -146,13 +155,18 @@ namespace GammaWorldCharacter.Origins
 
             if (NovicePower == null)
             {
-                throw new ArgumentException("Novice power not specified.");
+                throw new InvalidOperationException(string.Format("Novice power not specified for origin {0}.", Name));
             }
+            //if (UtilityPower == null)
+            //{
+            //    throw new InvalidOperationException(string.Format("Utility power not specified for origin {0}.", Name));
+            //}
         }
 
         /// <summary>
         /// The <see cref="Power"/>s provided by having this origin, specifically the novice power only
         /// </summary>
+        /// <seealso cref="NovicePower"/>
         public IEnumerable<Power> Powers
         {
             get
