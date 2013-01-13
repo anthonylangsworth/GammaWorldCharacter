@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,10 +19,18 @@ namespace GammaWorldCharacter.Scores
         /// <param name="abbreviation">
         /// An abbreviated ability score.
         /// </param>
-        public AbilityScore(string name, string abbreviation)
+        /// <param name="modifierScore">
+        /// The <see cref="ScoreType"/> that
+        /// </param>
+        public AbilityScore(string name, string abbreviation, ScoreType modifierScore)
             : base(name, abbreviation)
         {
-            // Do nothing
+            if (!ScoreTypeHelper.AbilityScoreModifiers.Contains((modifierScore)))
+            {
+                throw new ArgumentException("modifierScore is not an ability score modifier.");
+            }
+
+            this.ModifierScore = modifierScore;
         }
 
         /// <summary>
@@ -48,6 +57,37 @@ namespace GammaWorldCharacter.Scores
 
                 return result;
             }
+        }
+
+        /// <summary>
+        /// The modifier score.
+        /// </summary>
+        public ScoreType ModifierScore
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Add the modifier to the modifier score.
+        /// </summary>
+        /// <param name="stage">
+        /// The stage during character update this is called.
+        /// </param>
+        /// <param name="addModifier">
+        /// Add modifiers by calling this method.
+        /// </param>
+        /// <param name="character">
+        /// The character to add modifiers for. This should not be modified directly.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Neither modifiers nor character can be null.
+        /// </exception>
+        protected override void AddModifiers(CharacterUpdateStage stage, Action<Modifier> addModifier, Character character)
+        {
+            base.AddModifiers(stage, addModifier, character);
+
+            addModifier(new Modifier(this, character[ModifierScore], Modifier));
         }
 
         /// <summary>

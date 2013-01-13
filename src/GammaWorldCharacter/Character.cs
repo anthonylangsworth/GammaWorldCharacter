@@ -872,12 +872,18 @@ namespace GammaWorldCharacter
             result = new Dictionary<ScoreType, Score>();
 
             // Add specialized scores
-            result.Add(ScoreType.Strength, new AbilityScore("Strength", "Str"));
-            result.Add(ScoreType.Constitution, new AbilityScore("Constitution", "Con"));
-            result.Add(ScoreType.Dexterity, new AbilityScore("Dexterity", "Dex"));
-            result.Add(ScoreType.Intelligence, new AbilityScore("Intelligence", "Int"));
-            result.Add(ScoreType.Wisdom, new AbilityScore("Wisdom", "Wis"));
-            result.Add(ScoreType.Charisma, new AbilityScore("Charisma", "Cha"));
+            result.Add(ScoreType.Strength, new AbilityScore("Strength", "Str", 
+                ScoreType.StrengthModifier));
+            result.Add(ScoreType.Constitution, new AbilityScore("Constitution", "Con", 
+                ScoreType.ConstitutionModifier));
+            result.Add(ScoreType.Dexterity, new AbilityScore("Dexterity", "Dex", 
+                ScoreType.DexterityModifier));
+            result.Add(ScoreType.Intelligence, new AbilityScore("Intelligence", "Int", 
+                ScoreType.IntelligenceModifier));
+            result.Add(ScoreType.Wisdom, new AbilityScore("Wisdom", "Wis", 
+                ScoreType.WisdomModifier));
+            result.Add(ScoreType.Charisma, new AbilityScore("Charisma", "Cha", 
+                ScoreType.CharismaModifier));
             result.Add(ScoreType.HitPoints, new HitPoints());
             result.Add(ScoreType.Bloodied, new Bloodied());
             result.Add(ScoreType.ArmorClass, new ArmorClass());

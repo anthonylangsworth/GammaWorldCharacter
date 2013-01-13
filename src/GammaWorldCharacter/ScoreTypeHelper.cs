@@ -29,6 +29,25 @@ namespace GammaWorldCharacter
         }
 
         /// <summary>
+        /// The ability score modifiers.
+        /// </summary>
+        public static IEnumerable<ScoreType> AbilityScoreModifiers
+        {
+            get
+            {
+                return new ScoreType[]
+                {
+                    ScoreType.StrengthModifier,
+                    ScoreType.ConstitutionModifier,
+                    ScoreType.DexterityModifier,
+                    ScoreType.IntelligenceModifier,
+                    ScoreType.WisdomModifier,
+                    ScoreType.CharismaModifier
+                };
+            }
+        }
+
+        /// <summary>
         /// Does the given list of <see cref="ScoreType"/>s contain duplicates?
         /// </summary>
         /// <param name="scoreTypes">
@@ -218,6 +237,24 @@ namespace GammaWorldCharacter
                 case ScoreType.Charisma:
                     result = "Charisma";
 				    break;
+                case ScoreType.StrengthModifier:
+                    result = "Strength Modifier";
+                    break;
+                case ScoreType.ConstitutionModifier:
+                    result = "Constitution Modifier";
+                    break;
+                case ScoreType.DexterityModifier:
+                    result = "Dexterity Modifier";
+                    break;
+                case ScoreType.IntelligenceModifier:
+                    result = "Intelligence Modifier";
+                    break;
+                case ScoreType.WisdomModifier:
+                    result = "Wisdom Modifier";
+                    break;
+                case ScoreType.CharismaModifier:
+                    result = "Charisma Modifier";
+                    break;
                 case ScoreType.Initiative:
                     result = "Initiative";
 				    break;

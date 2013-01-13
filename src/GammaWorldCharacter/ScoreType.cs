@@ -30,6 +30,30 @@
         /// </summary>
         Charisma,
         /// <summary>
+        /// Strength modifier.
+        /// </summary>
+        StrengthModifier,
+        /// <summary>
+        /// Constitution modifier.
+        /// </summary>
+        ConstitutionModifier,
+        /// <summary>
+        /// Dexterity modifier.
+        /// </summary>
+        DexterityModifier,
+        /// <summary>
+        /// Intelligence modifier.
+        /// </summary>
+        IntelligenceModifier,
+        /// <summary>
+        /// Wisdom modifier.
+        /// </summary>
+        WisdomModifier,
+        /// <summary>
+        /// Charism modifier.
+        /// </summary>
+        CharismaModifier,
+        /// <summary>
         /// Initiative.
         /// </summary>
         Initiative,
