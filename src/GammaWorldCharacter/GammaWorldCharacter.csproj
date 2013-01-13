@@ -132,8 +132,12 @@
     <Compile Include="Powers\Effects\UntilHelper.cs" />
     <Compile Include="Powers\Effects\Where.cs" />
     <Compile Include="Powers\Effects\Your.cs" />
+    <Compile Include="Powers\Origins\StandClear.cs" />
+    <Compile Include="Powers\Origins\TwoPlacesAtOnce.cs" />
+    <Compile Include="Powers\ScoreBonus.cs" />
     <Compile Include="Powers\Origins\BeMyBattery.cs" />
     <Compile Include="Powers\Origins\Brickbat.cs" />
+    <Compile Include="Powers\Origins\HardToKill.cs" />
     <Compile Include="Powers\Origins\TerrifyingShriek.cs" />
     <Compile Include="Powers\Origins\GravitationalPulse.cs" />
     <Compile Include="Powers\Origins\SlashingClaws.cs" />

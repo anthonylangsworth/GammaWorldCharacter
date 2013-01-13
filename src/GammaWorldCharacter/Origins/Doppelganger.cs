@@ -24,6 +24,7 @@ namespace GammaWorldCharacter.Origins
             AddTrait(new Trait("Two Possibilities", 
                 "Whenever you draw an Alpha Mutation card, draw two cards from the same deck and choose which one to keep. Put the other on the bottom of the deck."));
             NovicePower = new DoubleTrouble();
+            UtilityPower = new TwoPlacesAtOnce();
         }
 
         /// <summary>

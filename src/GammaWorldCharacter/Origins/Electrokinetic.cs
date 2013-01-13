@@ -21,6 +21,7 @@ namespace GammaWorldCharacter.Origins
             Effect.TheTarget.SuffersDamage(1.D10()).And.Ally(Where.WithinSquares(5, Of.Target)).GainsTemporaryHitPoints(10))
         {
             NovicePower = new ElectricBoogaloo();
+            UtilityPower = new StandClear();
         }
 
         /// <summary>

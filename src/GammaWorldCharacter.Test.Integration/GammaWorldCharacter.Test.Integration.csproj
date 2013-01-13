@@ -59,6 +59,9 @@
     <Compile Include="TestLevel02Kitty.cs" />
     <Compile Include="TestLevel02Virtus.cs" />
     <Compile Include="TestLevel03Clip.cs" />
+    <Compile Include="TestLevel03ClipAlternate.cs" />
+    <Compile Include="TestLevel03Keravnos.cs" />
+    <Compile Include="TestLevel03KeravnosAlternate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GammaWorldCharacter.Samples\GammaWorldCharacter.Samples.csproj">
