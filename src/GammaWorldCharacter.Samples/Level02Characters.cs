@@ -50,7 +50,7 @@ namespace GammaWorldCharacter.Samples
         }
 
         /// <summary>
-        /// A level 1 Empath Felinoid.
+        /// A level 2 Empath Felinoid.
         /// </summary>
         [Export]
         public static Character Kitty
@@ -68,7 +68,7 @@ namespace GammaWorldCharacter.Samples
         }
 
         /// <summary>
-        /// A level 1 Giant Gravity Controller.
+        /// A level 2 Giant Gravity Controller.
         /// </summary>
         [Export]
         public static Character Virtus
@@ -86,7 +86,7 @@ namespace GammaWorldCharacter.Samples
         }
 
         /// <summary>
-        /// A level 1 Hawkoid Hypercognitive.
+        /// A level 2 Hawkoid Hypercognitive.
         /// </summary>
         [Export]
         public static Character Hermes

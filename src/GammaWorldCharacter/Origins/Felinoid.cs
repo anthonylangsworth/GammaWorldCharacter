@@ -23,6 +23,7 @@ namespace GammaWorldCharacter.Origins
         {
             AddTrait(new Trait("Catfall", "You take no damage from falls of 50 feet or less and you always land on your feet when you fall."));
             NovicePower = new SlashingClaws();
+            UtilityPower = new Pounce();
         }
 
         /// <summary>

@@ -20,6 +20,7 @@ namespace GammaWorldCharacter.Powers.Origins
             SetDescription("You jold an ally out of whatever funk he's in");
             SetPowerDetails(PowerFrequency.Encounter, PowerSource.Dark, DamageTypes.Electricity, EffectTypes.Healing, ActionType.Standard, null);
             SetAttackTypeAndRange(Range.Melee(Name, 1));
+            SetTarget("One ally.");
             SetEffect("Either the target regains {0} hit points or makes a saving through with a +{1} bonus",
                 new AbilityPlusLevelBonus("Stand Clear hit points", new []{ ScoreType.Wisdom }, 1),
                 new AbilityBonus("Stand clear saving throw", new []{ ScoreType.Wisdom} ));

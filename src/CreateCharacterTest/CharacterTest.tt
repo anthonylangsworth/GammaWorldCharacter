@@ -23,7 +23,7 @@
 	// 4. Copy CharacterTest.generated.cs to the test assembly and rename.
 
 	// NOTE: Remember to change the character in the Character property below, too.
-	Character character = Level03Characters.KeravnosAlternate;
+	Character character = Level03Characters.KittyAlternate;
 #>
 using System;
 using System.Collections.Generic;
@@ -120,7 +120,7 @@ namespace GammaWorldCharacter.Test.Integration
             {
 				if(testCharacter == null)
 				{
-					testCharacter = Level03Characters.KeravnosAlternate;
+					testCharacter = Level03Characters.KittyAlternate;
 				}
                 return testCharacter;
             }

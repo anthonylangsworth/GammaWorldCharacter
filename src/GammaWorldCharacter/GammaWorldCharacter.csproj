@@ -132,6 +132,8 @@
     <Compile Include="Powers\Effects\UntilHelper.cs" />
     <Compile Include="Powers\Effects\Where.cs" />
     <Compile Include="Powers\Effects\Your.cs" />
+    <Compile Include="Powers\Origins\Pounce.cs" />
+    <Compile Include="Powers\Origins\ShareStrength.cs" />
     <Compile Include="Powers\Origins\StandClear.cs" />
     <Compile Include="Powers\Origins\TwoPlacesAtOnce.cs" />
     <Compile Include="Powers\ScoreBonus.cs" />

@@ -65,7 +65,7 @@ namespace GammaWorldCharacter.Samples
         }
 
         /// <summary>
-        /// A level 3 Doppelganger Electrokinetic (using other origin utility power instead)..
+        /// A level 3 Doppelganger Electrokinetic (using other origin utility power instead).
         /// </summary>
         [Export]
         public static Character KeravnosAlternate
@@ -77,6 +77,43 @@ namespace GammaWorldCharacter.Samples
                 character = Level02Characters.Keravnos;
                 character.Name = character.Name + " (Alternate)";
                 character.AddLevels(new Level03(OriginChoice.Primary));
+                character.Update();
+
+                return character;
+            }
+        }
+
+        /// <summary>
+        /// A level 3 Empath Felinoid.
+        /// </summary>
+        [Export]
+        public static Character Kitty
+        {
+            get
+            {
+                Character character;
+
+                character = Level02Characters.Kitty;
+                character.AddLevels(new Level03(OriginChoice.Primary));
+                character.Update();
+
+                return character;
+            }
+        }
+
+        /// <summary>
+        /// A level 3 Empath Felinoid (using other origin utility power instead).
+        /// </summary>
+        [Export]
+        public static Character KittyAlternate
+        {
+            get
+            {
+                Character character;
+
+                character = Level02Characters.Kitty;
+                character.Name = character.Name + " (Alternate)";
+                character.AddLevels(new Level03(OriginChoice.Secondary));
                 character.Update();
 
                 return character;
