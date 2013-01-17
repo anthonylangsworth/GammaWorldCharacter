@@ -88,6 +88,8 @@
     <Compile Include="NullModifierSource.cs" />
     <Compile Include="Origins\Android.cs" />
     <Compile Include="Origins\Cockroach.cs" />
+    <Compile Include="Powers\Origins\FlapAway.cs" />
+    <Compile Include="Powers\Origins\FocusedStrength.cs" />
     <Compile Include="Origins\Hawkoid.cs" />
     <Compile Include="Origins\Felinoid.cs" />
     <Compile Include="Origins\Doppelganger.cs" />
@@ -133,7 +135,9 @@
     <Compile Include="Powers\Effects\Where.cs" />
     <Compile Include="Powers\Effects\Your.cs" />
     <Compile Include="Powers\Origins\Pounce.cs" />
+    <Compile Include="Powers\Origins\SawItComing.cs" />
     <Compile Include="Powers\Origins\ShareStrength.cs" />
+    <Compile Include="Powers\Origins\SidewaysGravity.cs" />
     <Compile Include="Powers\Origins\StandClear.cs" />
     <Compile Include="Powers\Origins\TwoPlacesAtOnce.cs" />
     <Compile Include="Powers\ScoreBonus.cs" />

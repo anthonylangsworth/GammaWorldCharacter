@@ -119,5 +119,80 @@ namespace GammaWorldCharacter.Samples
                 return character;
             }
         }
+
+        /// <summary>
+        /// A level 3 Giant Gravity Controller.
+        /// </summary>
+        [Export]
+        public static Character Virtus
+        {
+            get
+            {
+                Character character;
+
+                character = Level02Characters.Virtus;
+                character.AddLevels(new Level03(OriginChoice.Primary));
+                character.Update();
+
+                return character;
+            }
+        }
+
+        /// <summary>
+        /// A level 3 Giant Gravity Controller (using the other origin utility power instead).
+        /// </summary>
+        [Export]
+        public static Character VirtusAlternate
+        {
+            get
+            {
+                Character character;
+
+                character = Level02Characters.Virtus;
+                character.Name = character.Name + " (Alternate)";
+                character.AddLevels(new Level03(OriginChoice.Secondary));
+                character.Update();
+
+                return character;
+            }
+        }
+
+        /// <summary>
+        /// A level 3 Hawkoid Hypercognitive.
+        /// </summary>
+        [Export]
+        public static Character Hermes
+        {
+            get
+            {
+                Character character;
+
+                character = Level02Characters.Hermes;
+                character.AddLevels(new Level03(OriginChoice.Primary));
+                character.Update();
+
+                return character;
+            }
+        }
+
+        /// <summary>
+        /// A level 3 Hawkoid Hypercognitive (using the other origin utility power instead).
+        /// </summary>
+        [Export]
+        public static Character HermesAlternate
+        {
+            get
+            {
+                Character character;
+
+                character = Level02Characters.Hermes;
+                character.Name = character.Name + " (Alternate)";
+                character.AddLevels(new Level03(OriginChoice.Secondary));
+                character.Update();
+
+                return character;
+            }
+        }
+
     }
 }

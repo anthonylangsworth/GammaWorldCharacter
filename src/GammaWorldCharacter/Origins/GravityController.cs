@@ -22,6 +22,7 @@ namespace GammaWorldCharacter.Origins
         {
             AddTrait(new Trait("Gravity by Choice", "You take no damage from falling."));
             NovicePower = new GravitationalPulse();
+            UtilityPower = new SidewaysGravity();
         }
 
         /// <summary>

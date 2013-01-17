@@ -24,6 +24,7 @@ namespace GammaWorldCharacter.Origins
             AddTrait(new AdditionalMovementMode("Flight", 
                 "You have a fly speed equal to your speed. Whilst flying, you take a -2 penalty to attack rolls.", ScoreType.Fly));
             NovicePower = new TerrifyingShriek();
+            UtilityPower = new FlapAway();
         }
 
         /// <summary>

@@ -22,6 +22,7 @@ namespace GammaWorldCharacter.Origins
         {
             AddTrait(new Trait("Encumbered Speed", "You move your speed, even while wearing heavy armor or carrying a heavy load."));
             NovicePower = new Brickbat();
+            UtilityPower = new FocusedStrength();
         }
 
         /// <summary>

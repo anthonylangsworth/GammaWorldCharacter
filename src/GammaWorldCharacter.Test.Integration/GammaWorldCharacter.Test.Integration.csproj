@@ -60,10 +60,14 @@
     <Compile Include="TestLevel02Virtus.cs" />
     <Compile Include="TestLevel03Clip.cs" />
     <Compile Include="TestLevel03ClipAlternate.cs" />
+    <Compile Include="TestLevel03Hermes.cs" />
+    <Compile Include="TestLevel03HermesAlternate.cs" />
     <Compile Include="TestLevel03Keravnos.cs" />
     <Compile Include="TestLevel03KeravnosAlternate.cs" />
     <Compile Include="TestLevel03Kitty.cs" />
     <Compile Include="TestLevel03KittyAlternate.cs" />
+    <Compile Include="TestLevel03Virtus.cs" />
+    <Compile Include="TestLevel03VirtusAlternate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GammaWorldCharacter.Samples\GammaWorldCharacter.Samples.csproj">

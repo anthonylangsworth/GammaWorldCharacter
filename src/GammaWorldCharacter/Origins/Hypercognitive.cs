@@ -20,6 +20,7 @@ namespace GammaWorldCharacter.Origins
                 Effect.TheTarget.SuffersDamage(1.D10()).And.YouOrAlly(Where.WithinSquares(5, Of.You)).GainsModifiers(Your.Defenses, 2, Until.EndOfYourNextTurn))
         {
             NovicePower = new UncannyStrike();
+            UtilityPower = new SawItComing();
         }
 
         /// <summary>
