@@ -1,0 +1,37 @@
+﻿{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Gamma World Character",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "playerName": {
+            "type": "string"
+        },
+        "primaryOriginType": {
+            "type": "string"
+        },
+        "secondaryOriginType": {
+            "type": "string"
+        }
+		/*
+        "abilityScores": {
+            "type": "array",
+            "items": {
+				"title": "Ability Score",
+                "type": "object",
+				"properties": {
+					"key": {"type": "string"},
+					"value": {"type": "number"}
+				},
+			    "required": ["key", "value"]
+            },
+            "minItems": 6,
+            "maxItems": 6,
+            "uniqueItems": true
+        },
+		*/
+    },
+    "required": ["name", "playerName", "abilityScores", "primaryOriginType", "secondaryOriginType"]
+}
