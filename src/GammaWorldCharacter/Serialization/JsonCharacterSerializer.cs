@@ -40,13 +40,13 @@ namespace GammaWorldCharacter.Serialization
             characterJsonData.PlayerName = character.PlayerName;
             foreach (ScoreType abilityScore in ScoreTypeHelper.AbilityScores)
             {
-                characterJsonData.AbilityScores[ScoreTypeHelper.ToString(abilityScore)] = 
+                characterJsonData.AbilityScores[ScoreTypeHelper.ToString(abilityScore).ToLower()] = 
                     character[abilityScore].Total;
             }
             characterJsonData.PrimaryOrigin = character.PrimaryOrigin.GetType().FullName;
             characterJsonData.SecondaryOrigin = character.SecondaryOrigin.GetType().FullName;
 
-            return JsonConvert.SerializeObject(characterJsonData);
+            return JsonConvert.SerializeObject(characterJsonData, Formatting.Indented);
         }
 
         /// <summary>
@@ -57,13 +57,71 @@ namespace GammaWorldCharacter.Serialization
             get
             {
                 // TODO: Cache this for efficiency
-                using (Stream stream = 
-                    Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                        "GammaWorldCharacter.Serialization.CharacterSchema.json"))
-                using (StreamReader streamReader = new StreamReader(stream))
-                {
-                    return streamReader.ReadToEnd();
+                //using (Stream stream = 
+                //    Assembly.GetExecutingAssembly().GetManifestResourceStream(
+                //        "GammaWorldCharacter.Serialization.CharacterSchema.json"))
+                //using (StreamReader streamReader = new StreamReader(stream))
+                //{
+                //    return streamReader.ReadToEnd();
+                //}
+
+                return @"{
+    '$schema': 'http://json-schema.org/draft-04/schema#',
+    'description': 'Gamma World Character',
+    'type': 'object',
+    'properties': {
+        'name': {
+            'type': 'string'
+        },
+        'playerName': {
+            'type': 'string'
+        },
+        'primaryOriginType': {
+            'type': 'string'
+        },
+        'secondaryOriginType': {
+            'type': 'string'
+        },
+        'abilityScores': {
+            'type': 'object',
+            'items': {
+				'strength': {
+                    'type': 'number',
+                    'minimum': 3,
+                    'maximum': 20
+                },
+				'constitution': {
+                    'type': 'number',
+                    'minimum': 3,
+                    'maximum': 20
+                },
+				'dexterity': {
+                    'type': 'number',
+                    'minimum': 3,
+                    'maximum': 20
+                },
+				'intelligence': {
+                    'type': 'number',
+                    'minimum': 3,
+                    'maximum': 20
+                },
+				'wisdom': {
+                    'type': 'number',
+                    'minimum': 3,
+                    'maximum': 20
+                },
+				'charisma': {
+                    'type': 'number',
+                    'minimum': 3,
+                    'maximum': 20
                 }
+            },
+            'minItems': 6,
+            'maxItems': 6,
+            'uniqueItems': true
+        }
+    }
+}";
             }
         }
     }

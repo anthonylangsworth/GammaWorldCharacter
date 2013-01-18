@@ -20,8 +20,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GammaWorldCharacter.Test.Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GammaWorldCharacterViewer", "src\GammaWorldCharacterViewer\GammaWorldCharacterViewer.csproj", "{826DE251-A85C-4D6A-980D-68CED16C63B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GammaWorldCharacter.Serialization", "GammaWorldCharacter.Serialization\GammaWorldCharacter.Serialization.csproj", "{170A4816-E81E-4B19-8C75-8F3557F8342F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,16 +90,6 @@ Global
 		{826DE251-A85C-4D6A-980D-68CED16C63B4}.Release|Mixed Platforms.Build.0 = Release|x86
 		{826DE251-A85C-4D6A-980D-68CED16C63B4}.Release|x86.ActiveCfg = Release|x86
 		{826DE251-A85C-4D6A-980D-68CED16C63B4}.Release|x86.Build.0 = Release|x86
-		{170A4816-E81E-4B19-8C75-8F3557F8342F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{170A4816-E81E-4B19-8C75-8F3557F8342F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{170A4816-E81E-4B19-8C75-8F3557F8342F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{170A4816-E81E-4B19-8C75-8F3557F8342F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{170A4816-E81E-4B19-8C75-8F3557F8342F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{170A4816-E81E-4B19-8C75-8F3557F8342F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{170A4816-E81E-4B19-8C75-8F3557F8342F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{170A4816-E81E-4B19-8C75-8F3557F8342F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{170A4816-E81E-4B19-8C75-8F3557F8342F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{170A4816-E81E-4B19-8C75-8F3557F8342F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
