@@ -73,7 +73,6 @@
     <Compile Include="TestCharacter.cs" />
     <Compile Include="TestDice.cs" />
     <Compile Include="TestDiceExtension.cs" />
-    <Compile Include="TestSerialization.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GammaWorldCharacter.Samples\GammaWorldCharacter.Samples.csproj">

@@ -45,6 +45,7 @@ namespace GammaWorldCharacter.Serialization
             }
             characterJsonData.PrimaryOrigin = character.PrimaryOrigin.GetType().FullName;
             characterJsonData.SecondaryOrigin = character.SecondaryOrigin.GetType().FullName;
+            characterJsonData.TrainedSkill = character.TrainedSkill.ToString();
 
             return JsonConvert.SerializeObject(characterJsonData, Formatting.Indented);
         }
@@ -56,69 +57,145 @@ namespace GammaWorldCharacter.Serialization
         {
             get
             {
-                // TODO: Cache this for efficiency
-                //using (Stream stream = 
-                //    Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                //        "GammaWorldCharacter.Serialization.CharacterSchema.json"))
-                //using (StreamReader streamReader = new StreamReader(stream))
-                //{
-                //    return streamReader.ReadToEnd();
-                //}
-
                 return @"{
     '$schema': 'http://json-schema.org/draft-04/schema#',
-    'description': 'Gamma World Character',
-    'type': 'object',
     'properties': {
-        'name': {
-            'type': 'string'
-        },
-        'playerName': {
-            'type': 'string'
-        },
-        'primaryOriginType': {
-            'type': 'string'
-        },
-        'secondaryOriginType': {
-            'type': 'string'
-        },
-        'abilityScores': {
+        'gamma_world_character': {
+            'id': 'gamma_world_character',
             'type': 'object',
-            'items': {
-				'strength': {
-                    'type': 'number',
-                    'minimum': 3,
-                    'maximum': 20
+            'properties': {
+                'name': {
+                    'type': 'string',
+                    'required': true
                 },
-				'constitution': {
-                    'type': 'number',
-                    'minimum': 3,
-                    'maximum': 20
+                'playerName': {
+                    'type': 'string',
+                    'required': true
                 },
-				'dexterity': {
-                    'type': 'number',
-                    'minimum': 3,
-                    'maximum': 20
+                'primaryOriginType': {
+                    'type': 'string',
+                    'required': true
                 },
-				'intelligence': {
-                    'type': 'number',
-                    'minimum': 3,
-                    'maximum': 20
+                'secondaryOriginType': {
+                    'type': 'string',
+                    'required': true
                 },
-				'wisdom': {
-                    'type': 'number',
-                    'minimum': 3,
-                    'maximum': 20
+                'trainedSkill': {
+                    'type': 'string',
+                    'required': true
                 },
-				'charisma': {
-                    'type': 'number',
-                    'minimum': 3,
-                    'maximum': 20
+                'abilityScores': {
+                    'type': 'object',
+                    'items': {
+				        'strength': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        },
+				        'constitution': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        },
+				        'dexterity': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        },
+				        'intelligence': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        },
+				        'wisdom': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        },
+				        'charisma': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        }
+                    },
+                    'mainHand': {
+                        'type': [ 
+                            {'$ref': 'item'}, 
+                            {'$ref': 'melee_weapon'},
+                            {'$ref': 'ranged_weapon'},
+                            {'$ref': 'armor'}
+                        ]
+                    },
+                    'offHand': {
+                        'type': [ 
+                            {'$ref': 'item'}, 
+                            {'$ref': 'melee_weapon'},
+                            {'$ref': 'ranged_weapon'},
+                            {'$ref': 'armor'}
+                        ]
+                    }
+                },
+            }
+        },
+        'item': {
+            'id': 'item',
+            'type': 'object',
+            'properties': {
+                'name': {
+                    'type': 'string',
+                    'required': true
+                },
+                'slot': {
+                    'type': 'string',
+                    'required': true
                 }
-            },
-            'minItems': 6,
-            'maxItems': 6,
-            'uniqueItems': true
+            }
+        },
+        'melee_weapon': {
+            'id': 'melee_weapon',
+            'type': 'object',
+            'properties': {
+                'weight': {
+                    'type': 'string',
+                    'enum': ['heavy', 'light'],
+                    'required': true
+                },
+                'hands': {
+                    'type': 'number',
+                    'minimum': 1,
+                    'maximum': 2,
+                    'required': true
+                },
+            }
+        },
+        'ranged_weapon': {
+            'id': 'ranged_weapon',
+            'type': 'object',
+            'extends': { '$ref': 'melee_weapon' },
+            'properties': {
+                'type': {
+                    'type': 'string',
+                    'enum': ['gun', 'weapon'],
+                    'required': true
+                }
+            }
+        },
+        'armor': {
+            'id': 'armor',
+            'type': 'object',
+            'properties': {
+                'weight': {
+                    'type': 'string',
+                    'enum': ['heavy', 'light', 'shield'],
+                    'required': true
+                },
+            }
         }
     }
 }";

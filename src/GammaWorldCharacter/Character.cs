@@ -71,8 +71,9 @@ namespace GammaWorldCharacter
                 throw new ArgumentException("Not a skill", "trainedSkill");
             }
 
-            PrimaryOrigin = primaryOrigin;
-            SecondaryOrigin = secondaryOrigin;
+            this.PrimaryOrigin = primaryOrigin;
+            this.SecondaryOrigin = secondaryOrigin;
+            this.TrainedSkill = trainedSkill;
 
             this.abilityScores = new AbilityScores(primaryOrigin, secondaryOrigin, abilityScores);
             this.internalModifierSource = new InternalModifierSource(trainedSkill, primaryOrigin.PowerSource);
@@ -106,6 +107,15 @@ namespace GammaWorldCharacter
         /// The character's secondary <see cref="Origin"/>.
         /// </summary>
         public Origin SecondaryOrigin
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// The skill the character is initially trained in.
+        /// </summary>
+        public ScoreType TrainedSkill
         {
             get;
             private set;
