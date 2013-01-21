@@ -151,7 +151,7 @@ namespace GammaWorldCharacter
         }
 
         /// <summary>
-        /// Are these the same modifier source?
+        /// Are these the same modifier source (by name and abbreviation).
         /// </summary>
         /// <param name="other">
         /// The <see cref="ModifierSource"/> to check.
@@ -168,8 +168,6 @@ namespace GammaWorldCharacter
             {
                 throw new ArgumentNullException("other");
             }
-
-            // TODO: Should really check modifiers, too.
 
             return Name.Equals(other.Name, StringComparison.CurrentCultureIgnoreCase)
                 && Abbreviation.Equals(other.Abbreviation, StringComparison.CurrentCultureIgnoreCase);
@@ -219,8 +217,7 @@ namespace GammaWorldCharacter
         /// </returns>
         public override int GetHashCode()
         {
-            return (GetType().FullName + "|" + Abbreviation + "|" + Name + "|" 
-                + modifiers.GetHashCode()).GetHashCode();
+            return (GetType().FullName + "|" + Abbreviation + "|" + Name).GetHashCode();
         }
 
         /// <summary>

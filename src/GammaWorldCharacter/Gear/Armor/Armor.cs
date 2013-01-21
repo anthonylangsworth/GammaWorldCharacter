@@ -6,7 +6,7 @@ namespace GammaWorldCharacter.Gear.Armor
     /// <summary>
     /// A piece of armor, such as cloth, hide, leather or plate.
     /// </summary>
-    public class Armor: Item
+    public abstract class Armor: Item
     {
         /// <summary>
         /// Create a new <see cref="Armor"/>.

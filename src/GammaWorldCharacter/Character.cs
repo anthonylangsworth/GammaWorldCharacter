@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using GammaWorldCharacter.Levels;
 using GammaWorldCharacter.Collections;
 using GammaWorldCharacter.Gear;
@@ -17,7 +18,7 @@ namespace GammaWorldCharacter
     /// <summary>
     /// A Gamma World character.
     /// </summary>
-    public class Character 
+    public class Character: IEquatable<Character>
     {
         private AbilityScores abilityScores;
         private InternalModifierSource internalModifierSource;
@@ -52,7 +53,7 @@ namespace GammaWorldCharacter
         /// <exception cref="ArgumentException">
         /// <paramref name=" trainedSkill"/> is not a skill.
         /// </exception>
-        public Character(int[] abilityScores, Origin primaryOrigin, Origin secondaryOrigin, ScoreType trainedSkill)
+        public Character(IEnumerable<int> abilityScores, Origin primaryOrigin, Origin secondaryOrigin, ScoreType trainedSkill)
         {
             if (abilityScores == null)
             {
@@ -168,6 +169,54 @@ namespace GammaWorldCharacter
 
                 // Update to ensure requirements of abilities at each level are checked.
                 Update();
+            }
+        }
+
+        /// <summary>
+        /// Are the <see cref="Character"/>s equal? (Ignores equipment)
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(Character other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return scores.OrderBy(x => x.Key).SequenceEqual(other.scores.OrderBy(x => x.Key))
+                && levels.OrderBy(x => x.Number).SequenceEqual(other.levels.OrderBy(x => x.Number))
+                && string.Equals(name, other.name)
+                && PrimaryOrigin.Equals(other.PrimaryOrigin)
+                && SecondaryOrigin.Equals(other.SecondaryOrigin)
+                && TrainedSkill == other.TrainedSkill;
+        }
+
+        /// <summary>
+        /// Object equality.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Character) obj);
+        }
+
+        /// <summary>
+        /// Hash code.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = (abilityScores != null ? abilityScores.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (levels != null ? levels.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (name != null ? name.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (PrimaryOrigin != null ? PrimaryOrigin.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (SecondaryOrigin != null ? SecondaryOrigin.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (int) TrainedSkill;
+                return hashCode;
             }
         }
 
@@ -385,9 +434,6 @@ namespace GammaWorldCharacter
         /// <summary>
         /// The player's name.
         /// </summary>
-        /// <exception cref="ArgumentNullException">
-        /// The assigned value cannot be null, empty or whitespace.
-        /// </exception>
         public string PlayerName
         {
             get
@@ -396,11 +442,6 @@ namespace GammaWorldCharacter
             }
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentNullException();
-                }
-
                 playerName = value;
             }
         }
@@ -524,6 +565,25 @@ namespace GammaWorldCharacter
             previousItem = heldItems[hand];
             heldItems[hand] = item;
             return previousItem;
+        }
+
+        /// <summary>
+        /// Human-readable representation.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            StringBuilder stringBuilder;
+
+            stringBuilder = new StringBuilder();
+            stringBuilder.AppendFormat("{0} Level {1} {2} {3}:\n",
+                Name, Level, PrimaryOrigin.Name, SecondaryOrigin.Name);
+            stringBuilder.AppendFormat("Str {0}  Con {1}  Dex {2}  Int {3}  Wis {4}  Cha {5}\n",
+                Strength.Total, Constitution.Total, Dexterity.Total, Intelligence.Total, Wisdom.Total, Charisma.Total);
+            stringBuilder.AppendFormat("HP {0}  AC {1}  Fort {2}  Ref {3}  Will {4}\n",
+                HitPoints.Total, ArmorClass.Total, Fortitude.Total, Reflex.Total, Will.Total);
+
+            return stringBuilder.ToString();
         }
 
         /// <summary>

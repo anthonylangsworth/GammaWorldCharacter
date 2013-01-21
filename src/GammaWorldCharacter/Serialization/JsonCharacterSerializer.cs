@@ -4,8 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using GammaWorldCharacter.Gear;
+using GammaWorldCharacter.Origins;
 using Newtonsoft.Json;
 using System.Resources;
+using Newtonsoft.Json.Schema;
 
 namespace GammaWorldCharacter.Serialization
 {
@@ -40,14 +43,88 @@ namespace GammaWorldCharacter.Serialization
             characterJsonData.PlayerName = character.PlayerName;
             foreach (ScoreType abilityScore in ScoreTypeHelper.AbilityScores)
             {
-                characterJsonData.AbilityScores[ScoreTypeHelper.ToString(abilityScore).ToLower()] = 
+                characterJsonData.AbilityScores[abilityScore] = 
                     character[abilityScore].Total;
             }
-            characterJsonData.PrimaryOrigin = character.PrimaryOrigin.GetType().FullName;
-            characterJsonData.SecondaryOrigin = character.SecondaryOrigin.GetType().FullName;
-            characterJsonData.TrainedSkill = character.TrainedSkill.ToString();
+            characterJsonData.PrimaryOrigin = character.PrimaryOrigin.GetType();
+            characterJsonData.SecondaryOrigin = character.SecondaryOrigin.GetType();
+            characterJsonData.TrainedSkill = character.TrainedSkill;
 
-            return JsonConvert.SerializeObject(characterJsonData, Formatting.Indented);
+            characterJsonData.MainHand = ItemJsonData.FromItem(character.GetHeldItem<Item>(Hand.Main));
+            characterJsonData.OffHand = ItemJsonData.FromItem(character.GetHeldItem<Item>(Hand.Off));
+            foreach (Slot slot in Enum.GetValues(typeof (Slot)))
+            {
+                if (character.GetEquippedItem<Item>(slot) != null)
+                {
+                    characterJsonData.EquippedGear[slot] = ItemJsonData.FromItem(character.GetEquippedItem<Item>(slot));
+                }
+            }
+            foreach (Item item in character.Gear)
+            {
+                characterJsonData.OtherGear.Add(ItemJsonData.FromItem(item));
+            }
+
+            return JsonConvert.SerializeObject(characterJsonData, new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented, TypeNameHandling = TypeNameHandling.Auto
+                });
+        }
+
+        /// <summary>
+        /// Create a <see cref="Character"/> from serialized JSON.
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public Character Deserialize(string json)
+        {
+            if(string.IsNullOrEmpty("json"))
+            {
+                throw new ArgumentNullException("json");
+            }
+
+            CharacterJsonData characterJsonData;
+            Character result;
+
+            characterJsonData = JsonConvert.DeserializeObject<CharacterJsonData>(json);
+
+            Origin primaryOrigin;
+            Origin secondaryOrigin;
+
+            primaryOrigin = 
+                characterJsonData.PrimaryOrigin.GetConstructor(new Type[0]) != null?
+                    characterJsonData.PrimaryOrigin.GetConstructor(new Type[0]).Invoke(new object[0]) as Origin :
+                    null;
+            if (primaryOrigin == null)
+            {
+                throw new ArgumentException("Primary origin does not exist or is not an origin.");
+            }
+            secondaryOrigin =
+                characterJsonData.SecondaryOrigin.GetConstructor(new Type[0]) != null ?
+                    characterJsonData.SecondaryOrigin.GetConstructor(new Type[0]).Invoke(new object[0]) as Origin :
+                    null;
+            if (secondaryOrigin == null)
+            {
+                throw new ArgumentException("Secondary origin does not exist or is not an origin.");
+            }
+
+            IEnumerable<int> abilityScores =
+                characterJsonData.AbilityScores.Where(x =>
+                    x.Key != primaryOrigin.AbilityScore && x.Key != secondaryOrigin.AbilityScore).Select(x => x.Value);
+
+            result = new Character(abilityScores, primaryOrigin, secondaryOrigin, characterJsonData.TrainedSkill);
+            result.Name = characterJsonData.Name;
+            result.PlayerName = characterJsonData.PlayerName;
+
+            // Serialize gear
+            result.SetHeldItem(Hand.Main, characterJsonData.MainHand.ToItem());
+            result.SetHeldItem(Hand.Off, characterJsonData.OffHand.ToItem());
+            foreach (ItemJsonData itemJsonData in characterJsonData.EquippedGear.Values)
+            {
+                result.SetEquippedItem(itemJsonData.ToItem());
+            }
+            result.Gear.AddRange(characterJsonData.OtherGear.Select(x => x.ToItem()));
+
+            return result;
         }
 
         /// <summary>
@@ -82,10 +159,21 @@ namespace GammaWorldCharacter.Serialization
                 },
                 'trainedSkill': {
                     'type': 'string',
+                    'enum': [ 'Acrobatics',
+                        'Athletics',
+                        'Conspiracy',
+                        'Insight',
+                        'Interaction',
+                        'Nature',
+                        'Mechanics',
+                        'Perception',
+                        'Science',
+                        'Stealth' ],
                     'required': true
                 },
                 'abilityScores': {
                     'type': 'object',
+                    'required': true,
                     'items': {
 				        'strength': {
                             'type': 'number',
@@ -124,22 +212,36 @@ namespace GammaWorldCharacter.Serialization
                             'required': true
                         }
                     },
-                    'mainHand': {
-                        'type': [ 
-                            {'$ref': 'item'}, 
-                            {'$ref': 'melee_weapon'},
-                            {'$ref': 'ranged_weapon'},
-                            {'$ref': 'armor'}
-                        ]
-                    },
-                    'offHand': {
-                        'type': [ 
-                            {'$ref': 'item'}, 
-                            {'$ref': 'melee_weapon'},
-                            {'$ref': 'ranged_weapon'},
-                            {'$ref': 'armor'}
-                        ]
-                    }
+                },
+                'mainHand': {
+                    'extends': {'$ref': 'item'}
+                },
+                'offHand': {
+                    'extends': [ 
+                        {'$ref': 'item'}, 
+                        {'$ref': 'weapon'},
+                        {'$ref': 'ranged_weapon'},
+                        {'$ref': 'armor'}
+                    ],
+                },
+                'equippedGear': {
+                    'type': 'array',
+                    'required': true,
+                    'extends': [ 
+                        'body': {
+                            'type':  {'$ref': 'armor'}
+                        },
+                    ],
+                },
+                'otherGear': {
+                    'type': 'array',
+                    'required': true,
+                    'extends': [ 
+                        {'$ref': 'item'}, 
+                        {'$ref': 'weapon'},
+                        {'$ref': 'ranged_weapon'},
+                        {'$ref': 'armor'}
+                    ],
                 },
             }
         },
@@ -147,6 +249,10 @@ namespace GammaWorldCharacter.Serialization
             'id': 'item',
             'type': 'object',
             'properties': {
+                '$type': {
+                    'type': 'string',
+                    'value': 'item'
+                },
                 'name': {
                     'type': 'string',
                     'required': true
@@ -158,12 +264,13 @@ namespace GammaWorldCharacter.Serialization
             }
         },
         'melee_weapon': {
-            'id': 'melee_weapon',
+            'id': 'weapon',
+            'extends': { '$ref': 'item' },
             'type': 'object',
             'properties': {
                 'weight': {
                     'type': 'string',
-                    'enum': ['heavy', 'light'],
+                    'enum': ['Heavy', 'Light'],
                     'required': true
                 },
                 'hands': {
@@ -177,7 +284,7 @@ namespace GammaWorldCharacter.Serialization
         'ranged_weapon': {
             'id': 'ranged_weapon',
             'type': 'object',
-            'extends': { '$ref': 'melee_weapon' },
+            'extends': { '$ref': 'weapon' },
             'properties': {
                 'type': {
                     'type': 'string',
@@ -189,10 +296,11 @@ namespace GammaWorldCharacter.Serialization
         'armor': {
             'id': 'armor',
             'type': 'object',
+            'extends': { '$ref': 'item' },
             'properties': {
-                'weight': {
+                'type': {
                     'type': 'string',
-                    'enum': ['heavy', 'light', 'shield'],
+                    'enum': ['Heavy', 'Light'],
                     'required': true
                 },
             }

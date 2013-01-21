@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GammaWorldCharacter.Scores;
 using GammaWorldCharacter.Origins;
 
@@ -33,7 +34,7 @@ namespace GammaWorldCharacter
         /// <paramref name="abilityScores"/> must contain at least 4 values or at least 5 when 
         /// the primary ability score of the primary and secondary origins are 
         /// </exception>
-        internal AbilityScores(Origin primaryOrigin, Origin secondaryOrigin, int[] abilityScores)
+        internal AbilityScores(Origin primaryOrigin, Origin secondaryOrigin, IEnumerable<int> abilityScores)
             : base("Ability Scores", "Ability Scores")
         {
             if (primaryOrigin == null)
@@ -49,16 +50,16 @@ namespace GammaWorldCharacter
                 throw new ArgumentNullException("abilityScores");
             }
             if ((secondaryOrigin.AbilityScore == primaryOrigin.AbilityScore
-                && abilityScores.Length < 5) || abilityScores.Length < 4)
+                && abilityScores.Count() < 5) || abilityScores.Count() < 4)
             {
                 throw new ArgumentException("Too few ability scores", "abilityScores");
             }
-            if (Array.Exists(abilityScores, x => !ScoreHelper.IsValidAbilityScore(x)))
+            if (abilityScores.Any(x => !ScoreHelper.IsValidAbilityScore(x)))
             {
                 throw new ArgumentException("Invalid attribute value", "abilityScores");
             }
 
-            int currentAbilityScore;
+            IEnumerator<int> currentAbilityScore;
 
             scores = CreateScores();
 
@@ -74,12 +75,14 @@ namespace GammaWorldCharacter
             }
 
             // Assign in order for determinism
-            currentAbilityScore = 0;
-            foreach(ScoreType scoreType in ScoreTypeHelper.AbilityScores)
+            currentAbilityScore = abilityScores.GetEnumerator();
+            currentAbilityScore.MoveNext();
+            foreach (ScoreType scoreType in ScoreTypeHelper.AbilityScores)
             {
                 if (scores[scoreType] == 0)
                 {
-                    scores[scoreType] = abilityScores[currentAbilityScore++];
+                    scores[scoreType] = currentAbilityScore.Current;
+                    currentAbilityScore.MoveNext();
                 }
             }
         }

@@ -55,7 +55,6 @@
     </Compile>
     <Compile Include="DiceExtensions.cs" />
     <Compile Include="Gear\Armor\Armor.cs" />
-    <Compile Include="Gear\Armor\ArmorWeightType.cs" />
     <Compile Include="Gear\Armor\HeavyArmor.cs" />
     <Compile Include="Gear\Armor\LightArmor.cs" />
     <Compile Include="Gear\Armor\Shield.cs" />
@@ -158,9 +157,14 @@
     <Compile Include="Powers\Origins\VitalityTransfer.cs" />
     <Compile Include="Powers\Range.cs" />
     <Compile Include="Powers\SecondWind.cs" />
+    <Compile Include="Serialization\ArmorJsonData.cs" />
+    <Compile Include="Serialization\ArmorWeight.cs" />
     <Compile Include="Serialization\CharacterJsonData.cs" />
     <Compile Include="Serialization\ItemJsonData.cs" />
     <Compile Include="Serialization\JsonCharacterSerializer.cs" />
+    <Compile Include="Serialization\RangedWeaponJsonData.cs" />
+    <Compile Include="Serialization\TypeNameConverter.cs" />
+    <Compile Include="Serialization\WeaponJsonData.cs" />
     <Compile Include="Traits\AdditionalMovementMode.cs" />
     <Compile Include="Traits\ITraitSource.cs" />
     <Compile Include="Traits\Trait.cs" />

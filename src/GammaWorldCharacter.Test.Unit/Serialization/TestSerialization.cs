@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GammaWorldCharacter.Gear;
 using GammaWorldCharacter.Samples;
 using GammaWorldCharacter.Serialization;
 using NUnit.Framework;
@@ -43,23 +44,60 @@ namespace GammaWorldCharacter.Test.Unit.Serialization
         {
             JsonCharacterSerializer characterSerializer;
             StringBuilder stringBuilder;
-            IList<string> messages;
-            JObject jObject;
-            JsonSchema jsonSchema;
+            //IList<string> messages;
+            //JObject jObject;
+            //JsonSchema jsonSchema;
+            //JsonSchema gammaWorldCharacterSchema;
             string json;
 
             // TODO: Pass this in as a test
             Character character;
+            Character newCharacter;
             character = Level01Characters.Clip;
 
-            // Parse  the schema (redundant)
             characterSerializer = new JsonCharacterSerializer();
+
+            json = string.Empty;
+            try
+            {
+                json = characterSerializer.Serialize(character);
+
+                newCharacter = characterSerializer.Deserialize(json);
+
+                Assert.That(newCharacter, Is.EqualTo(character), "Characters differ");
+                Assert.That(newCharacter.GetHeldItem<Item>(Hand.Main), Is.EqualTo(character.GetHeldItem<Item>(Hand.Main)), 
+                    "Main hands differ");
+                Assert.That(newCharacter.GetHeldItem<Item>(Hand.Off), Is.EqualTo(character.GetHeldItem<Item>(Hand.Off)),
+                    "Main hands differ");
+                Assert.That(
+                    Array.ConvertAll((Slot[]) Enum.GetValues(typeof (Slot)), x => newCharacter.GetEquippedItem<Item>(x)),
+                    Is.EquivalentTo(Array.ConvertAll((Slot[]) Enum.GetValues(typeof(Slot)), x => character.GetEquippedItem<Item>(x))),
+                    "Equipped items differ");
+                Assert.That(
+                    newCharacter.Gear.OrderBy(x => x.Name),
+                    Is.EquivalentTo(character.Gear.OrderBy(x => x.Name))),
+                    "Carried items differ");
+            }
+            catch (Exception ex)
+            {
+                stringBuilder = new StringBuilder();
+                stringBuilder.AppendFormat("{0} Level {1} {2} {3}:\n\n",
+                    character.Name, character.Level,
+                    character.PrimaryOrigin.Name, character.SecondaryOrigin.Name);
+                stringBuilder.AppendFormat("{0}\n\n", NumberLines(json));
+                stringBuilder.Append(ex.Message);
+
+                Assert.Fail(stringBuilder.ToString());
+            }
+
+            /*
             jsonSchema = JsonSchema.Parse(characterSerializer.Schema);
+            gammaWorldCharacterSchema = jsonSchema.Properties["gamma_world_character"];
 
             // Test the serialized character matches the schema.
             json = characterSerializer.Serialize(character);
             jObject = JObject.Parse(json);
-            if (!jObject.IsValid(jsonSchema, out messages))
+            if (!jObject.IsValid(gammaWorldCharacterSchema, out messages))
             {
                 stringBuilder = new StringBuilder();
                 stringBuilder.AppendFormat("{0} Level {1} {2} {3}:\n\n",
@@ -78,6 +116,7 @@ namespace GammaWorldCharacter.Test.Unit.Serialization
 
                 Assert.Fail(stringBuilder.ToString());
             }
+            */
         }
 
         /// <summary>

@@ -129,30 +129,6 @@ namespace GammaWorldCharacter.Test.Unit
         }
 
         [Test]
-        public void TestPlayerName_Null()
-        {
-            Character character = Character;
-            Assert.That(() => character.PlayerName = null,
-                        Throws.TypeOf<ArgumentNullException>());
-        }
-
-        [Test]
-        public void TestPlayerName_Empty()
-        {
-            Character character = Character;
-            Assert.That(() => character.PlayerName = string.Empty,
-                        Throws.TypeOf<ArgumentNullException>());
-        }
-
-        [Test]
-        public void TestPlayerName_Whitespace()
-        {
-            Character character = Character;
-            Assert.That(() => character.PlayerName = " ",
-                        Throws.TypeOf<ArgumentNullException>());
-        }
-
-        [Test]
         public void TestSetEquippedItem_SlotNone()
         {
             Character character = Character;

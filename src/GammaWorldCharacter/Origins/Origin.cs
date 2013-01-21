@@ -11,7 +11,7 @@ namespace GammaWorldCharacter.Origins
     /// <summary>
     /// A character origin.
     /// </summary>
-    public abstract class Origin : ModifierSource, IPowerSource, ITraitSource
+    public abstract class Origin : ModifierSource, IPowerSource, ITraitSource, IEquatable<Origin>
     {
         private readonly List<Trait> traits;
         private readonly List<Power> powers;
@@ -35,7 +35,7 @@ namespace GammaWorldCharacter.Origins
         /// <exception cref="ArgumentException">
         /// Neither <paramref name="abilityScore"/> nor <paramref name="criticalHitBenefit"/> can be null.
         /// </exception>
-        public Origin(string name, ScoreType abilityScore, PowerSource powerSource, EffectExpression criticalHitBenefit)
+        protected Origin(string name, ScoreType abilityScore, PowerSource powerSource, EffectExpression criticalHitBenefit)
             : base(name, name)
         {
             if (!ScoreTypeHelper.IsAbilityScore(abilityScore))
@@ -61,6 +61,49 @@ namespace GammaWorldCharacter.Origins
         {
             get;
             private set;
+        }
+
+        /// <summary>
+        /// Are two <see cref="Origin"/>s equal?
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(Origin other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return base.Equals(other)
+                   && AbilityScore == other.AbilityScore
+                   && PowerSource == other.PowerSource;
+        }
+
+        /// <summary>
+        /// Object equality.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Origin) obj);
+        }
+
+        /// <summary>
+        /// Hash code.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = base.GetHashCode();
+                hashCode = (hashCode*397) ^ (int) AbilityScore;
+                hashCode = (hashCode*397) ^ (int) PowerSource;
+                hashCode = (hashCode*397) ^ (CriticalHitBenefit != null ? CriticalHitBenefit.GetHashCode() : 0);
+                return hashCode;
+            }
         }
 
         /// <summary>

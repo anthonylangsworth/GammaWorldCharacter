@@ -160,7 +160,7 @@ namespace GammaWorldCharacter.Gear.Weapons
                 {
                     result = 20;
                 }
-
+                    
                 return result;
             }
         }

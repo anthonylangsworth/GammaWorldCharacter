@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GammaWorldCharacter.Gear;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace GammaWorldCharacter.Serialization
 {
@@ -20,8 +21,8 @@ namespace GammaWorldCharacter.Serialization
         /// </summary>
         public CharacterJsonData()
         {
-            AbilityScores = new Dictionary<string, int>();
-            EquippedGear = new Dictionary<string, ItemJsonData>();
+            AbilityScores = new Dictionary<ScoreType, int>();
+            EquippedGear = new Dictionary<Slot, ItemJsonData>();
             OtherGear = new List<ItemJsonData>();
         }
 
@@ -41,7 +42,7 @@ namespace GammaWorldCharacter.Serialization
         /// The ability scores (Strength, Constitution, Dexterity, Intelligence, Wisdom, Charisma).
         /// </summary>
         [JsonProperty("abilityScores", Required = Required.Always)]
-        public Dictionary<string, int> AbilityScores
+        public Dictionary<ScoreType, int> AbilityScores
         {
             get;
             private set;
@@ -51,19 +52,22 @@ namespace GammaWorldCharacter.Serialization
         /// The name of the primary origin <see cref="Type"/>.
         /// </summary>
         [JsonProperty("primaryOriginType", Required = Required.Always)]
-        public string PrimaryOrigin;
+        [JsonConverter(typeof(TypeNameConverter))]
+        public Type PrimaryOrigin;
 
         /// <summary>
         /// The name of the secondary origin <see cref="Type"/>.
         /// </summary>
         [JsonProperty("secondaryOriginType", Required = Required.Always)]
-        public string SecondaryOrigin;
+        [JsonConverter(typeof(TypeNameConverter))]
+        public Type SecondaryOrigin;
 
         /// <summary>
         /// The name of the secondary origin <see cref="Type"/>.
         /// </summary>
         [JsonProperty("trainedSkill", Required = Required.Always)]
-        public string TrainedSkill;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public ScoreType TrainedSkill;
 
         /// <summary>
         /// Item in the main hand.
@@ -81,7 +85,7 @@ namespace GammaWorldCharacter.Serialization
         /// Equipped items.
         /// </summary>
         [JsonProperty("equippedGear", Required = Required.Always)]
-        public Dictionary<string, ItemJsonData> EquippedGear
+        public Dictionary<Slot, ItemJsonData> EquippedGear
         {
             get;
             private set;
@@ -97,6 +101,6 @@ namespace GammaWorldCharacter.Serialization
             private set;
         }
 
-        // TODO: Gear (held items, equipped items, carried items), levels
+        // TODO: levels
     }
 }
