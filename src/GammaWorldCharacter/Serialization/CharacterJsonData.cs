@@ -72,13 +72,13 @@ namespace GammaWorldCharacter.Serialization
         /// <summary>
         /// Item in the main hand.
         /// </summary>
-        [JsonProperty("mainHand", Required = Required.Always)]
+        [JsonProperty("mainHand", Required = Required.AllowNull)]
         public ItemJsonData MainHand;
 
         /// <summary>
         /// Item in the off hand.
         /// </summary>
-        [JsonProperty("offHand", Required = Required.Always)]
+        [JsonProperty("offHand", Required = Required.AllowNull)]
         public ItemJsonData OffHand;
 
         /// <summary>

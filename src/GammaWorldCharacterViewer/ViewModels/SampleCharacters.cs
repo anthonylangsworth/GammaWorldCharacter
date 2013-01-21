@@ -28,7 +28,7 @@ namespace GammaWorldCharacterViewer.ViewModels
         /// </summary>
         public SampleCharacters()
         {
-            SourceCharacters = null;
+            // Do nothing
         }
 
         /// <summary>
@@ -40,27 +40,16 @@ namespace GammaWorldCharacterViewer.ViewModels
             {
                 if (characters == null)
                 {
-                    CompositionBatch compositionBatch;
                     using(CompositionContainer container = new CompositionContainer(
                         new AssemblyCatalog("GammaWorldCharacter.Samples.dll")))
                     {
-                        compositionBatch = new CompositionBatch();
-                        compositionBatch.AddPart(this);
-
-                        container.Compose(compositionBatch);
-
-                        characters = new List<DisplayCharacter>(SourceCharacters.Select(x => new DisplayCharacter(x))).AsReadOnly();
+                        characters = new List<DisplayCharacter>(
+                            container.GetExportedValues<Character>().Select(x => new DisplayCharacter(x))).AsReadOnly();
                     }
                 }
 
                 return characters;
             }
         }
-
-        /// <summary>
-        /// Characters loaded via MEF in <see cref="Characters"/>.
-        /// </summary>
-        [ImportMany]
-        private IEnumerable<Character> SourceCharacters { get; set; }
     }
 }
