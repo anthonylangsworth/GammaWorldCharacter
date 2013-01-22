@@ -50,7 +50,7 @@ namespace GammaWorldCharacter.Test.Unit.Serialization
             using (CompositionContainer container = new CompositionContainer(
                 new AssemblyCatalog("GammaWorldCharacter.Samples.dll")))
             {
-                return container.GetExportedValues<Character>().Where(x => x.Level == 1);
+                return container.GetExportedValues<Character>();
             }
         }
 

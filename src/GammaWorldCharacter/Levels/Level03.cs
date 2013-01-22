@@ -23,13 +23,13 @@ namespace GammaWorldCharacter.Levels
         public Level03(OriginChoice originChoice)
             : base(3)
         {
-            OriginChoice = originChoice;
+            UtilityPowerOrigin = originChoice;
         }
 
         /// <summary>
         /// The origin the utility power will come form.
         /// </summary>
-        public OriginChoice OriginChoice
+        public OriginChoice UtilityPowerOrigin
         {
             get;
             private set;
@@ -46,7 +46,7 @@ namespace GammaWorldCharacter.Levels
             base.AddModifiers(stage, addModifier, character);
 
             Origin origin;
-            if (OriginChoice == OriginChoice.Primary)
+            if (UtilityPowerOrigin == OriginChoice.Primary)
             {
                 origin = character.PrimaryOrigin;
             }

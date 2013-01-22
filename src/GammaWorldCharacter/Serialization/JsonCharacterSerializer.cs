@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using GammaWorldCharacter.Gear;
+using GammaWorldCharacter.Levels;
 using GammaWorldCharacter.Origins;
 using Newtonsoft.Json;
 using System.Resources;
@@ -38,6 +39,7 @@ namespace GammaWorldCharacter.Serialization
 
             CharacterJsonData characterJsonData;
 
+            // Serialize the base character
             characterJsonData = new CharacterJsonData();
             characterJsonData.Name = character.Name;
             characterJsonData.PlayerName = character.PlayerName;
@@ -50,6 +52,13 @@ namespace GammaWorldCharacter.Serialization
             characterJsonData.SecondaryOrigin = character.SecondaryOrigin.GetType();
             characterJsonData.TrainedSkill = character.TrainedSkill;
 
+            // Serialize levels
+            foreach (Level level in character.Levels)
+            {
+                characterJsonData.Levels.Add(LevelJsonData.FromLevel(level));
+            }
+
+            // Serialize gear
             characterJsonData.MainHand = ItemJsonData.FromItem(character.GetHeldItem<Item>(Hand.Main));
             characterJsonData.OffHand = ItemJsonData.FromItem(character.GetHeldItem<Item>(Hand.Off));
             foreach (Slot slot in Enum.GetValues(typeof (Slot)))
@@ -66,7 +75,7 @@ namespace GammaWorldCharacter.Serialization
 
             return JsonConvert.SerializeObject(characterJsonData, new JsonSerializerSettings()
                 {
-                    Formatting = Formatting.Indented, TypeNameHandling = TypeNameHandling.Auto
+                    Formatting = Formatting.Indented                    
                 });
         }
 
@@ -113,11 +122,18 @@ namespace GammaWorldCharacter.Serialization
             abilityScores = characterJsonData.AbilityScores.Where(x =>
                     x.Key != primaryOrigin.AbilityScore && x.Key != secondaryOrigin.AbilityScore).Select(x => x.Value);
 
+            // Create the new base character
             result = new Character(abilityScores, primaryOrigin, secondaryOrigin, characterJsonData.TrainedSkill);
             result.Name = characterJsonData.Name;
             result.PlayerName = characterJsonData.PlayerName;
 
-            // Serialize gear
+            // Deserialize levels
+            foreach (LevelJsonData levelJsonData in characterJsonData.Levels.OrderBy(x => x.Number))
+            {
+                result.AddLevels(levelJsonData.ToLevel());
+            }
+
+            // Deserialize gear
             result.SetHeldItem(Hand.Main, characterJsonData.MainHand != null ? characterJsonData.MainHand.ToItem() : null);
             result.SetHeldItem(Hand.Off, characterJsonData.OffHand != null ? characterJsonData.OffHand.ToItem() : null);
             foreach (ItemJsonData itemJsonData in characterJsonData.EquippedGear.Values)

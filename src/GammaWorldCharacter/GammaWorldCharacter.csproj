@@ -162,6 +162,9 @@
     <Compile Include="Serialization\CharacterJsonData.cs" />
     <Compile Include="Serialization\ItemJsonData.cs" />
     <Compile Include="Serialization\JsonCharacterSerializer.cs" />
+    <Compile Include="Serialization\Level02JsonData.cs" />
+    <Compile Include="Serialization\Level03JsonData.cs" />
+    <Compile Include="Serialization\LevelJsonData.cs" />
     <Compile Include="Serialization\RangedWeaponJsonData.cs" />
     <Compile Include="Serialization\TypeNameConverter.cs" />
     <Compile Include="Serialization\WeaponJsonData.cs" />

@@ -14,6 +14,7 @@ namespace GammaWorldCharacter.Serialization
     /// A class that stores the details of a <see cref="Character"/> for 
     /// serialization and deserialization.
     /// </summary>
+    [JsonObject(ItemTypeNameHandling = TypeNameHandling.Auto)]
     public class CharacterJsonData
     {
         /// <summary>
@@ -24,6 +25,7 @@ namespace GammaWorldCharacter.Serialization
             AbilityScores = new Dictionary<ScoreType, int>();
             EquippedGear = new Dictionary<Slot, ItemJsonData>();
             OtherGear = new List<ItemJsonData>();
+            Levels = new List<LevelJsonData>();
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace GammaWorldCharacter.Serialization
         /// The ability scores (Strength, Constitution, Dexterity, Intelligence, Wisdom, Charisma).
         /// </summary>
         [JsonProperty("abilityScores", Required = Required.Always)]
-        public Dictionary<ScoreType, int> AbilityScores
+        public IDictionary<ScoreType, int> AbilityScores
         {
             get;
             private set;
@@ -85,7 +87,7 @@ namespace GammaWorldCharacter.Serialization
         /// Equipped items.
         /// </summary>
         [JsonProperty("equippedGear", Required = Required.Always)]
-        public Dictionary<Slot, ItemJsonData> EquippedGear
+        public IDictionary<Slot, ItemJsonData> EquippedGear
         {
             get;
             private set;
@@ -101,6 +103,14 @@ namespace GammaWorldCharacter.Serialization
             private set;
         }
 
-        // TODO: levels
+        /// <summary>
+        /// The character's levels.
+        /// </summary>
+        [JsonProperty("levels", Required = Required.Always)]
+        public IList<LevelJsonData> Levels
+        {
+            get;
+            private set;
+        }
     }
 }
