@@ -25,7 +25,7 @@ namespace GammaWorldCharacter.Serialization
         /// <summary>
         /// The origin whose utility power was chosen at level3.
         /// </summary>
-        [JsonProperty("utilityPowerOrigin")]
+        [JsonProperty("utilityPowerOrigin", Required = Required.Always)]
         [JsonConverter(typeof(StringEnumConverter))]
         public OriginChoice UtilityPowerOrigin;
 

@@ -40,17 +40,19 @@ namespace GammaWorldCharacter.Serialization
             CharacterJsonData characterJsonData;
 
             // Serialize the base character
-            characterJsonData = new CharacterJsonData();
-            characterJsonData.Name = character.Name;
-            characterJsonData.PlayerName = character.PlayerName;
+            characterJsonData = new CharacterJsonData
+            {
+                PrimaryOrigin = character.PrimaryOrigin,
+                SecondaryOrigin = character.SecondaryOrigin,
+                TrainedSkill = character.TrainedSkill,
+                Name = character.Name,
+                PlayerName = character.PlayerName
+            };
             foreach (ScoreType abilityScore in ScoreTypeHelper.AbilityScores)
             {
-                characterJsonData.AbilityScores[abilityScore] = 
+                characterJsonData.AbilityScores[abilityScore] =
                     character[abilityScore].Total;
             }
-            characterJsonData.PrimaryOrigin = character.PrimaryOrigin.GetType();
-            characterJsonData.SecondaryOrigin = character.SecondaryOrigin.GetType();
-            characterJsonData.TrainedSkill = character.TrainedSkill;
 
             // Serialize levels
             foreach (Level level in character.Levels)
@@ -73,10 +75,7 @@ namespace GammaWorldCharacter.Serialization
                 characterJsonData.OtherGear.Add(ItemJsonData.FromItem(item));
             }
 
-            return JsonConvert.SerializeObject(characterJsonData, new JsonSerializerSettings()
-                {
-                    Formatting = Formatting.Indented                    
-                });
+            return JsonConvert.SerializeObject(characterJsonData, Formatting.Indented);
         }
 
         /// <summary>
@@ -86,51 +85,38 @@ namespace GammaWorldCharacter.Serialization
         /// <returns></returns>
         public Character Deserialize(string json)
         {
-            if(string.IsNullOrEmpty("json"))
+            if (string.IsNullOrEmpty("json"))
             {
                 throw new ArgumentNullException("json");
             }
 
             CharacterJsonData characterJsonData;
             Character result;
-
-            characterJsonData = JsonConvert.DeserializeObject<CharacterJsonData>(json);
-
             Origin primaryOrigin;
             Origin secondaryOrigin;
             IEnumerable<int> abilityScores;
 
-            // Load the origins
-            primaryOrigin = 
-                characterJsonData.PrimaryOrigin.GetConstructor(new Type[0]) != null?
-                    characterJsonData.PrimaryOrigin.GetConstructor(new Type[0]).Invoke(new object[0]) as Origin :
-                    null;
-            if (primaryOrigin == null)
-            {
-                throw new ArgumentException("Primary origin does not exist or is not an origin.");
-            }
-            secondaryOrigin =
-                characterJsonData.SecondaryOrigin.GetConstructor(new Type[0]) != null ?
-                    characterJsonData.SecondaryOrigin.GetConstructor(new Type[0]).Invoke(new object[0]) as Origin :
-                    null;
-            if (secondaryOrigin == null)
-            {
-                throw new ArgumentException("Secondary origin does not exist or is not an origin.");
-            }
+            characterJsonData = JsonConvert.DeserializeObject<CharacterJsonData>(json);
 
             // Cull out origin provided ability scores
+            primaryOrigin = characterJsonData.PrimaryOrigin;
+            secondaryOrigin = characterJsonData.SecondaryOrigin;
             abilityScores = characterJsonData.AbilityScores.Where(x =>
-                    x.Key != primaryOrigin.AbilityScore && x.Key != secondaryOrigin.AbilityScore).Select(x => x.Value);
+                                                                  x.Key != primaryOrigin.AbilityScore &&
+                                                                  x.Key != secondaryOrigin.AbilityScore)
+                                             .Select(x => x.Value);
 
             // Create the new base character
-            result = new Character(abilityScores, primaryOrigin, secondaryOrigin, characterJsonData.TrainedSkill);
-            result.Name = characterJsonData.Name;
-            result.PlayerName = characterJsonData.PlayerName;
+            result = new Character(abilityScores, primaryOrigin, secondaryOrigin, characterJsonData.TrainedSkill)
+                {
+                    Name = characterJsonData.Name,
+                    PlayerName = characterJsonData.PlayerName
+                };
 
             // Deserialize levels
-            foreach (LevelJsonData levelJsonData in characterJsonData.Levels.OrderBy(x => x.Number))
+            if (characterJsonData.Levels.Any())
             {
-                result.AddLevels(levelJsonData.ToLevel());
+                result.AddLevels(characterJsonData.Levels.OrderBy(x => x.Number).Select(x => x.ToLevel()).ToArray());
             }
 
             // Deserialize gear

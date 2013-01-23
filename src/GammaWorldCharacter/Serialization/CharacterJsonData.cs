@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GammaWorldCharacter.Gear;
+using GammaWorldCharacter.Origins;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -51,18 +52,18 @@ namespace GammaWorldCharacter.Serialization
         }
 
         /// <summary>
-        /// The name of the primary origin <see cref="Type"/>.
+        /// The primary <see cref="Origin"/>.
         /// </summary>
-        [JsonProperty("primaryOriginType", Required = Required.Always)]
-        [JsonConverter(typeof(TypeNameConverter))]
-        public Type PrimaryOrigin;
+        [JsonProperty("primaryOrigin", Required = Required.Always)]
+        [JsonConverter(typeof(OriginConverter))]
+        public Origin PrimaryOrigin;
 
         /// <summary>
-        /// The name of the secondary origin <see cref="Type"/>.
+        /// The secondary <see cref="Origin"/>.
         /// </summary>
-        [JsonProperty("secondaryOriginType", Required = Required.Always)]
-        [JsonConverter(typeof(TypeNameConverter))]
-        public Type SecondaryOrigin;
+        [JsonProperty("secondaryOrigin", Required = Required.Always)]
+        [JsonConverter(typeof(OriginConverter))]
+        public Origin SecondaryOrigin;
 
         /// <summary>
         /// The name of the secondary origin <see cref="Type"/>.
@@ -106,7 +107,7 @@ namespace GammaWorldCharacter.Serialization
         /// <summary>
         /// The character's levels.
         /// </summary>
-        [JsonProperty("levels", Required = Required.Always)]
+        [JsonProperty("levels")]
         public IList<LevelJsonData> Levels
         {
             get;

@@ -32,16 +32,8 @@ namespace GammaWorldCharacter.Gear
         /// <returns>
         /// True if they are equal, false otherwise.
         /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="other"/> cannot be null.
-        /// </exception>
         public override bool Equals(object other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
             if (other is Item)
             {
                 return Equals(other as Item);
@@ -61,17 +53,11 @@ namespace GammaWorldCharacter.Gear
         /// <returns>
         /// True if they are equal, false otherwise.
         /// </returns>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="other"/> cannot be null.
-        /// </exception>
         public bool Equals(Item other)
         {
-            if (other == null)
-            {
-                throw new ArgumentNullException("other");
-            }
-
-            return Name.Equals(other.Name, StringComparison.CurrentCultureIgnoreCase)
+            return other != null
+                && GetType() == other.GetType()
+                && Name.Equals(other.Name, StringComparison.CurrentCultureIgnoreCase)
                 && Slot == other.Slot;
         }
 

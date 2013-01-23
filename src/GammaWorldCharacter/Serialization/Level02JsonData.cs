@@ -25,7 +25,7 @@ namespace GammaWorldCharacter.Serialization
         /// <summary>
         /// The critical hit benefit gained at level 2.
         /// </summary>
-        [JsonProperty("criticalHitBenefit")]
+        [JsonProperty("criticalHitBenefit", Required = Required.Always)]
         [JsonConverter(typeof(StringEnumConverter))]
         public OriginChoice CriticalHitBenefit;
 

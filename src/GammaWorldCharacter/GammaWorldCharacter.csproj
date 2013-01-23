@@ -165,8 +165,8 @@
     <Compile Include="Serialization\Level02JsonData.cs" />
     <Compile Include="Serialization\Level03JsonData.cs" />
     <Compile Include="Serialization\LevelJsonData.cs" />
+    <Compile Include="Serialization\OriginConverter.cs" />
     <Compile Include="Serialization\RangedWeaponJsonData.cs" />
-    <Compile Include="Serialization\TypeNameConverter.cs" />
     <Compile Include="Serialization\WeaponJsonData.cs" />
     <Compile Include="Traits\AdditionalMovementMode.cs" />
     <Compile Include="Traits\ITraitSource.cs" />
