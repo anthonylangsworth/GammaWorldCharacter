@@ -6,7 +6,7 @@ namespace GammaWorldCharacter.Levels
     /// <summary>
     /// Base class for all levels.
     /// </summary>
-    public abstract class Level: ModifierSource
+    public abstract class Level: ModifierSource, IEquatable<Level>
     {
         /// <summary>
         /// Minimum possible level.
@@ -38,6 +38,43 @@ namespace GammaWorldCharacter.Levels
             }
 
             Number = number;
+        }
+
+        /// <summary>
+        /// Are two <see cref="Level"/>s equal?
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(Level other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return base.Equals(other) && Number == other.Number;
+        }
+
+        /// <summary>
+        /// Are two objects equal?
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Level)obj);
+        }
+
+        /// <summary>
+        /// Hash code support.
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (base.GetHashCode() * 397) ^ Number;
+            }
         }
 
         /// <summary>

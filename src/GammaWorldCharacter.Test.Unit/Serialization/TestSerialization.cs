@@ -27,18 +27,22 @@ namespace GammaWorldCharacter.Test.Unit.Serialization
             newCharacter = characterSerializer.Deserialize(json);
 
             Assert.That(newCharacter, Is.EqualTo(character), "Characters differ");
-            Assert.That(newCharacter.GetHeldItem<Item>(Hand.Main), Is.EqualTo(character.GetHeldItem<Item>(Hand.Main)), 
+            Assert.That(newCharacter.GetHeldItem<Item>(Hand.Main), Is.EqualTo(character.GetHeldItem<Item>(Hand.Main)),
                 "Main hands differ");
             Assert.That(newCharacter.GetHeldItem<Item>(Hand.Off), Is.EqualTo(character.GetHeldItem<Item>(Hand.Off)),
                 "Main hands differ");
             Assert.That(
-                Array.ConvertAll((Slot[]) Enum.GetValues(typeof (Slot)), x => newCharacter.GetEquippedItem<Item>(x)),
-                Is.EquivalentTo(Array.ConvertAll((Slot[]) Enum.GetValues(typeof(Slot)), character.GetEquippedItem<Item>)),
+                Array.ConvertAll((Slot[])Enum.GetValues(typeof(Slot)), x => newCharacter.GetEquippedItem<Item>(x)),
+                Is.EquivalentTo(Array.ConvertAll((Slot[])Enum.GetValues(typeof(Slot)), character.GetEquippedItem<Item>)),
                 "Equipped items differ");
             Assert.That(
                 newCharacter.Gear.OrderBy(x => x.Name),
                 Is.EquivalentTo(character.Gear.OrderBy(x => x.Name)),
                 "Carried items differ");
+            Assert.That(
+                newCharacter.Levels.OrderBy(x => x.Number),
+                Is.EquivalentTo(character.Levels.OrderBy(x => x.Number)),
+                "Levels differ");
         }
 
         /// <summary>

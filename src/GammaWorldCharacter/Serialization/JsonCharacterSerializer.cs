@@ -57,7 +57,7 @@ namespace GammaWorldCharacter.Serialization
             // Serialize levels
             foreach (Level level in character.Levels)
             {
-                characterJsonData.Levels.Add(LevelJsonData.FromLevel(level));
+                characterJsonData.Levels.Add(level);
             }
 
             // Serialize gear
@@ -74,11 +74,11 @@ namespace GammaWorldCharacter.Serialization
             {
                 characterJsonData.OtherGear.Add(item);
             }
-
-            JsonSerializerSettings jsonSerializerSettings;
-            jsonSerializerSettings = new JsonSerializerSettings();
-            jsonSerializerSettings.Converters.Add(new ItemConverter());
-            return JsonConvert.SerializeObject(characterJsonData, Formatting.Indented, jsonSerializerSettings);
+            
+            // Include the ItemConverter here as there is no way to specify the
+            // converter for collections as attributes.
+            return JsonConvert.SerializeObject(characterJsonData, Formatting.Indented, 
+                new ItemConverter(), new LevelConverter());
         }
 
         /// <summary>
@@ -99,7 +99,10 @@ namespace GammaWorldCharacter.Serialization
             Origin secondaryOrigin;
             IEnumerable<int> abilityScores;
 
-            characterJsonData = JsonConvert.DeserializeObject<CharacterJsonData>(json);
+            // Include the ItemConverter here as there is no way to specify the
+            // converter for collections as attributes.
+            characterJsonData = JsonConvert.DeserializeObject<CharacterJsonData>(json, 
+                new ItemConverter(), new LevelConverter());
 
             // Cull out origin provided ability scores
             primaryOrigin = characterJsonData.PrimaryOrigin;
@@ -119,12 +122,12 @@ namespace GammaWorldCharacter.Serialization
             // Deserialize levels
             if (characterJsonData.Levels.Any())
             {
-                result.AddLevels(characterJsonData.Levels.OrderBy(x => x.Number).Select(x => x.ToLevel()).ToArray());
+                result.AddLevels(characterJsonData.Levels.OrderBy(x => x.Number).ToArray());
             }
 
             // Deserialize gear
-            result.SetHeldItem(Hand.Main, characterJsonData.MainHand != null ? characterJsonData.MainHand : null);
-            result.SetHeldItem(Hand.Off, characterJsonData.OffHand != null ? characterJsonData.OffHand : null);
+            result.SetHeldItem(Hand.Main, characterJsonData.MainHand);
+            result.SetHeldItem(Hand.Off, characterJsonData.OffHand);
             foreach (Item item in characterJsonData.EquippedGear.Values)
             {
                 result.SetEquippedItem(item);

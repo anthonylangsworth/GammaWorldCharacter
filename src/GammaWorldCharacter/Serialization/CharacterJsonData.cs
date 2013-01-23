@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GammaWorldCharacter.Gear;
+using GammaWorldCharacter.Levels;
 using GammaWorldCharacter.Origins;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -26,7 +27,7 @@ namespace GammaWorldCharacter.Serialization
             AbilityScores = new Dictionary<ScoreType, int>();
             EquippedGear = new Dictionary<Slot, Item>();
             OtherGear = new List<Item>();
-            Levels = new List<LevelJsonData>();
+            Levels = new List<Level>();
         }
 
         /// <summary>
@@ -110,7 +111,7 @@ namespace GammaWorldCharacter.Serialization
         /// The character's levels.
         /// </summary>
         [JsonProperty("levels")]
-        public IList<LevelJsonData> Levels
+        public IList<Level> Levels
         {
             get;
             private set;
