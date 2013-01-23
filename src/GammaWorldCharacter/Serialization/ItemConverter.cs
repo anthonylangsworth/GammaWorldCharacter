@@ -7,11 +7,12 @@ using GammaWorldCharacter.Gear.Armor;
 using GammaWorldCharacter.Gear.Weapons;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 
 namespace GammaWorldCharacter.Serialization
 {
     /// <summary>
-    /// Convert an <see cref="ItemJsonData"/> to or from JSON, handling
+    /// Convert an <see cref="Item"/> to or from JSON, handling
     /// the subclasses appropriately.
     /// </summary>
     public class ItemConverter: JsonConverter
@@ -24,6 +25,26 @@ namespace GammaWorldCharacter.Serialization
         /// Value property name.
         /// </summary>
         public readonly string ValuePropertyName = "value";
+        /// <summary>
+        /// Ranged type property name.
+        /// </summary>
+        public readonly string RangedTypePropertyName = "rangedType";
+        /// <summary>
+        /// Name property name.
+        /// </summary>
+        public readonly string NamePropertyName = "name";
+        /// <summary>
+        /// Slot property name.
+        /// </summary>
+        public readonly string SlotPropertyName = "slot";
+        /// <summary>
+        /// Weight property name.
+        /// </summary>
+        public readonly string WeightPropertyName = "weight";
+        /// <summary>
+        /// Handedness property name.
+        /// </summary>
+        public readonly string HandednessPropertyName = "handedness";
 
         /// <summary>
         /// Ranged Weapon
@@ -32,7 +53,7 @@ namespace GammaWorldCharacter.Serialization
         /// <summary>
         /// Weapon (usually Melee)
         /// </summary>
-        public readonly string WeaponType = "Weapon";
+        public readonly string MeleeWeaponType = "MeleeWeapon";
         /// <summary>
         /// Heavy Armor
         /// </summary>
@@ -51,7 +72,7 @@ namespace GammaWorldCharacter.Serialization
         public readonly string ItemType = "Item";
 
         /// <summary>
-        /// Serialize an <see cref="ItemJsonData"/> and its subclasses to JSON.
+        /// Serialize an <see cref="Item"/> and its subclasses to JSON.
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="value"></param>
@@ -86,8 +107,7 @@ namespace GammaWorldCharacter.Serialization
 
             conversion = new Dictionary<Type, Action<JsonWriter, Item>>();
             conversion[typeof(RangedWeapon)] = WriteRangedWeapon;
-            conversion[typeof(MeleeWeapon)] = WriteWeapon;
-            conversion[typeof(Weapon)] = WriteWeapon;
+            conversion[typeof(MeleeWeapon)] = WriteMeleeWeapon;
             conversion[typeof(HeavyArmor)] = WriteHeavyArmor;
             conversion[typeof(LightArmor)] = WriteLightArmor;
             conversion[typeof(Shield)] = WriteShield;
@@ -112,7 +132,6 @@ namespace GammaWorldCharacter.Serialization
         /// <param name="item"></param>
         private void WriteRangedWeapon(JsonWriter writer, Item item)
         {
-
             if (writer == null)
             {
                 throw new ArgumentNullException("writer");
@@ -132,11 +151,11 @@ namespace GammaWorldCharacter.Serialization
 
             writer.WritePropertyName(this.TypePropertyName);
             writer.WriteValue(this.RangedWeaponType);
-            writer.WritePropertyName("rangedType");
+            writer.WritePropertyName(this.RangedTypePropertyName);
             writer.WriteValue(JsonConvert.SerializeObject(rangedWeapon.Type, new StringEnumConverter()));
-            writer.WritePropertyName("weight");
+            writer.WritePropertyName(this.WeightPropertyName);
             writer.WriteValue(JsonConvert.SerializeObject(rangedWeapon.Weight, new StringEnumConverter()));
-            writer.WritePropertyName("handedness");
+            writer.WritePropertyName(this.HandednessPropertyName);
             writer.WriteValue(JsonConvert.SerializeObject(rangedWeapon.Handedness, new StringEnumConverter()));
         }
 
@@ -145,7 +164,7 @@ namespace GammaWorldCharacter.Serialization
         /// </summary>
         /// <param name="writer"></param>
         /// <param name="item"></param>
-        private void WriteWeapon(JsonWriter writer, Item item)
+        private void WriteMeleeWeapon(JsonWriter writer, Item item)
         {
             if (writer == null)
             {
@@ -165,10 +184,10 @@ namespace GammaWorldCharacter.Serialization
             }
 
             writer.WritePropertyName(this.TypePropertyName);
-            writer.WriteValue(this.WeaponType);
-            writer.WritePropertyName("weight");
+            writer.WriteValue(this.MeleeWeaponType);
+            writer.WritePropertyName(this.WeightPropertyName);
             writer.WriteValue(JsonConvert.SerializeObject(weapon.Weight, new StringEnumConverter()));
-            writer.WritePropertyName("handedness");
+            writer.WritePropertyName(this.HandednessPropertyName);
             writer.WriteValue(JsonConvert.SerializeObject(weapon.Handedness, new StringEnumConverter()));
         }
 
@@ -194,8 +213,6 @@ namespace GammaWorldCharacter.Serialization
 
             writer.WritePropertyName(this.TypePropertyName);
             writer.WriteValue(this.HeavyArmorType); 
-            writer.WritePropertyName("weight");
-            writer.WriteValue(JsonConvert.SerializeObject(ArmorWeight.Heavy, new StringEnumConverter()));
         }
 
         /// <summary>
@@ -220,8 +237,6 @@ namespace GammaWorldCharacter.Serialization
 
             writer.WritePropertyName(this.TypePropertyName);
             writer.WriteValue(this.LightArmorType);
-            writer.WritePropertyName("weight");
-            writer.WriteValue(JsonConvert.SerializeObject(ArmorWeight.Light, new StringEnumConverter()));
         }
 
         /// <summary>
@@ -246,8 +261,6 @@ namespace GammaWorldCharacter.Serialization
 
             writer.WritePropertyName(this.TypePropertyName);
             writer.WriteValue(this.ShieldType);
-            writer.WritePropertyName("weight");
-            writer.WriteValue(JsonConvert.SerializeObject(ArmorWeight.Shield, new StringEnumConverter()));
         }
 
         /// <summary>
@@ -267,7 +280,7 @@ namespace GammaWorldCharacter.Serialization
             }
 
             writer.WritePropertyName(this.TypePropertyName);
-            writer.WriteValue(this.ItemType);
+            writer.WriteValue(this.NamePropertyName);
             writer.WritePropertyName("name");
             writer.WriteValue(item.Name);
             writer.WritePropertyName("slot");
@@ -275,7 +288,7 @@ namespace GammaWorldCharacter.Serialization
         }
 
         /// <summary>
-        /// Deserialize an <see cref="ItemJsonData"/> and its subclasses from JSON.
+        /// Deserialize an <see cref="Item"/> and its subclasses from JSON.
         /// </summary>
         /// <param name="reader"></param>
         /// <param name="objectType"></param>
@@ -298,50 +311,218 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentNullException("serializer");
             }
 
-            Dictionary<string, Type> conversion;
-            string typeName;
-            Type type;
-            ItemJsonData result;
+            Dictionary<string, Func<JObject, Item>> conversion;
+            //string typeName;
+            Func<JObject, Item> itemDeserializer;
+            Item result;
+            JObject jObject;
 
             // Order is important below to ensure subclasses are handled first.
-            conversion = new Dictionary<string, Type>();
-            conversion[this.RangedWeaponType] = typeof(RangedWeapon);
-            conversion[this.WeaponType] = typeof(Weapon);
-            conversion[this.HeavyArmorType] = typeof(HeavyArmor);
-            conversion[this.LightArmorType] = typeof(LightArmor);
-            conversion[this.ShieldType] = typeof(Shield);
-            conversion[this.ItemType] = typeof(Item);
+            conversion = new Dictionary<string, Func<JObject, Item>>();
+            conversion[this.RangedWeaponType] = ReadRangedWeapon;
+            conversion[this.MeleeWeaponType] = ReadMeleeWeapon;
+            conversion[this.HeavyArmorType] = ReadHeavyArmor;
+            conversion[this.LightArmorType] = ReadLightArmor;
+            conversion[this.ShieldType] = ReadShield;
+            conversion[this.ItemType] = ReadItem;
 
-            if (reader.TokenType == JsonToken.String)
-            {
-                typeName = (string) reader.Value;
-            }
-            else
-            {
-                throw new JsonSerializationException("Invalid item serialization");
-            }
+            // Using a JObject is slightly slower than iterating through the tokens
+            // but it is less code, allows the properties to be in any order and
+            // does not exclude additional properties in the JSON.
+            jObject = JObject.Load(reader);
 
-            if (conversion.TryGetValue(typeName, out type))
+            // Ensure it is the start of a property
+            //if (reader.TokenType != JsonToken.StartObject)
+            //{
+            //    throw new ArgumentException("Not an object");
+            //}
+            //reader.Read();
+            //if (reader.TokenType != JsonToken.PropertyName
+            //    || this.TypePropertyName.Equals(reader.Value))
+            //{
+            //    throw new ArgumentException(
+            //        string.Format("First property must be {0}", this.TypePropertyName));    
+            //}
+            //reader.Read();
+
+            //if (reader.TokenType == JsonToken.String)
+            //{
+            //    typeName = (string) reader.Value;
+            //}
+            //else
+            //{
+            //    throw new JsonSerializationException("Invalid item serialization");
+            //}
+
+            if (conversion.TryGetValue(jObject[this.TypePropertyName].Value<string>(), out itemDeserializer))
             {
-                reader.Read(); // Value property
-                result = (ItemJsonData)serializer.Deserialize(reader, type);
+                result = itemDeserializer(jObject);
             }
             else
             {
                 throw new ArgumentException("Unknown or invalid item");
             }
 
+            //reader.Read();
+            //if (reader.TokenType != JsonToken.EndObject)
+            //{
+            //    throw new ArgumentException("Trailing properties or tokens");
+            //}
+
             return result;
         }
 
         /// <summary>
-        /// Convert <see cref="ItemJsonData"/> and subclasses.
+        /// 
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <returns></returns>
+        private Item ReadRangedWeapon(JObject jObject)
+        {
+            if (jObject == null)
+            {
+                throw new ArgumentNullException("jObject");
+            }
+            foreach (string propertyName in
+                new[] {this.RangedTypePropertyName, this.WeightPropertyName, this.HandednessPropertyName})
+            {
+                if (jObject.Property(propertyName) == null)
+                {
+                    throw new ArgumentException(
+                        string.Format("Property '{0}' missing", propertyName), "jObject");
+                }
+            }
+
+            RangedType rangedWeaponType;
+            WeaponWeight weaponWeight;
+            WeaponHandedness weaponHandedness;
+
+            rangedWeaponType = (RangedType) JsonConvert.DeserializeObject(
+                jObject[this.RangedTypePropertyName].Value<string>(), typeof(RangedType), new StringEnumConverter());
+            weaponWeight = (WeaponWeight)JsonConvert.DeserializeObject(
+                jObject[this.WeightPropertyName].Value<string>(), typeof(WeaponWeight), new StringEnumConverter());
+            weaponHandedness = (WeaponHandedness)JsonConvert.DeserializeObject(
+                jObject[this.HandednessPropertyName].Value<string>(), typeof(WeaponHandedness), new StringEnumConverter());
+
+            return new RangedWeapon(rangedWeaponType, weaponHandedness, weaponWeight);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <returns></returns>
+        private Item ReadMeleeWeapon(JObject jObject)
+        {
+            if (jObject == null)
+            {
+                throw new ArgumentNullException("jObject");
+            }
+            foreach (string propertyName in
+                new[] { this.WeightPropertyName, this.HandednessPropertyName })
+            {
+                if (jObject.Property(propertyName) == null)
+                {
+                    throw new ArgumentException(
+                        string.Format("Property '{0}' missing", propertyName), "jObject");
+                }
+            }
+
+            WeaponWeight weaponWeight;
+            WeaponHandedness weaponHandedness;
+
+            weaponWeight = (WeaponWeight)JsonConvert.DeserializeObject(
+                jObject[this.WeightPropertyName].Value<string>(), typeof(WeaponWeight), new StringEnumConverter());
+            weaponHandedness = (WeaponHandedness)JsonConvert.DeserializeObject(
+                jObject[this.HandednessPropertyName].Value<string>(), typeof(WeaponHandedness), new StringEnumConverter());
+
+            return new MeleeWeapon(weaponHandedness, weaponWeight);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <returns></returns>
+        private Item ReadHeavyArmor(JObject jObject)
+        {
+            if (jObject == null)
+            {
+                throw new ArgumentNullException("jObject");
+            }
+
+            return new HeavyArmor();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <returns></returns>
+        private Item ReadLightArmor(JObject jObject)
+        {
+            if (jObject == null)
+            {
+                throw new ArgumentNullException("jObject");
+            }
+
+            return new LightArmor();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <returns></returns>
+        private Item ReadShield(JObject jObject)
+        {
+            if (jObject == null)
+            {
+                throw new ArgumentNullException("jObject");
+            }
+
+            return new Shield();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <returns></returns>
+        private Item ReadItem(JObject jObject)
+        {
+            if (jObject == null)
+            {
+                throw new ArgumentNullException("jObject");
+            }
+            foreach (string propertyName in
+                new[] { this.NamePropertyName, this.SlotPropertyName })
+            {
+                if (jObject.Property(propertyName) == null)
+                {
+                    throw new ArgumentException(
+                        string.Format("Property '{0}' missing", propertyName), "jObject");
+                }
+            }
+
+            string name;
+            Slot slot;
+
+            name = jObject[this.NamePropertyName].Value<string>();
+            slot = (Slot)JsonConvert.DeserializeObject(
+                jObject[this.SlotPropertyName].Value<string>(), typeof(Slot), new StringEnumConverter());
+
+            return new Item(name, slot);
+        }
+
+        /// <summary>
+        /// Convert <see cref="Item"/> and subclasses.
         /// </summary>
         /// <param name="objectType"></param>
         /// <returns></returns>
         public override bool CanConvert(Type objectType)
         {
-            return typeof (Item).IsAssignableFrom(objectType);
+            return typeof(Item).IsAssignableFrom(objectType);
         }
     }
 }
