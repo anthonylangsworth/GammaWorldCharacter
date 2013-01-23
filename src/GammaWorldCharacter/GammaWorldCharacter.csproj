@@ -160,6 +160,7 @@
     <Compile Include="Serialization\ArmorJsonData.cs" />
     <Compile Include="Serialization\ArmorWeight.cs" />
     <Compile Include="Serialization\CharacterJsonData.cs" />
+    <Compile Include="Serialization\ItemConverter.cs" />
     <Compile Include="Serialization\ItemJsonData.cs" />
     <Compile Include="Serialization\JsonCharacterSerializer.cs" />
     <Compile Include="Serialization\Level02JsonData.cs" />

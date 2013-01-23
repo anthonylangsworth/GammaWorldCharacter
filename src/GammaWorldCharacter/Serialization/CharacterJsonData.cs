@@ -24,8 +24,8 @@ namespace GammaWorldCharacter.Serialization
         public CharacterJsonData()
         {
             AbilityScores = new Dictionary<ScoreType, int>();
-            EquippedGear = new Dictionary<Slot, ItemJsonData>();
-            OtherGear = new List<ItemJsonData>();
+            EquippedGear = new Dictionary<Slot, Item>();
+            OtherGear = new List<Item>();
             Levels = new List<LevelJsonData>();
         }
 
@@ -76,19 +76,21 @@ namespace GammaWorldCharacter.Serialization
         /// Item in the main hand.
         /// </summary>
         [JsonProperty("mainHand", Required = Required.AllowNull)]
-        public ItemJsonData MainHand;
+        [JsonConverter(typeof(ItemConverter))]
+        public Item MainHand;
 
         /// <summary>
         /// Item in the off hand.
         /// </summary>
         [JsonProperty("offHand", Required = Required.AllowNull)]
-        public ItemJsonData OffHand;
+        [JsonConverter(typeof(ItemConverter))]
+        public Item OffHand;
 
         /// <summary>
         /// Equipped items.
         /// </summary>
         [JsonProperty("equippedGear", Required = Required.Always)]
-        public IDictionary<Slot, ItemJsonData> EquippedGear
+        public IDictionary<Slot, Item> EquippedGear
         {
             get;
             private set;
@@ -98,7 +100,7 @@ namespace GammaWorldCharacter.Serialization
         /// Other carried gear.
         /// </summary>
         [JsonProperty("otherGear", Required = Required.Always)]
-        public IList<ItemJsonData> OtherGear
+        public IList<Item> OtherGear
         {
             get;
             private set;

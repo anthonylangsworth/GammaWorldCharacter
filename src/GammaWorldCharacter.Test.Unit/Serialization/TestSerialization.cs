@@ -33,7 +33,7 @@ namespace GammaWorldCharacter.Test.Unit.Serialization
                 "Main hands differ");
             Assert.That(
                 Array.ConvertAll((Slot[]) Enum.GetValues(typeof (Slot)), x => newCharacter.GetEquippedItem<Item>(x)),
-                Is.EquivalentTo(Array.ConvertAll((Slot[]) Enum.GetValues(typeof(Slot)), x => character.GetEquippedItem<Item>(x))),
+                Is.EquivalentTo(Array.ConvertAll((Slot[]) Enum.GetValues(typeof(Slot)), character.GetEquippedItem<Item>)),
                 "Equipped items differ");
             Assert.That(
                 newCharacter.Gear.OrderBy(x => x.Name),

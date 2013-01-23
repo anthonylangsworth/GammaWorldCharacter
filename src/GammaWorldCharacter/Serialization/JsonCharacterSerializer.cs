@@ -61,21 +61,24 @@ namespace GammaWorldCharacter.Serialization
             }
 
             // Serialize gear
-            characterJsonData.MainHand = ItemJsonData.FromItem(character.GetHeldItem<Item>(Hand.Main));
-            characterJsonData.OffHand = ItemJsonData.FromItem(character.GetHeldItem<Item>(Hand.Off));
+            characterJsonData.MainHand = character.GetHeldItem<Item>(Hand.Main);
+            characterJsonData.OffHand = character.GetHeldItem<Item>(Hand.Off);
             foreach (Slot slot in Enum.GetValues(typeof (Slot)))
             {
                 if (character.GetEquippedItem<Item>(slot) != null)
                 {
-                    characterJsonData.EquippedGear[slot] = ItemJsonData.FromItem(character.GetEquippedItem<Item>(slot));
+                    characterJsonData.EquippedGear[slot] = character.GetEquippedItem<Item>(slot);
                 }
             }
             foreach (Item item in character.Gear)
             {
-                characterJsonData.OtherGear.Add(ItemJsonData.FromItem(item));
+                characterJsonData.OtherGear.Add(item);
             }
 
-            return JsonConvert.SerializeObject(characterJsonData, Formatting.Indented);
+            JsonSerializerSettings jsonSerializerSettings;
+            jsonSerializerSettings = new JsonSerializerSettings();
+            jsonSerializerSettings.Converters.Add(new ItemConverter());
+            return JsonConvert.SerializeObject(characterJsonData, Formatting.Indented, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -120,13 +123,13 @@ namespace GammaWorldCharacter.Serialization
             }
 
             // Deserialize gear
-            result.SetHeldItem(Hand.Main, characterJsonData.MainHand != null ? characterJsonData.MainHand.ToItem() : null);
-            result.SetHeldItem(Hand.Off, characterJsonData.OffHand != null ? characterJsonData.OffHand.ToItem() : null);
-            foreach (ItemJsonData itemJsonData in characterJsonData.EquippedGear.Values)
+            result.SetHeldItem(Hand.Main, characterJsonData.MainHand != null ? characterJsonData.MainHand : null);
+            result.SetHeldItem(Hand.Off, characterJsonData.OffHand != null ? characterJsonData.OffHand : null);
+            foreach (Item item in characterJsonData.EquippedGear.Values)
             {
-                result.SetEquippedItem(itemJsonData.ToItem());
+                result.SetEquippedItem(item);
             }
-            result.Gear.AddRange(characterJsonData.OtherGear.Select(x => x.ToItem()));
+            result.Gear.AddRange(characterJsonData.OtherGear);
 
             return result;
         }

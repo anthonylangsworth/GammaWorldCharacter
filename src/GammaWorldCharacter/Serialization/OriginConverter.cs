@@ -14,11 +14,6 @@ namespace GammaWorldCharacter.Serialization
     public class OriginConverter: JsonConverter
     {
         /// <summary>
-        /// Name property.
-        /// </summary>
-        public readonly string NameProperty = "name";
-
-        /// <summary>
         /// Android
         /// </summary>
         public readonly string AndroidOriginName = "Android";
