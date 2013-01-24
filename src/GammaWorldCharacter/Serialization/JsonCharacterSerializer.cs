@@ -136,5 +136,190 @@ namespace GammaWorldCharacter.Serialization
 
             return result;
         }
+
+        /*
+        /// <summary>
+        /// The JSON Schema describing the serialized characters.
+        /// </summary>
+        public string Schema
+        {
+            get
+            {
+                return @"{
+    '$schema': 'http://json-schema.org/draft-04/schema#',
+    'properties': {
+        'gamma_world_character': {
+            'id': 'gamma_world_character',
+            'type': 'object',
+            'properties': {
+                'name': {
+                    'type': 'string',
+                    'required': true
+                },
+                'playerName': {
+                    'type': 'string',
+                    'required': true
+                },
+                'primaryOriginType': {
+                    'type': 'string',
+                    'required': true
+                },
+                'secondaryOriginType': {
+                    'type': 'string',
+                    'required': true
+                },
+                'trainedSkill': {
+                    'type': 'string',
+                    'enum': [ 'Acrobatics',
+                        'Athletics',
+                        'Conspiracy',
+                        'Insight',
+                        'Interaction',
+                        'Nature',
+                        'Mechanics',
+                        'Perception',
+                        'Science',
+                        'Stealth' ],
+                    'required': true
+                },
+                'abilityScores': {
+                    'type': 'object',
+                    'required': true,
+                    'items': {
+				        'strength': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        },
+				        'constitution': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        },
+				        'dexterity': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        },
+				        'intelligence': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        },
+				        'wisdom': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        },
+				        'charisma': {
+                            'type': 'number',
+                            'minimum': 3,
+                            'maximum': 20,
+                            'required': true
+                        }
+                    },
+                },
+                'mainHand': {
+                    'extends': {'$ref': 'item'}
+                },
+                'offHand': {
+                    'extends': [ 
+                        {'$ref': 'item'}, 
+                        {'$ref': 'weapon'},
+                        {'$ref': 'ranged_weapon'},
+                        {'$ref': 'armor'}
+                    ],
+                },
+                'equippedGear': {
+                    'type': 'array',
+                    'required': true,
+                    'extends': [ 
+                        'body': {
+                            'type':  {'$ref': 'armor'}
+                        },
+                    ],
+                },
+                'otherGear': {
+                    'type': 'array',
+                    'required': true,
+                    'extends': [ 
+                        {'$ref': 'item'}, 
+                        {'$ref': 'weapon'},
+                        {'$ref': 'ranged_weapon'},
+                        {'$ref': 'armor'}
+                    ],
+                },
+            }
+        },
+        'item': {
+            'id': 'item',
+            'type': 'object',
+            'properties': {
+                '$type': {
+                    'type': 'string',
+                    'value': 'item'
+                },
+                'name': {
+                    'type': 'string',
+                    'required': true
+                },
+                'slot': {
+                    'type': 'string',
+                    'required': true
+                }
+            }
+        },
+        'melee_weapon': {
+            'id': 'weapon',
+            'extends': { '$ref': 'item' },
+            'type': 'object',
+            'properties': {
+                'weight': {
+                    'type': 'string',
+                    'enum': ['Heavy', 'Light'],
+                    'required': true
+                },
+                'hands': {
+                    'type': 'number',
+                    'minimum': 1,
+                    'maximum': 2,
+                    'required': true
+                },
+            }
+        },
+        'ranged_weapon': {
+            'id': 'ranged_weapon',
+            'type': 'object',
+            'extends': { '$ref': 'weapon' },
+            'properties': {
+                'type': {
+                    'type': 'string',
+                    'enum': ['gun', 'weapon'],
+                    'required': true
+                }
+            }
+        },
+        'armor': {
+            'id': 'armor',
+            'type': 'object',
+            'extends': { '$ref': 'item' },
+            'properties': {
+                'type': {
+                    'type': 'string',
+                    'enum': ['Heavy', 'Light'],
+                    'required': true
+                },
+            }
+        }
+    }
+}";
+            }
+        }
+        */
     }
 }
