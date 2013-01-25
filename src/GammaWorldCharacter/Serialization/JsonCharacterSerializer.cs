@@ -84,11 +84,21 @@ namespace GammaWorldCharacter.Serialization
         /// <summary>
         /// Create a <see cref="Character"/> from serialized JSON.
         /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
+        /// <param name="json">
+        /// The JSON serialization of a <see cref="Character"/>.
+        /// </param>
+        /// <returns>
+        /// The deserialized <see cref="Character"/>.
+        /// </returns>
+        /// <exception cref="InvalidSerializationException">
+        /// The JSON is not a valid <see cref="Character"/>.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="json"/> cannot be null.
+        /// </exception>
         public Character Deserialize(string json)
         {
-            if (string.IsNullOrEmpty("json"))
+            if (json == null)
             {
                 throw new ArgumentNullException("json");
             }
