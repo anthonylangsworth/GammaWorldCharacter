@@ -16,43 +16,43 @@ namespace GammaWorldCharacter.Serialization
         /// <summary>
         /// Android
         /// </summary>
-        public readonly string AndroidOriginName = "Android";
+        internal static readonly string AndroidOriginName = "Android";
         /// <summary>
         /// Cockroach
         /// </summary>
-        public readonly string CockroachOriginName = "Cockroach";
+        internal static readonly string CockroachOriginName = "Cockroach";
         /// <summary>
         /// Doppelganger
         /// </summary>
-        public readonly string DoppelgangerOriginName = "Doppelganger";
+        internal static readonly string DoppelgangerOriginName = "Doppelganger";
         /// <summary>
         /// Electrokinetic
         /// </summary>
-        public readonly string ElectrokineticOriginName = "Electrokinetic";
+        internal static readonly string ElectrokineticOriginName = "Electrokinetic";
         /// <summary>
         /// Empath
         /// </summary>
-        public readonly string EmpathOriginName = "Empath";
+        internal static readonly string EmpathOriginName = "Empath";
         /// <summary>
         /// Felinoid
         /// </summary>
-        public readonly string FelinoidOriginName = "Felinoid";
+        internal static readonly string FelinoidOriginName = "Felinoid";
         /// <summary>
         /// Hawkoid
         /// </summary>
-        public readonly string HawkoidOriginName = "Hawkoid";
+        internal static readonly string HawkoidOriginName = "Hawkoid";
         /// <summary>
         /// Hypercognitive
         /// </summary>
-        public readonly string HypercognitiveOriginName = "Hypercognitive";
+        internal static readonly string HypercognitiveOriginName = "Hypercognitive";
         /// <summary>
         /// Giant.
         /// </summary>
-        public readonly string GiantOriginName = "Giant";
+        internal static readonly string GiantOriginName = "Giant";
         /// <summary>
         /// Gravity controller.
         /// </summary>
-        public readonly string GravityControllerOriginName = "Gravity Controller";
+        internal static readonly string GravityControllerOriginName = "Gravity Controller";
 
         /// <summary>
         /// Can this converter convert an object of the given type?
@@ -61,7 +61,12 @@ namespace GammaWorldCharacter.Serialization
         /// <returns></returns>
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof (Origin);
+            if (objectType == null)
+            {
+                throw new ArgumentNullException("objectType");
+            }
+
+            return typeof(Origin).IsAssignableFrom(objectType);
         }
 
         /// <summary>
@@ -98,20 +103,22 @@ namespace GammaWorldCharacter.Serialization
             origin = value as Origin;
             if (origin == null)
             {
+                // May want to support writing null in the future
                 throw new ArgumentException("value is not an Origin", "value");
             }
 
+            // Should be moved into a separate static property
             conversion = new Dictionary<Type, string>();
-            conversion[typeof(Android)] = this.AndroidOriginName;
-            conversion[typeof(Cockroach)] = this.CockroachOriginName;
-            conversion[typeof(Doppelganger)] = this.DoppelgangerOriginName;
-            conversion[typeof(Electrokinetic)] = this.ElectrokineticOriginName;
-            conversion[typeof(Empath)] = this.EmpathOriginName;
-            conversion[typeof(Felinoid)] = this.FelinoidOriginName;
-            conversion[typeof(Hawkoid)] = this.HawkoidOriginName;
-            conversion[typeof(Hypercognitive)] = this.HypercognitiveOriginName;
-            conversion[typeof(Giant)] = this.GiantOriginName;
-            conversion[typeof(GravityController)] = this.GravityControllerOriginName;
+            conversion[typeof(Android)] = AndroidOriginName;
+            conversion[typeof(Cockroach)] = CockroachOriginName;
+            conversion[typeof(Doppelganger)] = DoppelgangerOriginName;
+            conversion[typeof(Electrokinetic)] = ElectrokineticOriginName;
+            conversion[typeof(Empath)] = EmpathOriginName;
+            conversion[typeof(Felinoid)] = FelinoidOriginName;
+            conversion[typeof(Hawkoid)] = HawkoidOriginName;
+            conversion[typeof(Hypercognitive)] = HypercognitiveOriginName;
+            conversion[typeof(Giant)] = GiantOriginName;
+            conversion[typeof(GravityController)] = GravityControllerOriginName;
 
             if (conversion.TryGetValue(origin.GetType(), out originName))
             {
@@ -158,17 +165,18 @@ namespace GammaWorldCharacter.Serialization
             Func<Origin> result;
             Dictionary<string, Func<Origin>> conversion;
 
+            // Should be moved into a separate static property
             conversion = new Dictionary<string, Func<Origin>>();
-            conversion[this.AndroidOriginName.ToLowerInvariant()] = () => new Android();
-            conversion[this.CockroachOriginName.ToLowerInvariant()] = () => new Cockroach();
-            conversion[this.DoppelgangerOriginName.ToLowerInvariant()] = () => new Doppelganger();
-            conversion[this.ElectrokineticOriginName.ToLowerInvariant()] = () => new Electrokinetic();
-            conversion[this.EmpathOriginName.ToLowerInvariant()] = () => new Empath();
-            conversion[this.FelinoidOriginName.ToLowerInvariant()] = () => new Felinoid();
-            conversion[this.HawkoidOriginName.ToLowerInvariant()] = () => new Hawkoid();
-            conversion[this.HypercognitiveOriginName.ToLowerInvariant()] = () => new Hypercognitive();
-            conversion[this.GiantOriginName.ToLowerInvariant()] = () => new Giant();
-            conversion[this.GravityControllerOriginName.ToLowerInvariant()] = () => new GravityController();
+            conversion[AndroidOriginName.ToLowerInvariant()] = () => new Android();
+            conversion[CockroachOriginName.ToLowerInvariant()] = () => new Cockroach();
+            conversion[DoppelgangerOriginName.ToLowerInvariant()] = () => new Doppelganger();
+            conversion[ElectrokineticOriginName.ToLowerInvariant()] = () => new Electrokinetic();
+            conversion[EmpathOriginName.ToLowerInvariant()] = () => new Empath();
+            conversion[FelinoidOriginName.ToLowerInvariant()] = () => new Felinoid();
+            conversion[HawkoidOriginName.ToLowerInvariant()] = () => new Hawkoid();
+            conversion[HypercognitiveOriginName.ToLowerInvariant()] = () => new Hypercognitive();
+            conversion[GiantOriginName.ToLowerInvariant()] = () => new Giant();
+            conversion[GravityControllerOriginName.ToLowerInvariant()] = () => new GravityController();
 
             if (reader.TokenType == JsonToken.String)
             {
