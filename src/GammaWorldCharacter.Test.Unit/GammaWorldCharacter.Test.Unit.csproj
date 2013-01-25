@@ -69,6 +69,8 @@
     <Compile Include="Powers\Effects\TestTarget.cs" />
     <Compile Include="Powers\TestRange.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization\TestConverter.cs" />
+    <Compile Include="Serialization\TestLevelConverter.cs" />
     <Compile Include="Serialization\TestOriginConverter.cs" />
     <Compile Include="Serialization\TestSerialization.cs" />
     <Compile Include="TestAbilityScores.cs" />

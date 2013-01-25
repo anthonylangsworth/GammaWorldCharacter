@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 namespace GammaWorldCharacter.Test.Unit.Serialization
 {
     [TestFixture]
-    public class TestOriginConverter
+    public class TestOriginConverter: TestConverter<OriginConverter>
     {
         [Test]
         [TestCaseSource("TestSerializationSource")]
@@ -42,7 +42,8 @@ namespace GammaWorldCharacter.Test.Unit.Serialization
             yield return new TestCaseData(new GravityController()).Returns(QuoteString(OriginConverter.GravityControllerOriginName));
             yield return new TestCaseData(new Hawkoid()).Returns(QuoteString(OriginConverter.HawkoidOriginName));
             yield return new TestCaseData(new Hypercognitive()).Returns(QuoteString(OriginConverter.HypercognitiveOriginName));
-            yield return new TestCaseData(new NullOrigin()).Throws(typeof(ArgumentException));
+            yield return new TestCaseData(new NullOrigin()).Throws(typeof(InvalidSerializationException));
+            yield return new TestCaseData(null).Returns("null");
         }
 
         [Test]
@@ -71,56 +72,9 @@ namespace GammaWorldCharacter.Test.Unit.Serialization
             yield return new TestCaseData(QuoteString(OriginConverter.GravityControllerOriginName)).Returns(new GravityController());
             yield return new TestCaseData(QuoteString(OriginConverter.HawkoidOriginName)).Returns(new Hawkoid());
             yield return new TestCaseData(QuoteString(OriginConverter.HypercognitiveOriginName)).Returns(new Hypercognitive());
-            yield return new TestCaseData(null).Throws(typeof(ArgumentNullException));
-        }
-
-        [Test]
-        public void TestCanConvert_NullObject()
-        {
-            Assert.That(() => new OriginConverter().CanConvert(null),
-                Throws.InstanceOf<ArgumentNullException>().And.Property("ParamName").EqualTo("objectType"));
-        }
-
-        [Test]
-        public void TestWriteJson_NullWriter()
-        {
-            Assert.That(() => new OriginConverter().WriteJson(null, new object(), new JsonSerializer()),
-                Throws.InstanceOf<ArgumentNullException>().And.Property("ParamName").EqualTo("writer"));
-        }
-
-        [Test]
-        public void TestWriteJson_NullObject()
-        {
-            Assert.That(() => new OriginConverter().WriteJson(new JsonTextWriter(new StringWriter()), null, new JsonSerializer()),
-                Throws.InstanceOf<ArgumentNullException>().And.Property("ParamName").EqualTo("value"));
-        }
-
-        [Test]
-        public void TestWriteJson_NullSerializer()
-        {
-            Assert.That(() => new OriginConverter().WriteJson(new JsonTextWriter(new StringWriter()), new object(), null),
-                Throws.InstanceOf<ArgumentNullException>().And.Property("ParamName").EqualTo("serializer"));
-        }
-
-        [Test]
-        public void TestReadJson_NullWriter()
-        {
-            Assert.That(() => new OriginConverter().ReadJson(null, typeof(object), null, new JsonSerializer()),
-                Throws.InstanceOf<ArgumentNullException>().And.Property("ParamName").EqualTo("reader"));
-        }
-
-        [Test]
-        public void TestReadJson_NullObjectType()
-        {
-            Assert.That(() => new OriginConverter().ReadJson(new JsonTextReader(new StringReader(string.Empty)), null, new object(), new JsonSerializer()),
-                Throws.InstanceOf<ArgumentNullException>().And.Property("ParamName").EqualTo("objectType"));
-        }
-
-        [Test]
-        public void TestReadJson_NullSerializer()
-        {
-            Assert.That(() => new OriginConverter().ReadJson(new JsonTextReader(new StringReader(string.Empty)), typeof(object), new object(), null),
-                Throws.InstanceOf<ArgumentNullException>().And.Property("ParamName").EqualTo("serializer"));
+            yield return new TestCaseData("null").Returns(null);
+            yield return new TestCaseData("\"foo\"").Throws(typeof(InvalidSerializationException));
+            yield return new TestCaseData("{'foo': 'bar'}").Throws(typeof(InvalidSerializationException));
         }
 
         private static string QuoteString(string str)

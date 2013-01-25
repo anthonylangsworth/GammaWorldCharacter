@@ -18,15 +18,15 @@ namespace GammaWorldCharacter.Serialization
         /// <summary>
         /// Level property name.
         /// </summary>
-        public readonly string LevelPropertyName = "level";
+        internal static readonly string LevelPropertyName = "level";
         /// <summary>
         /// Critical hit benefit origin property name.
         /// </summary>
-        public readonly string CriticalHitBenefitOriginPropertyName = "criticalHitBenefitOrigin";
+        internal static readonly string CriticalHitBenefitOriginPropertyName = "criticalHitBenefitOrigin";
         /// <summary>
         /// Utility power origin property name.
         /// </summary>
-        public readonly string UtilityPowerOriginPropertyName = "utilityPowerOrigin";
+        internal static readonly string UtilityPowerOriginPropertyName = "utilityPowerOrigin";
 
         /// <summary>
         /// Can this serialize and deserialize an object of the given type?
@@ -35,6 +35,11 @@ namespace GammaWorldCharacter.Serialization
         /// <returns></returns>
         public override bool CanConvert(Type objectType)
         {
+            if (objectType == null)
+            {
+                throw new ArgumentNullException("objectType");
+            }
+
             return typeof(Level).IsAssignableFrom(objectType);
         }
 
@@ -81,8 +86,8 @@ namespace GammaWorldCharacter.Serialization
             }
             else
             {
-                throw new ArgumentException(
-                    string.Format("Unknown or invalid level type '{0}' for level '{1}'", value.GetType().Name, level.ToString()), "value");
+                throw new InvalidSerializationException(
+                    string.Format("Unknown or invalid level type '{0}' for level '{1}'", value.GetType().Name, level.ToString()));
             }
         }
 
@@ -110,9 +115,9 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentException("level must be of type Level02", "level");
             }
 
-            writer.WritePropertyName(this.LevelPropertyName);
+            writer.WritePropertyName(LevelPropertyName);
             writer.WriteValue(level02.Number);
-            writer.WritePropertyName(this.CriticalHitBenefitOriginPropertyName);
+            writer.WritePropertyName(CriticalHitBenefitOriginPropertyName);
             writer.WriteValue(level02.CriticalHitBenefitOrigin.ToString());
         }
 
@@ -140,9 +145,9 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentException("level must be of type Level03", "level");
             }
 
-            writer.WritePropertyName(this.LevelPropertyName);
+            writer.WritePropertyName(LevelPropertyName);
             writer.WriteValue(level03.Number);
-            writer.WritePropertyName(this.UtilityPowerOriginPropertyName);
+            writer.WritePropertyName(UtilityPowerOriginPropertyName);
             writer.WriteValue(level03.UtilityPowerOrigin.ToString());
         }
 
@@ -194,7 +199,7 @@ namespace GammaWorldCharacter.Serialization
             }
             else
             {
-                throw new ArgumentException("Invalid level JSON");
+                throw new InvalidSerializationException("Invalid level JSON");
             }
 
             // Deserialize the item
@@ -204,16 +209,16 @@ namespace GammaWorldCharacter.Serialization
             }
             else
             {
-                levelProperty = jObject[this.LevelPropertyName];
+                levelProperty = jObject[LevelPropertyName];
 
                 if (levelProperty == null)
                 {
-                    throw new ArgumentException(
-                        string.Format("Missing property '{0}' in level JSON: {1}", this.LevelPropertyName, jObject));
+                    throw new InvalidSerializationException(
+                        string.Format("Missing property '{0}' in level JSON: {1}", LevelPropertyName, jObject));
                 }
                 else if(!int.TryParse(levelProperty.Value<string>(), out level))
                 {
-                    throw new ArgumentException(
+                    throw new InvalidSerializationException(
                         string.Format("Non-integral level '{0}' in: {1}", levelProperty.Value<string>(), jObject));
                 }
                 else if (conversion.TryGetValue(level, out levelDeserializer))
@@ -222,7 +227,7 @@ namespace GammaWorldCharacter.Serialization
                 }
                 else
                 {
-                    throw new ArgumentException(
+                    throw new InvalidSerializationException(
                         string.Format("Unknown or invalid level '{0}' in: {1}", levelProperty.Value<string>(), jObject));
                 }
             }
@@ -242,23 +247,21 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentNullException("jObject");
             }
             foreach (string propertyName in
-                new[] { this.LevelPropertyName, this.CriticalHitBenefitOriginPropertyName })
+                new[] { LevelPropertyName, CriticalHitBenefitOriginPropertyName })
             {
                 if (jObject.Property(propertyName) == null)
                 {
-                    throw new ArgumentException(
-                        string.Format("Property '{0}' missing in level 2 JSON '{1}'", propertyName, jObject),
-                        "jObject");
+                    throw new InvalidSerializationException(
+                        string.Format("Property '{0}' missing in level 2 JSON '{1}'", propertyName, jObject));
                 }
             }
 
             OriginChoice criticalHitBenefitOrigin;
 
-            if (!Enum.TryParse(jObject[this.CriticalHitBenefitOriginPropertyName].Value<string>(), true, out criticalHitBenefitOrigin))
+            if (!Enum.TryParse(jObject[CriticalHitBenefitOriginPropertyName].Value<string>(), true, out criticalHitBenefitOrigin))
             {
-                throw new ArgumentException(
-                        string.Format("Property '{0}' has invalid value in level 2 JSON '{1}'", this.CriticalHitBenefitOriginPropertyName, jObject),
-                        "jObject");
+                throw new InvalidSerializationException(
+                        string.Format("Property '{0}' has invalid value in level 2 JSON '{1}'", CriticalHitBenefitOriginPropertyName, jObject));
             }
 
             return new Level02(criticalHitBenefitOrigin);
@@ -276,23 +279,21 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentNullException("jObject");
             }
             foreach (string propertyName in
-                new[] { this.LevelPropertyName, this.UtilityPowerOriginPropertyName })
+                new[] { LevelPropertyName, UtilityPowerOriginPropertyName })
             {
                 if (jObject.Property(propertyName) == null)
                 {
-                    throw new ArgumentException(
-                        string.Format("Property '{0}' missing in level 3 JSON '{1}'", propertyName, jObject),
-                        "jObject");
+                    throw new InvalidSerializationException(
+                        string.Format("Property '{0}' missing in level 3 JSON '{1}'", propertyName, jObject));
                 }
             }
 
             OriginChoice utilityPowerOrigin;
 
-            if (!Enum.TryParse(jObject[this.UtilityPowerOriginPropertyName].Value<string>(), true, out utilityPowerOrigin))
+            if (!Enum.TryParse(jObject[UtilityPowerOriginPropertyName].Value<string>(), true, out utilityPowerOrigin))
             {
-                throw new ArgumentException(
-                        string.Format("Property '{0}' has invalid value in level 3 JSON '{1}'", this.UtilityPowerOriginPropertyName, jObject),
-                        "jObject");
+                throw new InvalidSerializationException(
+                        string.Format("Property '{0}' has invalid value in level 3 JSON '{1}'", UtilityPowerOriginPropertyName, jObject));
             }
 
             return new Level03(utilityPowerOrigin);

@@ -158,6 +158,7 @@
     <Compile Include="Powers\Range.cs" />
     <Compile Include="Powers\SecondWind.cs" />
     <Compile Include="Serialization\CharacterJsonData.cs" />
+    <Compile Include="Serialization\InvalidSerializationException.cs" />
     <Compile Include="Serialization\ItemConverter.cs" />
     <Compile Include="Serialization\JsonCharacterSerializer.cs" />
     <Compile Include="Serialization\LevelConverter.cs" />

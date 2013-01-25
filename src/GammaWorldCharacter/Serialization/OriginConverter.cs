@@ -99,34 +99,42 @@ namespace GammaWorldCharacter.Serialization
             Origin origin;
             Dictionary<Type, string> conversion;
             string originName;
+
+            if(value == null)
+            {
+                writer.WriteNull();
+            }
             
             origin = value as Origin;
-            if (origin == null)
+            if (origin != null)
             {
-                // May want to support writing null in the future
-                throw new ArgumentException("value is not an Origin", "value");
-            }
+                // Should be moved into a separate static property
+                conversion = new Dictionary<Type, string>();
+                conversion[typeof(Android)] = AndroidOriginName;
+                conversion[typeof(Cockroach)] = CockroachOriginName;
+                conversion[typeof(Doppelganger)] = DoppelgangerOriginName;
+                conversion[typeof(Electrokinetic)] = ElectrokineticOriginName;
+                conversion[typeof(Empath)] = EmpathOriginName;
+                conversion[typeof(Felinoid)] = FelinoidOriginName;
+                conversion[typeof(Hawkoid)] = HawkoidOriginName;
+                conversion[typeof(Hypercognitive)] = HypercognitiveOriginName;
+                conversion[typeof(Giant)] = GiantOriginName;
+                conversion[typeof(GravityController)] = GravityControllerOriginName;
 
-            // Should be moved into a separate static property
-            conversion = new Dictionary<Type, string>();
-            conversion[typeof(Android)] = AndroidOriginName;
-            conversion[typeof(Cockroach)] = CockroachOriginName;
-            conversion[typeof(Doppelganger)] = DoppelgangerOriginName;
-            conversion[typeof(Electrokinetic)] = ElectrokineticOriginName;
-            conversion[typeof(Empath)] = EmpathOriginName;
-            conversion[typeof(Felinoid)] = FelinoidOriginName;
-            conversion[typeof(Hawkoid)] = HawkoidOriginName;
-            conversion[typeof(Hypercognitive)] = HypercognitiveOriginName;
-            conversion[typeof(Giant)] = GiantOriginName;
-            conversion[typeof(GravityController)] = GravityControllerOriginName;
-
-            if (conversion.TryGetValue(origin.GetType(), out originName))
-            {
-                writer.WriteValue(originName);
+                if (conversion.TryGetValue(origin.GetType(), out originName))
+                {
+                    writer.WriteValue(originName);
+                }
+                else
+                {
+                    throw new InvalidSerializationException(
+                        string.Format("Unknown origin '{0}'", value));
+                }                
             }
             else
             {
-                throw new ArgumentException("Unknown origin", "value");
+                throw new InvalidSerializationException(
+                    string.Format("Unknown origin '{0}'", value));
             }
         }
 
@@ -178,18 +186,25 @@ namespace GammaWorldCharacter.Serialization
             conversion[GiantOriginName.ToLowerInvariant()] = () => new Giant();
             conversion[GravityControllerOriginName.ToLowerInvariant()] = () => new GravityController();
 
-            if (reader.TokenType == JsonToken.String)
+            if (reader.TokenType == JsonToken.Null)
             {
-                originName = reader.Value.ToString();
+                result = () => null;
             }
             else
             {
-                throw new JsonSerializationException("Invalid origin serialization");
-            }
+                if (reader.TokenType == JsonToken.String)
+                {
+                    originName = reader.Value.ToString();
+                }
+                else
+                {
+                    throw new InvalidSerializationException("Invalid origin serialization");
+                }
 
-            if (!conversion.TryGetValue(originName.ToLowerInvariant(), out result))
-            {
-                throw new ArgumentException("Unknown origin");
+                if (!conversion.TryGetValue(originName.ToLowerInvariant(), out result))
+                {
+                    throw new InvalidSerializationException("Unknown origin");
+                }
             }
 
             return result();
