@@ -140,7 +140,7 @@ namespace GammaWorldCharacter.Test.Unit
         public void TestSetEquippedItem_SlotWeapon()
         {
             Character character = Character;
-            Assert.That(() => character.SetEquippedItem(new Item("Foo", Slot.Weapon)),
+            Assert.That(() => character.SetEquippedItem(new Item("Foo", Slot.Hands)),
                 Throws.ArgumentException.And.Property("ParamName").EqualTo("item"));
         }
 

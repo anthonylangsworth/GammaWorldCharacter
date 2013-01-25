@@ -19,7 +19,7 @@ namespace GammaWorldCharacter.Test.Unit.Gear.Armor
             Assert.That(shield.Name, Is.EqualTo("Shield"));
             Assert.That(shield.ArmorBonus, Is.EqualTo(1));
             Assert.That(shield.SpeedPenalty, Is.EqualTo(0));
-            Assert.That(shield.Slot, Is.EqualTo(Slot.Weapon));
+            Assert.That(shield.Slot, Is.EqualTo(Slot.Hands));
         }
     }
 }

@@ -469,7 +469,7 @@ namespace GammaWorldCharacter
                 // TODO: Throw a more specific exception
                 throw new ArgumentException("Items that lack a slot should be added using the Equipment property", "item");
             }
-            if (item.Slot == Slot.Weapon)
+            if (item.Slot == Slot.Hands)
             {
                 // TODO: Throw a more specific exception
                 throw new ArgumentException("To equip a weapon, call the MainHandItem or OffHandItem properties", "item");
@@ -576,11 +576,11 @@ namespace GammaWorldCharacter
             StringBuilder stringBuilder;
 
             stringBuilder = new StringBuilder();
-            stringBuilder.AppendFormat("{0} Level {1} {2} {3}:\n",
+            stringBuilder.AppendFormat("{0} Level {1} {2} {3}: ",
                 Name, Level, PrimaryOrigin.Name, SecondaryOrigin.Name);
-            stringBuilder.AppendFormat("Str {0}  Con {1}  Dex {2}  Int {3}  Wis {4}  Cha {5}\n",
+            stringBuilder.AppendFormat("Str {0}  Con {1}  Dex {2}  Int {3}  Wis {4}  Cha {5} ",
                 Strength.Total, Constitution.Total, Dexterity.Total, Intelligence.Total, Wisdom.Total, Charisma.Total);
-            stringBuilder.AppendFormat("HP {0}  AC {1}  Fort {2}  Ref {3}  Will {4}\n",
+            stringBuilder.AppendFormat("HP {0}  AC {1}  Fort {2}  Ref {3}  Will {4}",
                 HitPoints.Total, ArmorClass.Total, Fortitude.Total, Reflex.Total, Will.Total);
 
             return stringBuilder.ToString();

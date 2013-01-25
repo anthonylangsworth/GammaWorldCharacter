@@ -26,7 +26,7 @@ namespace GammaWorldCharacter.Gear.Weapons
         /// <paramref name="name"/> cannot be null or empty.
         /// </exception>
         protected Weapon(string name, WeaponHandedness handedness, WeaponWeight weight)
-            : base(name, Slot.Weapon)
+            : base(name, Slot.Hands)
         {
             Handedness = handedness;
             Weight = weight;

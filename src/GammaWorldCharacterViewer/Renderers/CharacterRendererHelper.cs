@@ -113,7 +113,7 @@ namespace GammaWorldCharacterViewer.Renderers
             foreach (int enumValue in Enum.GetValues(typeof(Slot)))
             {
                 currentSlot = (Slot)enumValue;
-                if (currentSlot != Slot.None && currentSlot != Slot.Weapon)
+                if (currentSlot != Slot.None && currentSlot != Slot.Hands)
                 {
                     if (character.GetEquippedItem<Item>(currentSlot) != null)
                     {

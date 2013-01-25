@@ -20,56 +20,56 @@ namespace GammaWorldCharacter.Serialization
         /// <summary>
         /// Type property name.
         /// </summary>
-        public readonly string TypePropertyName = "type";
+        internal static readonly string TypePropertyName = "type";
         /// <summary>
         /// Value property name.
         /// </summary>
-        public readonly string ValuePropertyName = "value";
+        internal static readonly string ValuePropertyName = "value";
         /// <summary>
         /// Ranged type property name.
         /// </summary>
-        public readonly string RangedTypePropertyName = "rangedType";
+        internal static readonly string RangedTypePropertyName = "rangedType";
         /// <summary>
         /// Name property name.
         /// </summary>
-        public readonly string NamePropertyName = "name";
+        internal static readonly string NamePropertyName = "name";
         /// <summary>
         /// Slot property name.
         /// </summary>
-        public readonly string SlotPropertyName = "slot";
+        internal static readonly string SlotPropertyName = "slot";
         /// <summary>
         /// Weight property name.
         /// </summary>
-        public readonly string WeightPropertyName = "weight";
+        internal static readonly string WeightPropertyName = "weight";
         /// <summary>
         /// Handedness property name.
         /// </summary>
-        public readonly string HandednessPropertyName = "handedness";
+        internal static readonly string HandednessPropertyName = "handedness";
 
         /// <summary>
         /// Ranged Weapon
         /// </summary>
-        public readonly string RangedWeaponType = "Ranged Weapon";
+        internal static readonly string RangedWeaponType = "Ranged Weapon";
         /// <summary>
         /// Weapon (usually Melee)
         /// </summary>
-        public readonly string MeleeWeaponType = "MeleeWeapon";
+        internal static readonly string MeleeWeaponType = "Melee Weapon";
         /// <summary>
         /// Heavy Armor
         /// </summary>
-        public readonly string HeavyArmorType = "Heavy Armor";
+        internal static readonly string HeavyArmorType = "Heavy Armor";
         /// <summary>
         /// Light Armor
         /// </summary>
-        public readonly string LightArmorType = "Light Armor";
+        internal static readonly string LightArmorType = "Light Armor";
         /// <summary>
         /// Shield
         /// </summary>
-        public readonly string ShieldType = "Shield";
+        internal static readonly string ShieldType = "Shield";
         /// <summary>
         /// Item
         /// </summary>
-        public readonly string ItemType = "Item";
+        internal static readonly string ItemType = "Item";
 
         /// <summary>
         /// Serialize an <see cref="Item"/> and its subclasses to JSON.
@@ -121,8 +121,8 @@ namespace GammaWorldCharacter.Serialization
             }
             else
             {
-                throw new ArgumentException(
-                    string.Format("Unknown or invalid item type '{0}' for item '{1}'", value.GetType().Name, item.ToString()), "value");
+                throw new InvalidSerializationException(
+                    string.Format("Unknown or invalid item type '{0}' for item '{1}'", value.GetType().Name, item));
             }
         }
 
@@ -150,14 +150,11 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentException("item must be a RangedWeapon");
             }
 
-            writer.WritePropertyName(this.TypePropertyName);
-            writer.WriteValue(this.RangedWeaponType);
-            writer.WritePropertyName(this.RangedTypePropertyName);
+            writer.WritePropertyName(TypePropertyName);
+            writer.WriteValue(RangedWeaponType);
+            writer.WritePropertyName(RangedTypePropertyName);
             writer.WriteValue(rangedWeapon.Type.ToString());
-            writer.WritePropertyName(this.WeightPropertyName);
-            writer.WriteValue(rangedWeapon.Weight.ToString());
-            writer.WritePropertyName(this.HandednessPropertyName);
-            writer.WriteValue(rangedWeapon.Handedness.ToString());
+            WriteWeaponCommonProperties(writer, rangedWeapon);
         }
 
         /// <summary>
@@ -176,20 +173,34 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentNullException("item");
             }
 
-            Weapon weapon;
+            MeleeWeapon meleeWeapon;
 
-            weapon = item as Weapon;
-            if (weapon == null)
+            meleeWeapon = item as MeleeWeapon;
+            if (meleeWeapon == null)
             {
                 throw new ArgumentException("item must be a Weapon");
             }
 
-            writer.WritePropertyName(this.TypePropertyName);
-            writer.WriteValue(this.MeleeWeaponType);
-            writer.WritePropertyName(this.WeightPropertyName);
+            writer.WritePropertyName(TypePropertyName);
+            writer.WriteValue(MeleeWeaponType);
+            WriteWeaponCommonProperties(writer, meleeWeapon);
+        }
+
+        private void WriteWeaponCommonProperties(JsonWriter writer, Weapon weapon)
+        {
+            if (writer == null)
+            {
+                throw new ArgumentNullException("writer");
+            }
+            if (weapon == null)
+            {
+                throw new ArgumentNullException("weapon");
+            }
+
+            writer.WritePropertyName(WeightPropertyName);
             writer.WriteValue(weapon.Weight.ToString());
-            writer.WritePropertyName(this.HandednessPropertyName);
-            writer.WriteValue(weapon.Handedness.ToString());
+            writer.WritePropertyName(HandednessPropertyName);
+            writer.WriteValue(weapon.Handedness);  // Serialize as a number (1 or 2)
         }
 
         /// <summary>
@@ -212,8 +223,8 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentException("item must be HeavyArmor");
             }
 
-            writer.WritePropertyName(this.TypePropertyName);
-            writer.WriteValue(this.HeavyArmorType); 
+            writer.WritePropertyName(TypePropertyName);
+            writer.WriteValue(HeavyArmorType); 
         }
 
         /// <summary>
@@ -236,8 +247,8 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentException("item must be LightArmor");
             }
 
-            writer.WritePropertyName(this.TypePropertyName);
-            writer.WriteValue(this.LightArmorType);
+            writer.WritePropertyName(TypePropertyName);
+            writer.WriteValue(LightArmorType);
         }
 
         /// <summary>
@@ -260,8 +271,8 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentException("item must be Shield");
             }
 
-            writer.WritePropertyName(this.TypePropertyName);
-            writer.WriteValue(this.ShieldType);
+            writer.WritePropertyName(TypePropertyName);
+            writer.WriteValue(ShieldType);
         }
 
         /// <summary>
@@ -280,13 +291,13 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentNullException("item");
             }
 
-            writer.WritePropertyName(this.TypePropertyName);
-            writer.WriteValue(this.ItemType);
-            writer.WritePropertyName(this.NamePropertyName);
+            writer.WritePropertyName(TypePropertyName);
+            writer.WriteValue(ItemType);
+            writer.WritePropertyName(NamePropertyName);
             writer.WriteValue(item.Name);
             if (item.Slot != Slot.None)
             {
-                writer.WritePropertyName(this.SlotPropertyName);
+                writer.WritePropertyName(SlotPropertyName);
                 writer.WriteValue(item.Slot.ToString());
             }
         }
@@ -323,12 +334,12 @@ namespace GammaWorldCharacter.Serialization
 
             // Order is important below to ensure subclasses are handled first.
             conversion = new Dictionary<string, Func<JObject, Item>>();
-            conversion[this.RangedWeaponType] = ReadRangedWeapon;
-            conversion[this.MeleeWeaponType] = ReadMeleeWeapon;
-            conversion[this.HeavyArmorType] = ReadHeavyArmor;
-            conversion[this.LightArmorType] = ReadLightArmor;
-            conversion[this.ShieldType] = ReadShield;
-            conversion[this.ItemType] = ReadItem;
+            conversion[RangedWeaponType] = ReadRangedWeapon;
+            conversion[MeleeWeaponType] = ReadMeleeWeapon;
+            conversion[HeavyArmorType] = ReadHeavyArmor;
+            conversion[LightArmorType] = ReadLightArmor;
+            conversion[ShieldType] = ReadShield;
+            conversion[ItemType] = ReadItem;
 
             // Using a JObject is slightly slower than iterating through the tokens
             // but it is less code, allows the properties to be in any order and
@@ -343,7 +354,7 @@ namespace GammaWorldCharacter.Serialization
             }
             else
             {
-                throw new ArgumentException("Invalid item JSON");
+                throw new InvalidSerializationException("Invalid item JSON");
             }
 
             // Deserialize the item
@@ -353,12 +364,12 @@ namespace GammaWorldCharacter.Serialization
             }
             else
             {
-                typeProperty = jObject[this.TypePropertyName];
+                typeProperty = jObject[TypePropertyName];
 
                 if (typeProperty == null)
                 {
-                    throw new ArgumentException(
-                        string.Format("Missing property '{0}' in item JSON: {1}", this.TypePropertyName, jObject));
+                    throw new InvalidSerializationException(
+                        string.Format("Missing property '{0}' in item JSON: {1}", TypePropertyName, jObject));
                 }
                 else if (conversion.TryGetValue(typeProperty.Value<string>(), out itemDeserializer))
                 {
@@ -366,8 +377,8 @@ namespace GammaWorldCharacter.Serialization
                 }
                 else
                 {
-                    throw new ArgumentException(
-                        string.Format("Unknown or invalid item type '{0}' in: {1}", jObject[this.TypePropertyName].Value<string>(), jObject));
+                    throw new InvalidSerializationException(
+                        string.Format("Unknown or invalid item type '{0}' in: {1}", typeProperty.Value<string>(), jObject));
                 }
             }
 
@@ -386,13 +397,12 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentNullException("jObject");
             }
             foreach (string propertyName in
-                new[] {this.RangedTypePropertyName, this.WeightPropertyName, this.HandednessPropertyName})
+                new[] {RangedTypePropertyName, WeightPropertyName, HandednessPropertyName})
             {
                 if (jObject.Property(propertyName) == null)
                 {
-                    throw new ArgumentException(
-                        string.Format("Property '{0}' missing in ranged weapon JSON '{1}'", propertyName, jObject),
-                        "jObject");
+                    throw new InvalidSerializationException(
+                        string.Format("Property '{0}' missing in ranged weapon JSON '{1}'", propertyName, jObject));
                 }
             }
 
@@ -400,24 +410,13 @@ namespace GammaWorldCharacter.Serialization
             WeaponWeight weaponWeight;
             WeaponHandedness weaponHandedness;
 
-            if (!Enum.TryParse(jObject[this.RangedTypePropertyName].Value<string>(), true, out rangedWeaponType))
+            if (!Enum.TryParse(jObject[RangedTypePropertyName].Value<string>(), true, out rangedWeaponType))
             {
-                throw new ArgumentException(
-                        string.Format("Property '{0}' has invalid value in ranged weapon JSON '{1}'", this.RangedTypePropertyName, jObject),
-                        "jObject");
+                throw new InvalidSerializationException(
+                        string.Format("Property '{0}' has invalid value in ranged weapon JSON '{1}'", RangedTypePropertyName, jObject));
             }
-            if (!Enum.TryParse(jObject[this.WeightPropertyName].Value<string>(), true, out weaponWeight))
-            {
-                throw new ArgumentException(
-                        string.Format("Property '{0}' has invalid value in ranged weapon JSON '{1}'", this.WeightPropertyName, jObject),
-                        "jObject");
-            }
-            if (!Enum.TryParse(jObject[this.HandednessPropertyName].Value<string>(), true, out weaponHandedness))
-            {
-                throw new ArgumentException(
-                        string.Format("Property '{0}' has invalid value in ranged weapon JSON '{1}'", this.HandednessPropertyName, jObject),
-                        "jObject");
-            }
+            weaponWeight = ReadWeaponWeight(jObject);
+            weaponHandedness = ReadWeaponHandedness(jObject);
 
             return new RangedWeapon(rangedWeaponType, weaponHandedness, weaponWeight);
         }
@@ -434,33 +433,68 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentNullException("jObject");
             }
             foreach (string propertyName in
-                new[] { this.WeightPropertyName, this.HandednessPropertyName })
+                new[] { WeightPropertyName, HandednessPropertyName })
             {
                 if (jObject.Property(propertyName) == null)
                 {
-                    throw new ArgumentException(
-                        string.Format("Property '{0}' missing in melee weapon JSON '{1}'", propertyName, jObject), 
-                        "jObject");
+                    throw new InvalidSerializationException(
+                        string.Format("Property '{0}' missing in melee weapon JSON '{1}'", propertyName, jObject));
                 }
             }
 
             WeaponWeight weaponWeight;
             WeaponHandedness weaponHandedness;
 
-            if(!Enum.TryParse(jObject[this.WeightPropertyName].Value<string>(), true, out weaponWeight))
-            {
-                throw new ArgumentException(
-                        string.Format("Property '{0}' has invalid value in melee weapon JSON '{1}'", this.WeightPropertyName, jObject), 
-                        "jObject");
-            }
-            if (!Enum.TryParse(jObject[this.HandednessPropertyName].Value<string>(), true, out weaponHandedness))
-            {
-                throw new ArgumentException(
-                        string.Format("Property '{0}' has invalid value in melee weapon JSON '{1}'", this.HandednessPropertyName, jObject),
-                        "jObject");
-            }
+            weaponWeight = ReadWeaponWeight(jObject);
+            weaponHandedness = ReadWeaponHandedness(jObject);
 
             return new MeleeWeapon(weaponHandedness, weaponWeight);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <returns></returns>
+        private WeaponWeight ReadWeaponWeight(JObject jObject)
+        {
+            WeaponWeight result;
+
+            if (!Enum.TryParse(jObject[WeightPropertyName].Value<string>(), true, out result))
+            {
+                throw new InvalidSerializationException(
+                        string.Format("Property '{0}' has invalid value in weapon JSON '{1}'", WeightPropertyName, jObject));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="jObject"></param>
+        /// <returns></returns>
+        private WeaponHandedness ReadWeaponHandedness(JObject jObject)
+        {
+            int propertyValue;
+            WeaponHandedness result;
+
+            if (!int.TryParse(jObject[HandednessPropertyName].Value<string>(), out propertyValue))
+            {
+                throw new InvalidSerializationException(
+                        string.Format("Property '{0}' is not an integer JSON '{1}'", HandednessPropertyName, jObject));
+            }
+            else if (!Enum.IsDefined(typeof(WeaponHandedness), propertyValue))
+            {
+                throw new InvalidSerializationException(
+                        string.Format("Property '{0}' must be 1 or 2 in weapon JSON '{1}'", HandednessPropertyName, jObject));
+            }
+            else
+            {
+                result = (WeaponHandedness) propertyValue;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -520,13 +554,12 @@ namespace GammaWorldCharacter.Serialization
                 throw new ArgumentNullException("jObject");
             }
             foreach (string propertyName in
-                new[] {this.NamePropertyName})
+                new[] {NamePropertyName})
             {
                 if (jObject.Property(propertyName) == null)
                 {
-                    throw new ArgumentException(
-                        string.Format("Property '{0}' missing in item weapon JSON '{1}'", propertyName, jObject),
-                        "jObject");
+                    throw new InvalidSerializationException(
+                        string.Format("Property '{0}' missing in item weapon JSON '{1}'", propertyName, jObject));
                 }
             }
 
@@ -534,17 +567,16 @@ namespace GammaWorldCharacter.Serialization
             JToken slotProperty;
             Slot slot;
 
-            name = jObject[this.NamePropertyName].Value<string>();
+            name = jObject[NamePropertyName].Value<string>();
 
-            slotProperty = jObject[this.SlotPropertyName];
+            slotProperty = jObject[SlotPropertyName];
             if (slotProperty != null)
             {
-                if (!Enum.TryParse(jObject[this.SlotPropertyName].Value<string>(), true, out slot))
+                if (!Enum.TryParse(slotProperty.Value<string>(), true, out slot))
                 {
-                    throw new ArgumentException(
+                    throw new InvalidSerializationException(
                         string.Format("Property '{0}' has invalid value in melee weapon JSON '{1}'",
-                                      this.SlotPropertyName, jObject),
-                        "jObject");
+                                      SlotPropertyName, jObject));
                 }
             }
             else
@@ -562,6 +594,11 @@ namespace GammaWorldCharacter.Serialization
         /// <returns></returns>
         public override bool CanConvert(Type objectType)
         {
+            if (objectType == null)
+            {
+                throw new ArgumentNullException("objectType");
+            }
+
             return typeof(Item).IsAssignableFrom(objectType);
         }
     }

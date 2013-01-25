@@ -7,8 +7,9 @@ using GammaWorldCharacter.Gear;
 using GammaWorldCharacter.Samples;
 using GammaWorldCharacter.Serialization;
 using NUnit.Framework;
+using System.Reflection;
 
-namespace GammaWorldCharacter.Test.Unit.Serialization
+namespace GammaWorldCharacter.Test.Integration.Serialization
 {
     [TestFixture]
     public class TestSerialization
@@ -49,8 +50,10 @@ namespace GammaWorldCharacter.Test.Unit.Serialization
         /// <returns></returns>
         public IEnumerable<Character> CharacterSource()
         {
+            // For some reason, loading by the assembly name ("GammaWorldCharacter.Samples.dll") fails 
+            // with a FileNotFoundException.
             using (CompositionContainer container = new CompositionContainer(
-                new AssemblyCatalog("GammaWorldCharacter.Samples.dll")))
+                new AssemblyCatalog(Assembly.GetAssembly(typeof(Level01Characters)))))
             {
                 return container.GetExportedValues<Character>();
             }

@@ -19,8 +19,8 @@ namespace GammaWorldCharacter.Gear
         /// </summary>
         Body,
         /// <summary>
-        /// Weapon
+        /// Hands
         /// </summary>
-        Weapon
+        Hands
     }
 }

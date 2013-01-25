@@ -62,6 +62,11 @@ namespace GammaWorldCharacter.Gear.Weapons
                 {
                     result = new Dice(2, DiceType.d8);
                 }
+                else
+                {
+                    throw new InvalidOperationException(
+                        string.Format("Unknown weight '{0}' and handedness '{1}' combination: ", Weight, Handedness));
+                }
 
                 return result;
             }

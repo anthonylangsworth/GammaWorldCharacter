@@ -73,7 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GammaWorldCharacter.Samples\GammaWorldCharacter.Samples.csproj">
-      <Project>{394D4097-4AF0-40AF-87D3-3FC8CCE73D13}</Project>
+      <Project>{394d4097-4af0-40af-87d3-3fc8cce73d13}</Project>
       <Name>GammaWorldCharacter.Samples</Name>
     </ProjectReference>
     <ProjectReference Include="..\GammaWorldCharacter\GammaWorldCharacter.csproj">

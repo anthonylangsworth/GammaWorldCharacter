@@ -7,30 +7,13 @@ using GammaWorldCharacter.Origins;
 using GammaWorldCharacter.Serialization;
 using GammaWorldCharacter.Test.Unit.Origins;
 using NUnit.Framework;
-using Newtonsoft.Json;
 
 namespace GammaWorldCharacter.Test.Unit.Serialization
 {
     [TestFixture]
-    public class TestOriginConverter: TestConverter<OriginConverter>
+    public class TestOriginConverter: TestConverter<OriginConverter, Origin>
     {
-        [Test]
-        [TestCaseSource("TestSerializationSource")]
-        public string TestSerialization(Origin origin)
-        {
-            JsonSerializer jsonSerializer;
-
-            jsonSerializer = new JsonSerializer();
-            jsonSerializer.Converters.Add(new OriginConverter());
-            using (StringWriter stringWriter = new StringWriter())
-            {
-                jsonSerializer.Serialize(stringWriter, origin);
-                stringWriter.Flush();
-                return stringWriter.GetStringBuilder().ToString();
-            }
-        }
-
-        public IEnumerable<TestCaseData> TestSerializationSource()
+        public override IEnumerable<TestCaseData> TestSerializationSource()
         {
             yield return new TestCaseData(new Android()).Returns(QuoteString(OriginConverter.AndroidOriginName));
             yield return new TestCaseData(new Cockroach()).Returns(QuoteString(OriginConverter.CockroachOriginName));
@@ -46,21 +29,7 @@ namespace GammaWorldCharacter.Test.Unit.Serialization
             yield return new TestCaseData(null).Returns("null");
         }
 
-        [Test]
-        [TestCaseSource("TestDeserializationSource")]
-        public Origin TestDeserialization(string json)
-        {
-            JsonSerializer jsonSerializer;
-
-            jsonSerializer = new JsonSerializer();
-            jsonSerializer.Converters.Add(new OriginConverter());
-            using (StringReader stringReader = new StringReader(json))
-            {
-                return (Origin) jsonSerializer.Deserialize(stringReader, typeof(Origin));
-            }
-        }
-
-        public IEnumerable<TestCaseData> TestDeserializationSource()
+        public override IEnumerable<TestCaseData> TestDeserializationSource()
         {
             yield return new TestCaseData(QuoteString(OriginConverter.AndroidOriginName)).Returns(new Android());
             yield return new TestCaseData(QuoteString(OriginConverter.CockroachOriginName)).Returns(new Cockroach());

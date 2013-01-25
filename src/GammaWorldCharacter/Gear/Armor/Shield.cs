@@ -14,7 +14,7 @@ namespace GammaWorldCharacter.Gear.Armor
         /// Create a new <see cref="Shield"/>.
         /// </summary>
         public Shield()
-            : base("Shield", 1, 0, Slot.Weapon)
+            : base("Shield", 1, 0, Slot.Hands)
         {
             // Do nothing
         }
