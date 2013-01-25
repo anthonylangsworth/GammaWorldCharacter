@@ -72,7 +72,6 @@
     <Compile Include="Serialization\TestConverter.cs" />
     <Compile Include="Serialization\TestLevelConverter.cs" />
     <Compile Include="Serialization\TestOriginConverter.cs" />
-    <Compile Include="Serialization\TestSerialization.cs" />
     <Compile Include="TestAbilityScores.cs" />
     <Compile Include="TestCharacter.cs" />
     <Compile Include="TestDice.cs" />

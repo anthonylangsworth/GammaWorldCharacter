@@ -7,8 +7,6 @@ using GammaWorldCharacter.Gear;
 using GammaWorldCharacter.Samples;
 using GammaWorldCharacter.Serialization;
 using NUnit.Framework;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 
 namespace GammaWorldCharacter.Test.Unit.Serialization
 {
